@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+targetCompatibility = 1.7
+sourceCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+task(runExample, group: 'examples',
+description: 'Run the sample stand-alone project.',
+dependsOn: 'classes', type: JavaExec) {
+    main = 'samples.XorSample'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+dependencies {
+    compile 'org.encog:encog-core:3.3.0'
+    compile "joda-time:joda-time:2.2"
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
