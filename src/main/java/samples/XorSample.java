@@ -9,6 +9,7 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import pl.edu.pw.mini.nn.image.GrayImageParser;
 
 public class XorSample {
     /**

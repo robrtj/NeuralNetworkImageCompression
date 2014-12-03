@@ -1,14 +1,20 @@
-package pl.pw.mini.nn.image;
+package pl.edu.pw.mini.nn.image;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
  * Created by Pawel on 2014-11-27.
+ *
+ * Usage:
+ * GrayImage image = new GrayImage("lena_1.png");
+ * file lena_1.png exists in main project folder (the same level that /src folder is)
+ * i.e. GrayImageParser image = new GrayImageParser("lena_1.png");
  */
-public class GrayImage {
+public class GrayImageParser {
     private BufferedImage _image;
     private int _grayTable[];
 
@@ -17,7 +23,7 @@ public class GrayImage {
     private int _width;
     private int _height;
 
-    public GrayImage(String path, boolean print) {
+    public GrayImageParser(String path, boolean print) {
         File input = new File(path);
         try {
             _image = ImageIO.read(input);
@@ -44,8 +50,8 @@ public class GrayImage {
         }
     }
 
-    public GrayImage(String path) {
-        new GrayImage(path, true);
+    public GrayImageParser(String path) {
+        new GrayImageParser(path, true);
     }
 
     private void parseImageToNetworkImage(int inputLength) throws Exception {
