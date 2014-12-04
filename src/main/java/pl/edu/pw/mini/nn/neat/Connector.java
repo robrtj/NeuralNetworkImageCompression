@@ -18,6 +18,10 @@ public class Connector {
         this.ordinalNumber = ordinalNumber;
     }
 
+    public Connector(int id) {
+        new Connector(0, 0, 0.0, false, id);
+    }
+
     public int getIn() {
         return in;
     }

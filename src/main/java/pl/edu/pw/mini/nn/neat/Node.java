@@ -7,7 +7,9 @@ public class Node {
     private int id;
     private LayerType layerType;
 
-    public Node() {
+    public Node(int id, LayerType layerType) {
+        this.id = id;
+        this.layerType = layerType;
     }
 
     public int getId() {
