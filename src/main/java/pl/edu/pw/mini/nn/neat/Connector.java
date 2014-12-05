@@ -1,9 +1,11 @@
 package pl.edu.pw.mini.nn.neat;
 
+import java.util.Comparator;
+
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Connector {
+public class Connector implements Comparator<Connector>{
     private int in;
     private int out;
     private double weight;
@@ -69,5 +71,10 @@ public class Connector {
                 "Weight " + weight + "\n" +
                 (enabled == true ? "Enabled" : "Disabled") + "\n" +
                 "Ordinal number " + ordinalNumber;
+    }
+
+    @Override
+    public int compare(Connector con1, Connector con2) {
+        return 0;
     }
 }

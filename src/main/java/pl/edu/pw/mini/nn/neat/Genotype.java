@@ -1,5 +1,7 @@
 package pl.edu.pw.mini.nn.neat;
 
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +17,32 @@ public class Genotype {
     public Genotype(List<Node> nodeGenes, List<Connector> connectorGenes) {
         NodeGenes = nodeGenes;
         ConnectorGenes = connectorGenes;
+    }
+
+    public Genotype(int input, int output){
+        NodeGenes = new ArrayList<Node>();
+        ConnectorGenes = new ArrayList<Connector>();
+
+        for(int i=0; i<input; ++i){
+            Node node = new Node(i, LayerType.Input);
+            NodeGenes.add(node);
+        }
+
+        for(int i=0; i<output; ++i){
+            Node node = new Node(i+input, LayerType.Output);
+            NodeGenes.add(node);
+        }
+
+        Random random = new Random();
+        int ordinalNumber = 0;
+        for (int i=0; i<input; ++i){
+            for(int j=0; j<output; ++j){
+                Connector connector = new Connector(i, j, random.nextDouble(), true, ordinalNumber);
+                ++ordinalNumber;
+
+                ConnectorGenes.add(connector);
+            }
+        }
     }
 
     public List<Node> getNodeGenes() {
@@ -51,6 +79,9 @@ public class Genotype {
         int maxOrdinalNumber = ConnectorGenes.size();
         int nodeCounter = NodeGenes.size();
 
+        //trzeba poprawic
+        //1. by nie tworzylo polaczen do inputu
+        //2. by nie tworzylo polaczen z outputu
         int from = random.nextInt(nodeCounter);
         int to = random.nextInt(nodeCounter);
         while(from == to){
@@ -91,6 +122,8 @@ public class Genotype {
     }
 
     public Genotype cross(Genotype parent) {
+
+
         return this;
     }
 }
