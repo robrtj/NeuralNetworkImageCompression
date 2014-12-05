@@ -79,13 +79,17 @@ public class Genotype {
         int maxOrdinalNumber = ConnectorGenes.size();
         int nodeCounter = NodeGenes.size();
 
-        //trzeba poprawic
-        //1. by nie tworzylo polaczen do inputu
-        //2. by nie tworzylo polaczen z outputu
         int from = random.nextInt(nodeCounter);
+        while(NodeGenes.get(from).getLayerType() != LayerType.Output){
+            from = random.nextInt(nodeCounter);
+        }
+
         int to = random.nextInt(nodeCounter);
         while(from == to){
             to = random.nextInt(nodeCounter);
+            while(NodeGenes.get(to).getLayerType() != LayerType.Input){
+                to= random.nextInt(nodeCounter);
+            }
         }
         double weight = random.nextDouble();
 
