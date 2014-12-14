@@ -61,7 +61,9 @@ public class Genotype {
     }
 
     private void DeleteConnection() {
-
+        Random rand = new Random();
+        int index = rand.nextInt(connections.size());
+        connections.get(index).setEnabled(false);
     }
 
     private void AddConnection() {
