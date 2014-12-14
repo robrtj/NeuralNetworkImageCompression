@@ -6,31 +6,38 @@ package pl.edu.pw.mini.nn.neat;
 public enum MutationType {
     AddConnection,
     AddNode,
-    DeleteConnection;
+    DeleteConnection,
+    WeightMutation;
 
     private double threshold;
-    static{
+
+    static {
 //        sum should count to 1.0!
         AddConnection.threshold = 0.4d;
         AddNode.threshold = 0.4d;
-        DeleteConnection.threshold = 0.2d;
+        DeleteConnection.threshold = 0.1d;
+        WeightMutation.threshold = 0.1d;
+
+//        interpolate set to sum=1
+        interpolateThresholds();
     }
 
-    public static MutationType getMutationType(double sample){
-        double threshold = AddConnection.threshold;
-        if(sample < threshold){
-            return AddConnection;
-        }
-        threshold += AddNode.threshold;
-        if(sample < threshold) {
-            return AddNode;
+    private static void interpolateThresholds() {
+
+    }
+
+    public static MutationType getMutationType(double sample) throws Exception {
+        if (sample < 0) {
+            throw new Exception("Sample should be grater than 0!");
         }
 
-//        don't need check last option
-//        threshold += DeleteConnection.threshold;
-//        if(sample < threshold) {
-//            return DeleteConnection;
-//        }
-        return DeleteConnection;
+        double threshold = 0.0d;
+        for (MutationType type : MutationType.values()) {
+            threshold += type.threshold;
+            if (sample < threshold) {
+                return type;
+            }
+        }
+        return null;
     }
 }

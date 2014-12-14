@@ -25,25 +25,30 @@ public class Genotype {
 
     public void mutation(){
         Random random = new Random();
-        MutationType mutationType = MutationType.getMutationType(random.nextDouble());
+        MutationType mutationType = null;
 
-        switch (mutationType){
-            case AddConnection:
-                AddConnection();
-                break;
-            case AddNode:
-                AddNode();
-                break;
-            case DeleteConnection:
-                DeleteConnection();
-                break;
-            default:
-                break;
+        try {
+            mutationType = MutationType.getMutationType(random.nextDouble());
+            switch (mutationType){
+                case AddConnection:
+                    AddConnection();
+                    break;
+                case AddNode:
+                    AddNode();
+                    break;
+                case DeleteConnection:
+                    DeleteConnection();
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void AddNode() {
-        
+
     }
 
     private void DeleteConnection() {
