@@ -5,14 +5,14 @@ import java.util.Comparator;
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Connection implements Comparator<Connection>{
-    private int in;
-    private int out;
+public class Connection implements Comparator<Connection>, Cloneable{
+    private long in;
+    private long out;
     private double weight;
     private boolean enabled;
-    private int innovationNumber;
+    private long innovationNumber;
 
-    public Connection(int in, int out, double weight, boolean enabled, int innovationNumber) {
+    public Connection(long in, long out, double weight, boolean enabled, long innovationNumber) {
         this.in = in;
         this.out = out;
         this.weight = weight;
@@ -24,19 +24,19 @@ public class Connection implements Comparator<Connection>{
         new Connection(0, 0, 0.0, false, id);
     }
 
-    public int getIn() {
+    public long getIn() {
         return in;
     }
 
-    public void setIn(int in) {
+    public void setIn(long in) {
         this.in = in;
     }
 
-    public int getOut() {
+    public long getOut() {
         return out;
     }
 
-    public void setOut(int out) {
+    public void setOut(long out) {
         this.out = out;
     }
 
@@ -56,7 +56,7 @@ public class Connection implements Comparator<Connection>{
         this.enabled = enabled;
     }
 
-    public int getInnovationNumber() {
+    public long getInnovationNumber() {
         return innovationNumber;
     }
 
@@ -76,5 +76,13 @@ public class Connection implements Comparator<Connection>{
     @Override
     public int compare(Connection con1, Connection con2) {
         return 0;
+    }
+
+    public Connection clone(){
+        return new Connection(in, out, weight, enabled, innovationNumber);
+    }
+
+    public void disabled() {
+        setEnabled(false);
     }
 }

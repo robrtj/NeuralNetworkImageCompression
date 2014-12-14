@@ -10,17 +10,20 @@ import java.util.Random;
  * Created by Pawel on 2014-12-14.
  */
 public class Genotype {
+    private NeatPopulation parent;
     private List<Connection> connections;
+    private List<Node> nodes;
     private GenerateID innovationNumber;
     private GenerateID nodeNumber;
 
     private Genotype(){
         connections = new LinkedList<>();
+        nodes = new LinkedList<>();
     }
 
-    public Genotype(GenerateID generateID){
+    public Genotype(GenerateID InnovationGenerateID){
         super();
-        innovationNumber = generateID;
+        innovationNumber = InnovationGenerateID;
     }
 
     public void mutation(){
@@ -57,7 +60,29 @@ public class Genotype {
     }
 
     private void AddNode() {
+        Random rand = new Random();
+        long newNodeNumber = nodeNumber.generate();
 
+        Connection connection;
+        do {
+            connection = connections.get(rand.nextInt(connections.size()));
+        } while (!connection.isEnabled());
+
+        Connection inConn = connection.clone();
+        inConn.setOut(newNodeNumber);
+        inConn.setWeight(1.0d);
+
+        Connection outConn = connection.clone();
+        outConn.setIn(newNodeNumber);
+        outConn.setWeight(rand.nextDouble());
+
+        connection.disabled();
+
+        Node node = new Node(newNodeNumber, LayerType.Hidden);
+
+        connections.add(inConn);
+        connections.add(outConn);
+        nodes.add(node);
     }
 
     private void DeleteConnection() {
@@ -67,7 +92,31 @@ public class Genotype {
     }
 
     private void AddConnection() {
+        Random rand = new Random();
+        long innovation = innovationNumber.generate();
 
+        int from = rand.nextInt(nodes.size());
+        while(isOutputNode(from)){
+            from = rand.nextInt();
+        }
+
+        int to = rand.nextInt(nodes.size());
+        while(isInputNode(to)){
+            to = rand.nextInt();
+        }
+
+        Connection connection = new Connection(from, to, rand.nextDouble(), true, innovation);
+        connections.add(connection);
+    }
+
+    private boolean isInputNode(int from) {
+        return nodes.get(from).getLayerType() == LayerType.Input;
+    }
+    private boolean isHiddenNode(int from) {
+        return nodes.get(from).getLayerType() == LayerType.Hidden;
+    }
+    private boolean isOutputNode(int from) {
+        return nodes.get(from).getLayerType() == LayerType.Output;
     }
 
     public FFCompressNetwork createFastForwardNetwork(){
