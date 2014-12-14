@@ -36,6 +36,9 @@ public class Genotype {
                 case AddNode:
                     AddNode();
                     break;
+                case WeightMutation:
+                    WeightMutation();
+                    break;
                 case DeleteConnection:
                     DeleteConnection();
                     break;
@@ -45,6 +48,12 @@ public class Genotype {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void WeightMutation() {
+        Random rand = new Random();
+        int index = rand.nextInt(connections.size());
+        connections.get(index).setWeight(rand.nextDouble());
     }
 
     private void AddNode() {
