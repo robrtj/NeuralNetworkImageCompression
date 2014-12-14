@@ -5,23 +5,23 @@ import java.util.Comparator;
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Connector implements Comparator<Connector>{
+public class Connection implements Comparator<Connection>{
     private int in;
     private int out;
     private double weight;
     private boolean enabled;
-    private int ordinalNumber;
+    private int innovationNumber;
 
-    public Connector(int in, int out, double weight, boolean enabled, int ordinalNumber) {
+    public Connection(int in, int out, double weight, boolean enabled, int innovationNumber) {
         this.in = in;
         this.out = out;
         this.weight = weight;
         this.enabled = enabled;
-        this.ordinalNumber = ordinalNumber;
+        this.innovationNumber = innovationNumber;
     }
 
-    public Connector(int id) {
-        new Connector(0, 0, 0.0, false, id);
+    public Connection(int id) {
+        new Connection(0, 0, 0.0, false, id);
     }
 
     public int getIn() {
@@ -56,12 +56,12 @@ public class Connector implements Comparator<Connector>{
         this.enabled = enabled;
     }
 
-    public int getOrdinalNumber() {
-        return ordinalNumber;
+    public int getInnovationNumber() {
+        return innovationNumber;
     }
 
-    public void setOrdinalNumber(int ordinalNumber) {
-        this.ordinalNumber = ordinalNumber;
+    public void setInnovationNumber(int innovationNumber) {
+        this.innovationNumber = innovationNumber;
     }
 
     @Override
@@ -70,11 +70,11 @@ public class Connector implements Comparator<Connector>{
                 "Out " + out + "\n" +
                 "Weight " + weight + "\n" +
                 (enabled == true ? "Enabled" : "Disabled") + "\n" +
-                "Ordinal number " + ordinalNumber;
+                "Ordinal number " + innovationNumber;
     }
 
     @Override
-    public int compare(Connector con1, Connector con2) {
+    public int compare(Connection con1, Connection con2) {
         return 0;
     }
 }

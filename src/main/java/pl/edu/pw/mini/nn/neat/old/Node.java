@@ -1,4 +1,4 @@
-package pl.edu.pw.mini.nn.neat;
+package pl.edu.pw.mini.nn.neat.old;
 
 /**
  * Created by Pawel on 2014-12-04.

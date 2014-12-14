@@ -77,7 +77,7 @@ public class GrayImageParser {
         this.parseImageToNetworkImage(INPUT_SIZE);
     }
 
-    public double[][] getNetworkInput(){
+    public double[][] getNetworkInput() {
         return _networkInput;
     }
 }
