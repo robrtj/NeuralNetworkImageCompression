@@ -1,39 +1,50 @@
 package pl.edu.pw.mini.nn.neat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Pawel on 2014-12-04.
  */
 public class Node {
     private long id;
     private LayerType layerType;
-
-    //TODO
-    //delete if unnecessary
-    private int layerNumber;
+    private List<Connection> inputConnections;
+    private int weight;
 
     public Node(long id, LayerType layerType) {
         this.id = id;
         this.layerType = layerType;
+        this.inputConnections = new ArrayList<>();
+    }
+
+    public Node(long id, LayerType layerType, List<Connection> inputConnections) {
+        this(id, layerType);
+        this.inputConnections.addAll(inputConnections);
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public LayerType getLayerType() {
         return layerType;
     }
 
-    public void setLayerType(LayerType layerType) {
-        this.layerType = layerType;
+    public List<Connection> getInputConnections() {
+        return inputConnections;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Node " + id;
     }
 }
