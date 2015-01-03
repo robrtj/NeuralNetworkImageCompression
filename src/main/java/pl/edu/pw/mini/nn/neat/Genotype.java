@@ -10,7 +10,7 @@ import java.util.Random;
  * Created by Pawel on 2014-12-14.
  */
 public class Genotype {
-    private NeatPopulation parent;
+    private oldNeatPopulation parent;
     private List<Connection> connections;
     private List<Node> nodes;
     private GenerateID innovationNumber;

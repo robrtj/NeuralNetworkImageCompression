@@ -1,8 +1,5 @@
 package pl.edu.pw.mini.nn.neat;
 
-import org.encog.util.identity.BasicGenerateID;
-import org.encog.util.identity.GenerateID;
-
 /**
  * Created by pawel.bielicki on 2014-12-13.
  *
@@ -10,8 +7,8 @@ import org.encog.util.identity.GenerateID;
  * it contains two subnetworks, one for compression, second for decompression
  */
 public class NeatCompressNetwork {
-    private NeatPopulation compressPopulation;
-    private NeatPopulation decompressPopulation;
+    private oldNeatPopulation compressPopulation;
+    private oldNeatPopulation decompressPopulation;
     private int inputCount;
     private int outputCount;
 
@@ -19,8 +16,8 @@ public class NeatCompressNetwork {
         this.inputCount = inputCount;
         this.outputCount = outputCount;
 
-        compressPopulation = new NeatPopulation(this);
-        decompressPopulation = new NeatPopulation(this);
+        compressPopulation = new oldNeatPopulation(this);
+        decompressPopulation = new oldNeatPopulation(this);
     }
 
     public void iteration(){

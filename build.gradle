@@ -19,6 +19,7 @@ task(runMainWithArg33, group: 'NN',
     classpath = sourceSets.main.runtimeClasspath
 }
 
+
 task(runMainWithTwoArguments, group: 'NN',
         description: 'Run main with 2 arguments',
         dependsOn: 'classes', type: JavaExec) {
