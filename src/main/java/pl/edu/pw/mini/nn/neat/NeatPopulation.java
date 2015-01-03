@@ -1,6 +1,5 @@
 package pl.edu.pw.mini.nn.neat;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class NeatPopulation {
     private double iteration(){
         mutation();
         crossover();
-        updateFitness();
+
 
         generateNextPopulation();
 
@@ -84,17 +83,13 @@ public class NeatPopulation {
 
     //TODO
     private void generateNextPopulation() {
+        //count fitness
     }
 
+    //TODO
     private double getBestFitness() {
-        int minIndex = Species.indexOf(Collections.min(Species));
-        return Species.get(minIndex).getFitness();
-    }
-
-    private void updateFitness() {
-        for (NeuralNetwork net : Species){
-            net.updateFitness();
-        }
+        //count fitness & get the best
+        return 0.0d;
     }
 
     //TODO
