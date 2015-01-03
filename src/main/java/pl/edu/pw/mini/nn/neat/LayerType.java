@@ -2,6 +2,9 @@ package pl.edu.pw.mini.nn.neat;
 
 public enum LayerType {
     Input,
-    Hidden,
+    Compression,
+    Intermediate,
+    Decompression,
     Output,
+    Hidden, //TODO usunąć
 }

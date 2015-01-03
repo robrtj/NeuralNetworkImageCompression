@@ -14,6 +14,6 @@ public class GrayImageParserTest {
         for (int j = 0; j < 64; j++) {
             output[0][j] = 0;
         }
-        assertEquals("check black image", output, tester.getNetworkInput());
+        assertArrayEquals(output, tester.getNetworkInput());
     }
 }
