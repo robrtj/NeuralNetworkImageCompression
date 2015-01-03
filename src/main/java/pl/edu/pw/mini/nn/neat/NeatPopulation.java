@@ -76,8 +76,14 @@ public class NeatPopulation {
         crossover();
         updateFitness();
 
+        generateNextPopulation();
+
         ++actualIteration;
         return getBestFitness();
+    }
+
+    //TODO
+    private void generateNextPopulation() {
     }
 
     private double getBestFitness() {
