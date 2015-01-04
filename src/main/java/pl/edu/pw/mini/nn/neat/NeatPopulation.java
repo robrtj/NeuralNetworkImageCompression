@@ -1,7 +1,10 @@
 package pl.edu.pw.mini.nn.neat;
 
-import java.util.LinkedList;
-import java.util.List;
+import javafx.util.Pair;
+import org.apache.commons.math3.geometry.partitioning.utilities.OrderedTuple;
+
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Pawel on 2015-01-03.
@@ -78,10 +81,35 @@ public class NeatPopulation {
         return getBestFitness();
     }
 
-    //TODO
     private void generateNextPopulation() {
-        //count fitness
-        //choose n-best nets
+
+        List<NeuralNetworkFitness> tuples = new LinkedList<>();
+        for (int i = 0; i < size(); i++) {
+            NeuralNetwork net = Species.get(i);
+            double fitness = net.fitnessFunction(image);
+            tuples.add(new NeuralNetworkFitness(fitness, net));
+        }
+        Collections.sort(tuples);
+
+        Species = new LinkedList<>();
+        for (int i = 0; i < size(); i++) {
+            Species.add(tuples.get(i).net);
+        }
+    }
+
+    class NeuralNetworkFitness implements Comparable<NeuralNetworkFitness>{
+        double fitness;
+        NeuralNetwork net;
+
+        NeuralNetworkFitness(double fitness, NeuralNetwork net){
+            this.fitness = fitness;
+            this.net = net;
+        }
+
+        @Override
+        public int compareTo(NeuralNetworkFitness o) {
+            return fitness < o.fitness ? -1 : 1;
+        }
     }
 
     private double getBestFitness() {
