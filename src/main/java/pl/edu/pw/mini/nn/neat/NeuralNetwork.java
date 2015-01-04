@@ -60,4 +60,8 @@ public class NeuralNetwork {
     public Connection getConnection(int index) {
         return _connections.get(index);
     }
+
+    public void updateWeight(int index, double weight) {
+        _connections.get(index).setWeight(weight);
+    }
 }

@@ -20,6 +20,10 @@ public class NeatPopulation {
     private MutationFactory mutationFactory;
 
     //TODO
+    //mutation ratio
+    //crossover ratio
+
+    //TODO
     //network params
 
     NeatPopulation(){

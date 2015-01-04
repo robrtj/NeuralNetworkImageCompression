@@ -10,33 +10,36 @@ import java.util.Random;
 public class MutationFactory {
 
     private Map<MutationType, Double> mutationTypes;
+    private double ratio;
 
-    public MutationFactory(){
+    public MutationFactory() {
         mutationTypes = new HashMap<>();
-        initialization();
+        ratio = 0.5d;
+
+        mutationTypesInitialization();
     }
 
-    private void initialization() {
+    private void mutationTypesInitialization() {
         double threshold = 0.0d;
         int count = MutationType.values().length;
         for (MutationType type : MutationType.values()) {
-            mutationTypes.put(type, Double.valueOf(1 / count));
+            mutationTypes.put(type, (double) (1 / count));
         }
     }
 
     private void normalizeThresholds() {
         double sum = 0;
-        for(MutationType key : mutationTypes.keySet()){
+        for (MutationType key : mutationTypes.keySet()) {
             sum += mutationTypes.get(key);
         }
-        for(MutationType key : mutationTypes.keySet()){
-            double value = mutationTypes.get(key) /sum;
+        for (MutationType key : mutationTypes.keySet()) {
+            double value = mutationTypes.get(key) / sum;
             mutationTypes.replace(key, value);
         }
     }
 
-    //should be generic
-    public void setThresholds(double addConnection, double addNode, double deleteConnection, double weightMutation){
+    //should be generic somehow
+    public void setThresholds(double addConnection, double addNode, double deleteConnection, double weightMutation) {
         mutationTypes.replace(MutationType.AddConnection, addConnection);
         mutationTypes.replace(MutationType.AddNode, addNode);
         mutationTypes.replace(MutationType.DeleteConnection, deleteConnection);
@@ -51,7 +54,7 @@ public class MutationFactory {
         double sample = random.nextDouble();
 
         MutationType type = getMutationType(sample);
-        switch (type){
+        switch (type) {
             case AddConnection:
                 addConnection(net);
                 break;
@@ -72,8 +75,8 @@ public class MutationFactory {
         int connectionCounter = net.get_connections().size();
         int sample = random.nextInt(connectionCounter);
 
-        Connection connection = net.getConnection(sample);
-        connection.setWeight(random.nextDouble());
+        double weight = random.nextDouble();
+        net.updateWeight(sample, weight);
     }
 
     //TODO
