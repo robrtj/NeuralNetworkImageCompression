@@ -12,23 +12,19 @@ public class NeatPopulation {
 
     //neat params
     private int numberOfSpecies;
-    private int actualIteration;
     private int maxIteration;
-    private int maxError;
+    private double maxError;
 
     //network params
     //TODO
 
     NeatPopulation(){
-        actualIteration = 0;
+        Species = new LinkedList<>();
     }
 
-    //TODO
-    public NeatPopulation(int numberOfSpecies, int maxIteration, int maxError){
+    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError){
         this();
 
-        //TODO
-        //fill net parameters
         this.numberOfSpecies = numberOfSpecies;
         this.maxIteration = maxIteration;
         this.maxError = maxError;
@@ -46,19 +42,17 @@ public class NeatPopulation {
         this.image = image;
     }
 
-    public void generateEmptyPopulation(int inputLayerSize, int middleLayerSize){
-        List<NeuralNetwork> firstPopulation = new LinkedList<NeuralNetwork>();
+    public void generateFirstPopulation(int inputLayerSize, int middleLayerSize){
+        Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
             NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize);
             Species.add(network);
         }
     }
 
-    //TODO
-    //return: generate best compressed image in vector format
     public double[][] computeImage(double[][] image, int inputLayerSize, int middleLayerSize){
         setImage(image);
-        generateEmptyPopulation(inputLayerSize, middleLayerSize);
+        generateFirstPopulation(inputLayerSize, middleLayerSize);
 
         for (int i = 0; i < maxIteration; i++) {
             iteration();
@@ -67,23 +61,27 @@ public class NeatPopulation {
             }
         }
 
-        return null;
+        return getBestCompressedImage();
+    }
+
+    //TODO
+    private double[][] getBestCompressedImage() {
+        return new double[0][];
     }
 
     private double iteration(){
         mutation();
         crossover();
 
-
         generateNextPopulation();
 
-        ++actualIteration;
         return getBestFitness();
     }
 
     //TODO
     private void generateNextPopulation() {
         //count fitness
+        //choose n-best nets
     }
 
     //TODO
@@ -100,5 +98,9 @@ public class NeatPopulation {
         for (NeuralNetwork net : Species){
             net.mutation();
         }
+    }
+
+    public int size() {
+        return Species.size();
     }
 }
