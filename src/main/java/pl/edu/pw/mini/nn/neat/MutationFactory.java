@@ -51,53 +51,55 @@ public class MutationFactory {
         normalizeThresholds();
     }
 
-    public void mutate(NeuralNetwork net) {
+    public boolean mutate(NeuralNetwork net) {
         Random random = new Random();
         double sample = random.nextDouble();
+        boolean mutated = false;
 
         MutationType type = getMutationType(sample);
         switch (type) {
             case AddConnection:
-                addConnection(net);
+                mutated = addConnection(net);
                 break;
             case AddNode:
-                addNode(net);
+                mutated = addNode(net);
                 break;
             case DeleteConnection:
-                deleteConnection(net);
+                mutated = deleteConnection(net);
                 break;
             case WeightMutation:
-                weightMutation(net);
+                mutated = weightMutation(net);
                 break;
         }
+
+        return mutated;
     }
 
-    private void weightMutation(NeuralNetwork net) {
+    private boolean weightMutation(NeuralNetwork net) {
         Random random = new Random();
         int connectionCounter = net.get_connections().size();
         int sample = random.nextInt(connectionCounter);
 
         double weight = random.nextDouble();
         net.updateWeight(sample, weight);
+        return false;
     }
 
     //TODO
-    private void deleteConnection(NeuralNetwork net) {
-
+    private boolean deleteConnection(NeuralNetwork net) {
+        return false;
     }
 
     //TODO
-    private void addNode(NeuralNetwork net) {
-
+    private boolean addNode(NeuralNetwork net) {
+        return false;
     }
 
-    //TODO
-    private void addConnection(NeuralNetwork net) {
+    private boolean addConnection(NeuralNetwork net) {
         Random rand = new Random();
 
         int in = rand.nextInt(net.get_nodes().size());
         int out = rand.nextInt(net.get_nodes().size());
-
         in = net.get_nodes().get(in).getId();
         out = net.get_nodes().get(out).getId();
 
@@ -106,7 +108,9 @@ public class MutationFactory {
 
         if(checkCorrectnessOfConnection(net, connection)){
             net.addConnection(connection);
+            return true;
         }
+        return false;
     }
 
     private boolean checkCorrectnessOfConnection(NeuralNetwork net, Connection connection) {
@@ -126,7 +130,7 @@ public class MutationFactory {
                 && out.getLayerType() == LayerType.Intermediate ){
             return false;
         }
-        
+
         return true;
     }
 
@@ -140,5 +144,13 @@ public class MutationFactory {
         }
 
         return null;
+    }
+
+    public double getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
     }
 }
