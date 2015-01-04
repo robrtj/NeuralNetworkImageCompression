@@ -71,7 +71,6 @@ public class MutationFactory {
                 mutated = weightMutation(net);
                 break;
         }
-
         return mutated;
     }
 
@@ -82,7 +81,7 @@ public class MutationFactory {
 
         double weight = random.nextDouble();
         net.updateWeight(sample, weight);
-        return false;
+        return true;
     }
 
     //TODO

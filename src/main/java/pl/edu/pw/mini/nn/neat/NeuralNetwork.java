@@ -70,8 +70,14 @@ public class NeuralNetwork {
         return _connections.get(index);
     }
 
-    public void updateWeight(int index, double weight) {
-        _connections.get(index).setWeight(weight);
+    public boolean updateWeight(int index, double weight) {
+        try {
+            _connections.get(index).setWeight(weight);
+        }
+        catch (IndexOutOfBoundsException e){
+            return false;
+        }
+        return true;
     }
 
     public Node getNode(int index) {
