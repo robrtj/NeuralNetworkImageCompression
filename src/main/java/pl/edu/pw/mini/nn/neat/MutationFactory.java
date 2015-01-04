@@ -2,6 +2,7 @@ package pl.edu.pw.mini.nn.neat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by Pawel on 2015-01-04.
@@ -46,6 +47,47 @@ public class MutationFactory {
 
     //TODO
     public void mutate(NeuralNetwork net) {
+        Random random = new Random();
+        double sample = random.nextDouble();
+
+        MutationType type = getMutationType(sample);
+        switch (type){
+            case AddConnection:
+                addConnection(net);
+                break;
+            case AddNode:
+                addNode(net);
+                break;
+            case DeleteConnection:
+                deleteConnection(net);
+                break;
+            case WeightMutation:
+                weightMutation(net);
+                break;
+        }
+    }
+
+    private void weightMutation(NeuralNetwork net) {
+        Random random = new Random();
+        int connectionCounter = net.get_connections().size();
+        int sample = random.nextInt(connectionCounter);
+
+        Connection connection = net.getConnection(sample);
+        connection.setWeight(random.nextDouble());
+    }
+
+    //TODO
+    private void deleteConnection(NeuralNetwork net) {
+
+    }
+
+    //TODO
+    private void addNode(NeuralNetwork net) {
+
+    }
+
+    //TODO
+    private void addConnection(NeuralNetwork net) {
 
     }
 

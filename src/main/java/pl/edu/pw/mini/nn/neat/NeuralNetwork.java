@@ -57,4 +57,7 @@ public class NeuralNetwork {
         return _connections;
     }
 
+    public Connection getConnection(int index) {
+        return _connections.get(index);
+    }
 }
