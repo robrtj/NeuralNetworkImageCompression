@@ -84,10 +84,13 @@ public class NeatPopulation {
         //choose n-best nets
     }
 
-    //TODO
     private double getBestFitness() {
-        //count fitness & get the best
-        return 0.0d;
+        double bestFitness = Double.POSITIVE_INFINITY;
+        for (NeuralNetwork net : Species){
+            double fitness = net.fitnessFunction(image);
+            bestFitness = bestFitness < fitness ? bestFitness : fitness;
+        }
+        return bestFitness;
     }
 
     //TODO
