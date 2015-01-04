@@ -18,11 +18,11 @@ public enum MutationType {
         DeleteConnection.threshold = 0.1d;
         WeightMutation.threshold = 0.1d;
 
-//        interpolate set to sum=1
-        interpolateThresholds();
+//        normalize set to sum=1
+        normalizeThresholds();
     }
 
-    private static void interpolateThresholds() {
+    private static void normalizeThresholds() {
 
     }
 
