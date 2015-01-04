@@ -17,10 +17,10 @@ public class InnovationNumberTest {
 
         int count = 1000;
         for (int i = 0; i < count; i++) {
-            one.getNextInnovationNumber();
-            two.getNextInnovationNumber();
-            three.getNextInnovationNumber();
+            one.nextInnovationNumber();
+            two.nextInnovationNumber();
+            three.nextInnovationNumber();
         }
-        assertEquals(3* count, one.getNextInnovationNumber());
+        assertEquals(3* count, one.nextInnovationNumber());
     }
 }

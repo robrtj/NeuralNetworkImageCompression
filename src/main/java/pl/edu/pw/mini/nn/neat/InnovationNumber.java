@@ -18,7 +18,7 @@ public class InnovationNumber {
         return instance;
     }
 
-    public long getNextInnovationNumber(){
+    public long nextInnovationNumber(){
         return innovationNumber++;
     }
 }

@@ -8,36 +8,4 @@ public enum MutationType {
     AddNode,
     DeleteConnection,
     WeightMutation;
-
-    private double threshold;
-
-    static {
-//        sum should count to 1.0!
-        AddConnection.threshold = 0.4d;
-        AddNode.threshold = 0.4d;
-        DeleteConnection.threshold = 0.1d;
-        WeightMutation.threshold = 0.1d;
-
-//        normalize set to sum=1
-        normalizeThresholds();
-    }
-
-    private static void normalizeThresholds() {
-
-    }
-
-    public static MutationType getMutationType(double sample) throws Exception {
-        if (sample < 0) {
-            throw new Exception("Sample should be grater than 0!");
-        }
-
-        double threshold = 0.0d;
-        for (MutationType type : MutationType.values()) {
-            threshold += type.threshold;
-            if (sample < threshold) {
-                return type;
-            }
-        }
-        return null;
-    }
 }

@@ -17,12 +17,14 @@ public class NeatPopulation {
     private int numberOfSpecies;
     private int maxIteration;
     private double maxError;
+    private MutationFactory mutationFactory;
 
-    //network params
     //TODO
+    //network params
 
     NeatPopulation(){
         Species = new LinkedList<>();
+        mutationFactory = new MutationFactory();
     }
 
     public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError){
@@ -31,6 +33,10 @@ public class NeatPopulation {
         this.numberOfSpecies = numberOfSpecies;
         this.maxIteration = maxIteration;
         this.maxError = maxError;
+    }
+
+    //TODO
+    public void setNetworkParameters(){
     }
 
     public List<NeuralNetwork> getSpecies() {
@@ -126,9 +132,7 @@ public class NeatPopulation {
     }
 
     private void mutation() {
-        for (NeuralNetwork net : Species){
-            net.mutation();
-        }
+        Species.forEach(mutationFactory::mutate);
     }
 
     public int size() {
