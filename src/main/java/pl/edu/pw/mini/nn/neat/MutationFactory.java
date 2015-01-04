@@ -12,9 +12,12 @@ public class MutationFactory {
     private Map<MutationType, Double> mutationTypes;
     private double ratio;
 
+    private InnovationNumber innovationNumberGenerator;
+
     public MutationFactory() {
         mutationTypes = new HashMap<>();
         ratio = 0.5d;
+        innovationNumberGenerator = new InnovationNumber();
 
         mutationTypesInitialization();
     }
@@ -48,7 +51,6 @@ public class MutationFactory {
         normalizeThresholds();
     }
 
-    //TODO
     public void mutate(NeuralNetwork net) {
         Random random = new Random();
         double sample = random.nextDouble();
@@ -91,7 +93,41 @@ public class MutationFactory {
 
     //TODO
     private void addConnection(NeuralNetwork net) {
+        Random rand = new Random();
 
+        int in = rand.nextInt(net.get_nodes().size());
+        int out = rand.nextInt(net.get_nodes().size());
+
+        in = net.get_nodes().get(in).getId();
+        out = net.get_nodes().get(out).getId();
+
+        Connection connection = new Connection(in, out, rand.nextDouble(),
+                true, innovationNumberGenerator.nextInnovationNumber());
+
+        if(checkCorrectnessOfConnection(net, connection)){
+            net.addConnection(connection);
+        }
+    }
+
+    private boolean checkCorrectnessOfConnection(NeuralNetwork net, Connection connection) {
+        if(connection.getIn() <= connection.getOut()){
+            return false;
+        }
+
+        Node in = net.getNode(connection.getIn());
+        Node out = net.getNode(connection.getOut());
+        if( in.getLayerType() == LayerType.Output){
+            return false;
+        }
+        if( out.getLayerType() == LayerType.Input){
+            return false;
+        }
+        if( in.getLayerType() == LayerType.Intermediate
+                && out.getLayerType() == LayerType.Intermediate ){
+            return false;
+        }
+        
+        return true;
     }
 
     private MutationType getMutationType(double sample) {

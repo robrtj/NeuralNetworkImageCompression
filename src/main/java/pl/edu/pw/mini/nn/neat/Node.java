@@ -7,23 +7,23 @@ import java.util.List;
  * Created by Pawel on 2014-12-04.
  */
 public class Node {
-    private long id;
+    private int id;
     private LayerType layerType;
     private List<Connection> inputConnections;
     private int weight;
 
-    public Node(long id, LayerType layerType) {
+    public Node(int id, LayerType layerType) {
         this.id = id;
         this.layerType = layerType;
         this.inputConnections = new ArrayList<>();
     }
 
-    public Node(long id, LayerType layerType, List<Connection> inputConnections) {
+    public Node(int id, LayerType layerType, List<Connection> inputConnections) {
         this(id, layerType);
         this.inputConnections.addAll(inputConnections);
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

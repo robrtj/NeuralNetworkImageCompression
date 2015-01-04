@@ -6,13 +6,13 @@ import java.util.Comparator;
  * Created by Pawel on 2014-12-04.
  */
 public class Connection implements Comparator<Connection>, Cloneable{
-    private long in;
-    private long out;
+    private int in;
+    private int out;
     private double weight;
     private boolean enabled;
     private long innovationNumber;
 
-    public Connection(long in, long out, double weight, boolean enabled, long innovationNumber) {
+    public Connection(int in, int out, double weight, boolean enabled, long innovationNumber) {
         this.in = in;
         this.out = out;
         this.weight = weight;
@@ -24,19 +24,19 @@ public class Connection implements Comparator<Connection>, Cloneable{
         new Connection(0, 0, 0.0, false, id);
     }
 
-    public long getIn() {
+    public int getIn() {
         return in;
     }
 
-    public void setIn(long in) {
+    public void setIn(int in) {
         this.in = in;
     }
 
-    public long getOut() {
+    public int getOut() {
         return out;
     }
 
-    public void setOut(long out) {
+    public void setOut(int out) {
         this.out = out;
     }
 
