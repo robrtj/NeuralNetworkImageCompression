@@ -100,4 +100,8 @@ public class NeuralNetwork {
         }
         return null;
     }
+
+    public void disableConnection(int index) {
+        _connections.get(index).disable();
+    }
 }

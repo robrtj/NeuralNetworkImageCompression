@@ -62,7 +62,7 @@ public class MutationFactory {
                 mutated = addNode(net);
                 break;
             case DeleteConnection:
-                mutated = deleteConnection(net);
+                mutated = disableConnection(net);
                 break;
             case WeightMutation:
                 mutated = weightMutation(net);
@@ -81,9 +81,13 @@ public class MutationFactory {
         return true;
     }
 
-    //TODO
-    private boolean deleteConnection(NeuralNetwork net) {
-        return false;
+    private boolean disableConnection(NeuralNetwork net) {
+        Random random = new Random();
+        int connectionCounter = net.get_connections().size();
+        int sample = random.nextInt(connectionCounter);
+
+        net.disableConnection(sample);
+        return true;
     }
 
     //TODO
