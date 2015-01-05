@@ -113,7 +113,8 @@ public class Genotype {
         return nodes.get(from).getLayerType() == LayerType.Input;
     }
     private boolean isHiddenNode(int from) {
-        return nodes.get(from).getLayerType() == LayerType.Hidden;
+//        return nodes.get(from).getLayerType() == LayerType.Hidden;
+        return false;
     }
     private boolean isOutputNode(int from) {
         return nodes.get(from).getLayerType() == LayerType.Output;

@@ -6,5 +6,4 @@ public enum LayerType {
     Intermediate,
     Decompression,
     Output,
-    Hidden, //TODO usunąć
 }
