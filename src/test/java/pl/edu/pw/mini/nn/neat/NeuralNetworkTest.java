@@ -24,7 +24,7 @@ public class NeuralNetworkTest {
         nodes.add(b);
         nodes.add(c);
         NeuralNetwork nn = new NeuralNetwork(nodes, new ArrayList<Connection>());
-        nn.addNode(a,b);
+        nn.addNode(a);
         nodes.add(2, new Node(5, LayerType.Compression));
         assertEquals(nodes.size(), nn.get_nodes().size());
         assertEquals(nodes.get(0), nn.get_nodes().get(0));

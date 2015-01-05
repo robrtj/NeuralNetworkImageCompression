@@ -90,19 +90,27 @@ public class MutationFactory {
         return true;
     }
 
-    //TODO
     private boolean addNode(NeuralNetwork net) {
         Random random = new Random();
         int connectionCounter = net.get_connections().size();
         int index = random.nextInt(connectionCounter);
+        
         Connection conn = net.getConnection(index);
+        conn.disable();
 
         double id = (conn.getIn() + conn.getOut())/2;
         LayerType layerType = conn.getOut()<=net.getLastIntermediateLayerNodeId()
                 ? LayerType.Compression : LayerType.Decompression;
         Node middleNode = new Node(id, layerType);
 
-        return false;
+        Connection inConn = new Connection(conn.getIn(), id, conn.getWeight(), true, -1);
+        Connection outConn = new Connection(id, conn.getOut(), 1, true, -1);
+        middleNode.addConnection(inConn);
+
+        net.addNode(middleNode);
+        net.addConnection(inConn);
+        net.addConnection(outConn);
+        return true;
     }
 
     //private

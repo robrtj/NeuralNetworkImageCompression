@@ -41,8 +41,8 @@ public class NeuralNetwork {
     }
 
     //TODO
-    void addNode(Node a, Node b) {
-
+    void addNode(Node newNode) {
+        _nodes.add(newNode);
     }
 
     void addConnection(Connection newConnection) {

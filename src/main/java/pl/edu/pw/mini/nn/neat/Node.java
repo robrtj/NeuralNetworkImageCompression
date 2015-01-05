@@ -47,5 +47,9 @@ public class Node {
     public String toString() {
         return "Node " + id;
     }
+
+    public void addConnection(Connection newConnection) {
+        inputConnections.add(newConnection);
+    }
 }
 
