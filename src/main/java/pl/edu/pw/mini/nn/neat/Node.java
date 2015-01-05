@@ -12,13 +12,13 @@ public class Node {
     private List<Connection> inputConnections;
     private int weight;
 
-    public Node(int id, LayerType layerType) {
+    public Node(double id, LayerType layerType) {
         this.id = id;
         this.layerType = layerType;
         this.inputConnections = new ArrayList<>();
     }
 
-    public Node(int id, LayerType layerType, List<Connection> inputConnections) {
+    public Node(double id, LayerType layerType, List<Connection> inputConnections) {
         this(id, layerType);
         this.inputConnections.addAll(inputConnections);
     }
