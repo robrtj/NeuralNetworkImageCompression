@@ -90,7 +90,8 @@ public class MutationFactory {
         return true;
     }
 
-    private boolean addNode(NeuralNetwork net) {
+    //private
+    public boolean addNode(NeuralNetwork net) {
         Random random = new Random();
         int connectionCounter = net.get_connections().size();
         int index = random.nextInt(connectionCounter);

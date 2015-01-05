@@ -104,4 +104,15 @@ public class MutationFactoryTest{
 //        actual = mutationFactory.checkCorrectnessOfConnection(net, con);
 //        assertEquals(false, actual);
     }
+
+    @Test
+    public void addNode() throws Exception {
+        NeuralNetwork net = createSimpleNetwork();
+        MutationFactory mutationFactory = new MutationFactory();
+
+        for (int i = 0; i < net.get_connections().size(); i++) {
+            boolean actual = mutationFactory.addNode(net);
+            assertEquals(true, actual);
+        }
+    }
 }

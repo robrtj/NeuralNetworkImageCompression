@@ -50,6 +50,10 @@ public class NeuralNetwork {
         upsertConnection(newConnection);
     }
 
+    //TODO
+    //sprawdzenie, czy krawedz juz istnieje,
+    //by bylo optymalnie zamienic pola w krawedzi
+    //oznaczajace id wierzcholka na referencje
     private void upsertConnection(Connection newConnection) {
         int index = getConnectionIndex(newConnection);
         if(index == -1){
