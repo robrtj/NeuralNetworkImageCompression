@@ -10,6 +10,8 @@ public class NeuralNetwork {
     private List<Node> _nodes;
     private List<Connection> _connections;
     InnovationNumber innovationNumberGenerator = new InnovationNumber();
+    private int inputLayerSize;
+    private int intermediateLayerSize;
 
     NeuralNetwork(){
         innovationNumberGenerator = new InnovationNumber();
@@ -21,11 +23,21 @@ public class NeuralNetwork {
         _nodes.addAll(nodes);
         _connections = new ArrayList<>();
         _connections.addAll(connections);
+
+        for (Node node : _nodes) {
+            if (node.getLayerType() == LayerType.Input) {
+                inputLayerSize = (int) node.getId();
+            } else if (node.getLayerType() == LayerType.Intermediate) {
+                intermediateLayerSize = (int) node.getId();
+            }
+        }
     }
 
     //TODO
     public NeuralNetwork(int inputSize, int intermediateLayerSize) {
         this();
+        this.inputLayerSize = inputSize;
+        this.intermediateLayerSize = intermediateLayerSize;
     }
 
     //TODO
@@ -103,5 +115,9 @@ public class NeuralNetwork {
 
     public void disableConnection(int index) {
         _connections.get(index).disable();
+    }
+
+    public double getLastIntermediateLayerNodeId() {
+        return inputLayerSize + intermediateLayerSize;
     }
 }

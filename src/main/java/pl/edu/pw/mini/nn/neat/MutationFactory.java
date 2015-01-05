@@ -97,7 +97,10 @@ public class MutationFactory {
         int index = random.nextInt(connectionCounter);
         Connection conn = net.getConnection(index);
 
-        //Node middleNode = new Node()
+        double id = (conn.getIn() + conn.getOut())/2;
+        LayerType layerType = conn.getOut()<=net.getLastIntermediateLayerNodeId()
+                ? LayerType.Compression : LayerType.Decompression;
+        Node middleNode = new Node(id, layerType);
 
         return false;
     }
