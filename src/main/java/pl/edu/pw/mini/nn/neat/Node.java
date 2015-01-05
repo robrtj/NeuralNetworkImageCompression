@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Pawel on 2014-12-04.
  */
 public class Node {
-    private int id;
+    private double id;
     private LayerType layerType;
     private List<Connection> inputConnections;
     private int weight;
@@ -23,7 +23,7 @@ public class Node {
         this.inputConnections.addAll(inputConnections);
     }
 
-    public int getId() {
+    public double getId() {
         return id;
     }
 

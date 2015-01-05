@@ -92,6 +92,13 @@ public class MutationFactory {
 
     //TODO
     private boolean addNode(NeuralNetwork net) {
+        Random random = new Random();
+        int connectionCounter = net.get_connections().size();
+        int index = random.nextInt(connectionCounter);
+        Connection conn = net.getConnection(index);
+
+        //Node middleNode = new Node()
+
         return false;
     }
 
@@ -101,10 +108,10 @@ public class MutationFactory {
 
         int in = rand.nextInt(net.get_nodes().size());
         int out = rand.nextInt(net.get_nodes().size());
-        in = net.get_nodes().get(in).getId();
-        out = net.get_nodes().get(out).getId();
+        double inNodeId = net.get_nodes().get(in).getId();
+        double outNodeId = net.get_nodes().get(out).getId();
 
-        Connection connection = new Connection(in, out, rand.nextDouble(),
+        Connection connection = new Connection(inNodeId, outNodeId, rand.nextDouble(),
                 true, -1);
 
         if(checkCorrectnessOfConnection(net, connection)){
