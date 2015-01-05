@@ -12,16 +12,15 @@ import java.util.stream.Stream;
 public class NeatPopulation {
     private List<NeuralNetwork> Species;
     private double[][] image;
+    private MutationFactory mutationFactory;
 
     //neat params
     private int numberOfSpecies;
     private int maxIteration;
     private double maxError;
-    private MutationFactory mutationFactory;
-
     //TODO
-    //mutation ratio
     //crossover ratio
+    private double mutationRatio;
 
     //TODO
     //network params
@@ -31,12 +30,13 @@ public class NeatPopulation {
         mutationFactory = new MutationFactory();
     }
 
-    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError){
+    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio){
         this();
 
         this.numberOfSpecies = numberOfSpecies;
         this.maxIteration = maxIteration;
         this.maxError = maxError;
+        this.mutationRatio = mutationRatio;
     }
 
     //TODO
@@ -85,7 +85,6 @@ public class NeatPopulation {
     private double iteration(){
         mutation();
         crossover();
-
         generateNextPopulation();
 
         return getBestFitness();
@@ -136,7 +135,8 @@ public class NeatPopulation {
     }
 
     private void mutation() {
-        Species.forEach(mutationFactory::mutate);
+        Random rand = new Random();
+        Species.stream().filter(net -> rand.nextDouble() < mutationRatio).forEach(mutationFactory::mutate);
     }
 
     public int size() {
