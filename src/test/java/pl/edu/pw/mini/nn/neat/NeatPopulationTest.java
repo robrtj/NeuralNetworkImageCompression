@@ -12,20 +12,12 @@ public class NeatPopulationTest {
     @Test
     public void generateEmptyPopulation() throws Exception {
         int species = 100;
-        NeatPopulation neat = new NeatPopulation(species, 100, 0.001d);
+        NeatPopulation neat = new NeatPopulation(species, 100, 0.001d, 0.5d);
         neat.generateFirstPopulation(1, 1);
         assertEquals(species, neat.size());
     }
 
     @Test
-    public void getBestCompressedImage() throws Exception {
-    }
-
-    @Test
     public void generateNextPopulation() throws Exception {
-    }
-
-    @Test
-    public void getBestFitness() throws Exception {
     }
 }

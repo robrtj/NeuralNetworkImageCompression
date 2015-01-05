@@ -12,12 +12,9 @@ public class MutationFactory {
     private Map<MutationType, Double> mutationTypes;
     private double ratio;
 
-    private InnovationNumber innovationNumberGenerator;
-
     public MutationFactory() {
         mutationTypes = new HashMap<>();
         ratio = 0.5d;
-        innovationNumberGenerator = new InnovationNumber();
 
         mutationTypesInitialization();
     }
@@ -94,7 +91,8 @@ public class MutationFactory {
         return false;
     }
 
-    private boolean addConnection(NeuralNetwork net) {
+    //private
+    public boolean addConnection(NeuralNetwork net) {
         Random rand = new Random();
 
         int in = rand.nextInt(net.get_nodes().size());
@@ -103,7 +101,7 @@ public class MutationFactory {
         out = net.get_nodes().get(out).getId();
 
         Connection connection = new Connection(in, out, rand.nextDouble(),
-                true, innovationNumberGenerator.nextInnovationNumber());
+                true, -1);
 
         if(checkCorrectnessOfConnection(net, connection)){
             net.addConnection(connection);
@@ -112,13 +110,14 @@ public class MutationFactory {
         return false;
     }
 
-    private boolean checkCorrectnessOfConnection(NeuralNetwork net, Connection connection) {
-        if(connection.getIn() <= connection.getOut()){
+    //private
+    public boolean checkCorrectnessOfConnection(NeuralNetwork net, Connection connection) {
+        if(connection.getIn() >= connection.getOut()){
             return false;
         }
 
-        Node in = net.getNode(connection.getIn());
-        Node out = net.getNode(connection.getOut());
+        Node in = net.getNodeById(connection.getIn());
+        Node out = net.getNodeById(connection.getOut());
         if( in.getLayerType() == LayerType.Output){
             return false;
         }

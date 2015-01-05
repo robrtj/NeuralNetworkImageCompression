@@ -27,30 +27,30 @@ public class Genotype {
     }
 
     public void mutation(){
-        Random random = new Random();
-        MutationType mutationType = null;
-
-        try {
-            mutationType = MutationType.getMutationType(random.nextDouble());
-            switch (mutationType){
-                case AddConnection:
-                    AddConnection();
-                    break;
-                case AddNode:
-                    AddNode();
-                    break;
-                case WeightMutation:
-                    WeightMutation();
-                    break;
-                case DeleteConnection:
-                    DeleteConnection();
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Random random = new Random();
+//        MutationType mutationType = null;
+//
+//        try {
+//            mutationType = MutationType.getMutationType(random.nextDouble());
+//            switch (mutationType){
+//                case AddConnection:
+//                    AddConnection();
+//                    break;
+//                case AddNode:
+//                    AddNode();
+//                    break;
+//                case WeightMutation:
+//                    WeightMutation();
+//                    break;
+//                case DeleteConnection:
+//                    DeleteConnection();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void WeightMutation() {
@@ -60,29 +60,29 @@ public class Genotype {
     }
 
     private void AddNode() {
-        Random rand = new Random();
-        long newNodeNumber = nodeNumber.generate();
-
-        Connection connection;
-        do {
-            connection = connections.get(rand.nextInt(connections.size()));
-        } while (!connection.isEnabled());
-
-        Connection inConn = connection.clone();
-        inConn.setOut(newNodeNumber);
-        inConn.setWeight(1.0d);
-
-        Connection outConn = connection.clone();
-        outConn.setIn(newNodeNumber);
-        outConn.setWeight(rand.nextDouble());
-
-        connection.disabled();
-
-        Node node = new Node(newNodeNumber, LayerType.Hidden);
-
-        connections.add(inConn);
-        connections.add(outConn);
-        nodes.add(node);
+//        Random rand = new Random();
+//        long newNodeNumber = nodeNumber.generate();
+//
+//        Connection connection;
+//        do {
+//            connection = connections.get(rand.nextInt(connections.size()));
+//        } while (!connection.isEnabled());
+//
+//        Connection inConn = connection.clone();
+//        inConn.setOut(newNodeNumber);
+//        inConn.setWeight(1.0d);
+//
+//        Connection outConn = connection.clone();
+//        outConn.setIn(newNodeNumber);
+//        outConn.setWeight(rand.nextDouble());
+//
+//        connection.disable();
+//
+//        Node node = new Node(newNodeNumber, LayerType.Hidden);
+//
+//        connections.add(inConn);
+//        connections.add(outConn);
+//        nodes.add(node);
     }
 
     private void DeleteConnection() {

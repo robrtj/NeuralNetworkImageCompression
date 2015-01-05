@@ -136,7 +136,15 @@ public class NeatPopulation {
 
     private void mutation() {
         Random rand = new Random();
-        Species.stream().filter(net -> rand.nextDouble() < mutationRatio).forEach(mutationFactory::mutate);
+        for(NeuralNetwork net : Species){
+            if(rand.nextDouble() < mutationRatio){
+                mutationFactory.mutate(net);
+            }
+        }
+        //testy sa odpalane z flaga "-source 1.7"
+        // wiec nie ma stream'a z java8,
+        // a nie chce sie bawic z konfiguracja, bo gradle'a nie znam
+        //Species.stream().filter(net -> rand.nextDouble() < mutationRatio).forEach(mutationFactory::mutate);
     }
 
     public int size() {

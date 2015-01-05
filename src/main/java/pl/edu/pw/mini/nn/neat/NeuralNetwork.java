@@ -9,8 +9,14 @@ import java.util.List;
 public class NeuralNetwork {
     private List<Node> _nodes;
     private List<Connection> _connections;
+    InnovationNumber innovationNumberGenerator = new InnovationNumber();
+
+    NeuralNetwork(){
+        innovationNumberGenerator = new InnovationNumber();
+    }
 
     NeuralNetwork(List<Node> nodes, List<Connection> connections) {
+        this();
         _nodes = new ArrayList<>();
         _nodes.addAll(nodes);
         _connections = new ArrayList<>();
@@ -19,6 +25,7 @@ public class NeuralNetwork {
 
     //TODO
     public NeuralNetwork(int inputSize, int intermediateLayerSize) {
+        this();
     }
 
     //TODO
@@ -27,6 +34,7 @@ public class NeuralNetwork {
     }
 
     void addConnection(Connection newConnection) {
+        newConnection.setInnovationNumber(innovationNumberGenerator.nextInnovationNumber());
         upsertConnection(newConnection);
     }
 
@@ -82,5 +90,14 @@ public class NeuralNetwork {
 
     public Node getNode(int index) {
         return _nodes.get(index);
+    }
+
+    public Node getNodeById(double id) {
+        for (Node node : _nodes){
+            if(node.getId() == id){
+                return node;
+            }
+        }
+        return null;
     }
 }

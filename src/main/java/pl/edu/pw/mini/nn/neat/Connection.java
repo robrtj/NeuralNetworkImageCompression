@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Connection implements Comparator<Connection>, Cloneable{
+public class Connection implements  Cloneable{
     private int in;
     private int out;
     private double weight;
@@ -60,7 +60,7 @@ public class Connection implements Comparator<Connection>, Cloneable{
         return innovationNumber;
     }
 
-    public void setInnovationNumber(int innovationNumber) {
+    public void setInnovationNumber(long innovationNumber) {
         this.innovationNumber = innovationNumber;
     }
 
@@ -73,16 +73,11 @@ public class Connection implements Comparator<Connection>, Cloneable{
                 "Ordinal number " + innovationNumber;
     }
 
-    @Override
-    public int compare(Connection con1, Connection con2) {
-        return 0;
-    }
-
     public Connection clone(){
         return new Connection(in, out, weight, enabled, innovationNumber);
     }
 
-    public void disabled() {
+    public void disable() {
         setEnabled(false);
     }
 }
