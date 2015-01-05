@@ -94,19 +94,19 @@ public class MutationFactory {
         Random random = new Random();
         int connectionCounter = net.get_connections().size();
         int index = random.nextInt(connectionCounter);
-        
         Connection conn = net.getConnection(index);
-        conn.disable();
 
         double id = (conn.getIn() + conn.getOut())/2;
         LayerType layerType = conn.getOut()<=net.getLastIntermediateLayerNodeId()
                 ? LayerType.Compression : LayerType.Decompression;
         Node middleNode = new Node(id, layerType);
 
+        //dodanie wierzcholka i polaczen
         Connection inConn = new Connection(conn.getIn(), id, conn.getWeight(), true, -1);
         Connection outConn = new Connection(id, conn.getOut(), 1, true, -1);
         middleNode.addConnection(inConn);
 
+        conn.disable();
         net.addNode(middleNode);
         net.addConnection(inConn);
         net.addConnection(outConn);
