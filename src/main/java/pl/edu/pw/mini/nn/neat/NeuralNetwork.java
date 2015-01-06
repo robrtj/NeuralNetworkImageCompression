@@ -52,7 +52,7 @@ public class NeuralNetwork {
 
     //TODO
     //sprawdzenie, czy krawedz juz istnieje,
-    //by bylo optymalnie zamienic pola w krawedzi
+    //by bylo szybciej zamienic pola w krawedzi
     //oznaczajace id wierzcholka na referencje
     private void upsertConnection(Connection newConnection) {
         int index = getConnectionIndex(newConnection);
