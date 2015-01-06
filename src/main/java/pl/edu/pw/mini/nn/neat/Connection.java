@@ -19,6 +19,14 @@ public class Connection implements  Cloneable{
         this.enabled = enabled;
     }
 
+    public Connection(double in, double out, double weight, boolean enabled, long innovationNumber) {
+        this.in = in;
+        this.out = out;
+        this.weight = weight;
+        this.enabled = enabled;
+        this.innovationNumber = innovationNumber;
+    }
+
     public double getIn() {
         return in;
     }

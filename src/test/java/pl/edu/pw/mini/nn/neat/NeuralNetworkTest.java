@@ -32,7 +32,13 @@ public class NeuralNetworkTest {
     }
 
     @Test
-    public void testAddConnection() throws Exception {
+    public void testCreatingNeuralNetwork() throws Exception {
+        NeuralNetwork net = new NeuralNetwork(2, 1);
+        assertEquals(5, net.get_nodes().size());
+        assertEquals(4, net.get_connections().size());
 
+        net = new NeuralNetwork(2, 2);
+        assertEquals(6, net.get_nodes().size());
+        assertEquals(8, net.get_connections().size());
     }
 }

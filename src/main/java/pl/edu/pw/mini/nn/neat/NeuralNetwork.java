@@ -1,7 +1,6 @@
 package pl.edu.pw.mini.nn.neat;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Robert on 2015-01-03.
@@ -14,6 +13,8 @@ public class NeuralNetwork {
     private int intermediateLayerSize;
 
     NeuralNetwork(){
+        _nodes = new LinkedList<>();
+        _connections = new LinkedList<>();
         innovationNumberGenerator = new InnovationNumber();
     }
 
@@ -33,11 +34,82 @@ public class NeuralNetwork {
         }
     }
 
-    //TODO
     public NeuralNetwork(int inputSize, int intermediateLayerSize) {
         this();
         this.inputLayerSize = inputSize;
         this.intermediateLayerSize = intermediateLayerSize;
+
+        _nodes.addAll(createInputLayer(inputSize));
+        _nodes.addAll(createMiddleLayer(intermediateLayerSize, inputSize));
+        _nodes.addAll(createOutputLayer(inputSize, intermediateLayerSize));
+
+        createStartConnections();
+    }
+
+    //zakladamy, ze wierzcholki sa uporzadkowane
+    // wedlug schematu: In - Middle - Out
+    private void createStartConnections() {
+        createInputMiddleLayersConnections();
+        createMiddleOutputLayersConnections();
+    }
+
+    private void createMiddleOutputLayersConnections() {
+        Random rand = new Random();
+        int firstMiddleNodeId = inputLayerSize;
+        int firstOutputNodeId = inputLayerSize + intermediateLayerSize;
+
+        for (int i = 0; i < inputLayerSize; i++) {
+            Node outNode = _nodes.get(i);
+            for (int j = 0; j < intermediateLayerSize; j++) {
+                Node middleNode = _nodes.get(firstMiddleNodeId + j);
+                Connection conn = new Connection(middleNode.getId(), outNode.getId(),
+                        rand.nextDouble(), true,
+                        innovationNumberGenerator.nextInnovationNumber());
+                _connections.add(conn);
+                outNode.addConnection(conn);
+            }
+        }
+    }
+
+    private void createInputMiddleLayersConnections() {
+        Random rand = new Random();
+        int firstInputNodeId = 0;
+        int firstMiddleNodeId = inputLayerSize;
+
+        for (int i = 0; i < intermediateLayerSize; i++) {
+            Node middleNode = _nodes.get(firstMiddleNodeId + i);
+            for (int j = 0; j < inputLayerSize; j++) {
+                Node inNode = _nodes.get(firstInputNodeId + j);
+                Connection conn = new Connection(inNode.getId(), middleNode.getId(),
+                        rand.nextDouble(), true,
+                        innovationNumberGenerator.nextInnovationNumber());
+                _connections.add(conn);
+                middleNode.addConnection(conn);
+            }
+        }
+    }
+
+    private Collection<Node> createOutputLayer(int size, int intermediateLayerSize) {
+        return createLayer(size, LayerType.Output, size+intermediateLayerSize);
+    }
+
+    private Collection<Node> createMiddleLayer(int size, int inputSize) {
+        return createLayer(size, LayerType.Intermediate, inputSize);
+    }
+
+    private Collection<Node> createInputLayer(int size) {
+        return createLayer(size, LayerType.Input, 0);
+    }
+
+    private Collection<Node> createLayer(int size, LayerType type, int startId){
+        List<Node> nodes = new LinkedList<>();
+        int id = startId;
+        while (size>0){
+            Node node = new Node(id++, type);
+            nodes.add(node);
+            size--;
+        }
+        return nodes;
     }
 
     void addNode(Node newNode) {
