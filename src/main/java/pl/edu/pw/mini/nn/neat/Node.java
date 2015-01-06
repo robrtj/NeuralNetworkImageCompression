@@ -1,5 +1,7 @@
 package pl.edu.pw.mini.nn.neat;
 
+import org.encog.engine.network.activation.ActivationFunction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class Node {
     private LayerType layerType;
     private List<Connection> inputConnections;
     private int weight;
+
+    private ActivationFunction activationFunction;
 
     public Node(double id, LayerType layerType) {
         this.id = id;

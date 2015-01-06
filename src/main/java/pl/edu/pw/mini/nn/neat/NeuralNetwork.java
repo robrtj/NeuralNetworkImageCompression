@@ -8,14 +8,14 @@ import java.util.*;
 public class NeuralNetwork {
     private List<Node> _nodes;
     private List<Connection> _connections;
-    InnovationNumber innovationNumberGenerator = new InnovationNumber();
+    InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
     private int inputLayerSize;
     private int intermediateLayerSize;
 
     NeuralNetwork(){
         _nodes = new LinkedList<>();
         _connections = new LinkedList<>();
-        innovationNumberGenerator = new InnovationNumber();
+        innovationNumberGenerator = new InnovationIdGenerator();
     }
 
     NeuralNetwork(List<Node> nodes, List<Connection> connections) {
@@ -64,7 +64,7 @@ public class NeuralNetwork {
                 Node middleNode = _nodes.get(firstMiddleNodeId + j);
                 Connection conn = new Connection(middleNode.getId(), outNode.getId(),
                         rand.nextDouble(), true,
-                        innovationNumberGenerator.nextInnovationNumber());
+                        innovationNumberGenerator.generate());
                 _connections.add(conn);
                 outNode.addConnection(conn);
             }
@@ -82,7 +82,7 @@ public class NeuralNetwork {
                 Node inNode = _nodes.get(firstInputNodeId + j);
                 Connection conn = new Connection(inNode.getId(), middleNode.getId(),
                         rand.nextDouble(), true,
-                        innovationNumberGenerator.nextInnovationNumber());
+                        innovationNumberGenerator.generate());
                 _connections.add(conn);
                 middleNode.addConnection(conn);
             }
@@ -127,7 +127,7 @@ public class NeuralNetwork {
     private void upsertConnection(Connection newConnection) {
         int index = findConnection(newConnection);
         if(index == -1){
-            newConnection.setInnovationNumber(innovationNumberGenerator.nextInnovationNumber());
+            newConnection.setInnovationNumber(innovationNumberGenerator.generate());
             _connections.add(newConnection);
         }
         else {

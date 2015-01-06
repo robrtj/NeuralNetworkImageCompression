@@ -24,11 +24,11 @@ public class MutationFactoryTest{
         nodes.add(node3);
 
         List<Connection> conns = new ArrayList<>();
-        InnovationNumber innovationNumber = new InnovationNumber();
+        InnovationIdGenerator innovationNumber = new InnovationIdGenerator();
         Connection conn1 = new Connection(node1.getId(), node2.getId(), 0.5, true);
         Connection conn2 = new Connection(node2.getId(), node3.getId(), 0.5, true);
-        conn1.setInnovationNumber(innovationNumber.nextInnovationNumber());
-        conn2.setInnovationNumber(innovationNumber.nextInnovationNumber());
+        conn1.setInnovationNumber(innovationNumber.generate());
+        conn2.setInnovationNumber(innovationNumber.generate());
         conns.add(conn1);
         conns.add(conn2);
 

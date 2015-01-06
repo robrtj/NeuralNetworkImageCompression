@@ -3,22 +3,22 @@ package pl.edu.pw.mini.nn.neat;
 /**
  * Created by Pawel on 2015-01-04.
  */
-public class InnovationNumber {
-    private static InnovationNumber instance = null;
+public class InnovationIdGenerator {
+    private static InnovationIdGenerator instance = null;
     private static long innovationNumber;
 
-    protected InnovationNumber() {
+    protected InnovationIdGenerator() {
         // Exists only to defeat instantiation.
     }
 
-    public static InnovationNumber getInstance() {
+    public static InnovationIdGenerator getInstance() {
         if (instance == null) {
-            instance = new InnovationNumber();
+            instance = new InnovationIdGenerator();
         }
         return instance;
     }
 
-    public long nextInnovationNumber(){
+    public long generate(){
         return innovationNumber++;
     }
 }
