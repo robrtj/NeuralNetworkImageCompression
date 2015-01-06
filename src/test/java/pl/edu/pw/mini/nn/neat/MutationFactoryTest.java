@@ -25,10 +25,10 @@ public class MutationFactoryTest{
 
         List<Connection> conns = new ArrayList<>();
         InnovationNumber innovationNumber = new InnovationNumber();
-        Connection conn1 = new Connection(node1.getId(), node2.getId(),
-                0.5, true, innovationNumber.nextInnovationNumber());
-        Connection conn2 = new Connection(node2.getId(), node3.getId(),
-                0.5, true, innovationNumber.nextInnovationNumber());
+        Connection conn1 = new Connection(node1.getId(), node2.getId(), 0.5, true);
+        Connection conn2 = new Connection(node2.getId(), node3.getId(), 0.5, true);
+        conn1.setInnovationNumber(innovationNumber.nextInnovationNumber());
+        conn2.setInnovationNumber(innovationNumber.nextInnovationNumber());
         conns.add(conn1);
         conns.add(conn2);
 

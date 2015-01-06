@@ -103,8 +103,8 @@ public class MutationFactory {
         Node middleNode = new Node(id, layerType);
 
         //dodanie wierzcholka i polaczen
-        Connection inConn = new Connection(conn.getIn(), id, conn.getWeight(), true, -1);
-        Connection outConn = new Connection(id, conn.getOut(), 1, true, -1);
+        Connection inConn = new Connection(conn.getIn(), id, conn.getWeight(), true);
+        Connection outConn = new Connection(id, conn.getOut(), 1, true);
         middleNode.addConnection(inConn);
 
         conn.disable();
@@ -123,8 +123,8 @@ public class MutationFactory {
         double inNodeId = net.get_nodes().get(in).getId();
         double outNodeId = net.get_nodes().get(out).getId();
 
-        Connection connection = new Connection(inNodeId, outNodeId, rand.nextDouble(),
-                true, -1);
+        Connection connection = new Connection(inNodeId, outNodeId,
+                rand.nextDouble(), true);
 
         if(checkCorrectnessOfConnection(net, connection)){
             net.addConnection(connection);

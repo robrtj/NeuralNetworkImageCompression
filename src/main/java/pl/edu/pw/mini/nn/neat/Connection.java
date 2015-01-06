@@ -12,16 +12,11 @@ public class Connection implements  Cloneable{
     private boolean enabled;
     private long innovationNumber;
 
-    public Connection(double in, double out, double weight, boolean enabled, long innovationNumber) {
+    public Connection(double in, double out, double weight, boolean enabled) {
         this.in = in;
         this.out = out;
         this.weight = weight;
         this.enabled = enabled;
-        this.innovationNumber = innovationNumber;
-    }
-
-    public Connection(int id) {
-        new Connection(0, 0, 0.0, false, id);
     }
 
     public double getIn() {
@@ -74,7 +69,9 @@ public class Connection implements  Cloneable{
     }
 
     public Connection clone(){
-        return new Connection(in, out, weight, enabled, innovationNumber);
+        Connection conn = new Connection(in, out, weight, enabled);
+        conn.setInnovationNumber(innovationNumber);
+        return conn;
     }
 
     public void disable() {
