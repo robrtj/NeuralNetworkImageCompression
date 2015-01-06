@@ -55,7 +55,7 @@ public class MutationFactoryTest{
         for (int i = 0; i < 10; i++) {
             List<Double> weights = getConnectionWeight(net);
             boolean actual = mutationFactory.addConnection(net);
-            if( actual == false){
+            if(!actual){
                 continue;
             }
             boolean expected = net.get_connections().size() == size + 1;
@@ -110,9 +110,42 @@ public class MutationFactoryTest{
         NeuralNetwork net = createSimpleNetwork();
         MutationFactory mutationFactory = new MutationFactory();
 
-        for (int i = 0; i < net.get_connections().size(); i++) {
+        for (int i = 0; i < 10; i++) {
+            int nodeCounter_before = net.get_nodes().size();
+            int connCounter_before = net.get_connections().size();
+            List<Node> nodeIds = new LinkedList<>();
+            nodeIds.addAll(net.get_nodes());
+
             boolean actual = mutationFactory.addNode(net);
-            assertEquals(true, actual);
+            if(!actual){
+                continue;
+            }
+            int nodeCounter_after = net.get_nodes().size();
+            int connCounter_after = net.get_connections().size();
+
+            assertEquals(nodeCounter_before + 1, nodeCounter_after);
+            assertEquals(connCounter_before + 2, connCounter_after);
+
+            //check if new node is connected with new edges
+            Node newNode = null;
+            for(Node node : net.get_nodes()){
+                if(!nodeIds.contains(node)){
+                    newNode = node;
+                    break;
+                }
+            }
+            List<Connection> conns = newNode.getInputConnections();
+            assertEquals(1, conns.size());
+            Connection conn = newNode.getInputConnections().get(0);
+            assertEquals(newNode.getId(), conn.getOut(), 0.0d);
+            int outsCounter = 0;
+            for(Connection con : net.get_connections()){
+                if(con.getIn() == newNode.getId()){
+                    outsCounter++;
+                }
+            }
+            assertEquals(1, outsCounter);
+
         }
     }
 }
