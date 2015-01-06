@@ -1,7 +1,5 @@
 package pl.edu.pw.mini.nn.neat;
 
-import org.encog.engine.network.activation.ActivationFunction;
-
 import java.util.ArrayList;
 import java.util.List;
 
