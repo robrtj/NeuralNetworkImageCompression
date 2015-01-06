@@ -28,8 +28,7 @@ public class NeuralNetworkTest {
         nodes.add(2, new Node(5, LayerType.Compression));
         assertEquals(nodes.size(), nn.get_nodes().size());
         assertEquals(nodes.get(0), nn.get_nodes().get(0));
-        assertEquals(nodes.get(2), nn.get_nodes().get(2));
-        assertEquals(nodes.get(3), nn.get_nodes().get(3));
+        assertEquals(nodes.get(3), nn.get_nodes().get(2));
     }
 
     @Test
