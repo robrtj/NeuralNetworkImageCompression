@@ -40,13 +40,11 @@ public class NeuralNetwork {
         this.intermediateLayerSize = intermediateLayerSize;
     }
 
-    //TODO
     void addNode(Node newNode) {
         _nodes.add(newNode);
     }
 
     void addConnection(Connection newConnection) {
-        newConnection.setInnovationNumber(innovationNumberGenerator.nextInnovationNumber());
         upsertConnection(newConnection);
     }
 
@@ -55,16 +53,17 @@ public class NeuralNetwork {
     //by bylo szybciej zamienic pola w krawedzi
     //oznaczajace id wierzcholka na referencje
     private void upsertConnection(Connection newConnection) {
-        int index = getConnectionIndex(newConnection);
+        int index = findConnection(newConnection);
         if(index == -1){
+            newConnection.setInnovationNumber(innovationNumberGenerator.nextInnovationNumber());
             _connections.add(newConnection);
         }
         else {
-            _connections.add(index, newConnection);
+            updateWeight(index, newConnection.getWeight());
         }
     }
 
-    private int getConnectionIndex(Connection newConnection) {
+    private int findConnection(Connection newConnection) {
         int index = -1;
         for (int i = 0; i < _connections.size(); i++) {
             Connection conn = getConnection(i);
