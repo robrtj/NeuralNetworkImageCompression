@@ -1,19 +1,19 @@
 package pl.edu.pw.mini.nn.neat;
 
-public class ActivationUniPolar implements ActivationFunction{
+public class ActivationBiPolar implements ActivationFunction{
     private double a;
 
-    public ActivationUniPolar(){
+    public ActivationBiPolar(){
         this(0);
     }
 
-    ActivationUniPolar(double a){
+    ActivationBiPolar(double a){
         this.a = a;
     }
 
     @Override
     public double compute(double input) {
-        return input < a ? 0 : 1;
+        return input < a ? -1 : 1;
     }
 
     public double getA() {
@@ -24,4 +24,3 @@ public class ActivationUniPolar implements ActivationFunction{
         this.a = a;
     }
 }
-
