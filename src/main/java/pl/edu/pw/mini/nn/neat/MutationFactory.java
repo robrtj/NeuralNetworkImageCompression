@@ -95,14 +95,14 @@ public class MutationFactory {
         int index = randGenerator.nextInt(connectionCounter);
         Connection conn = net.getConnection(index);
 
-        double id = conn.getIn() + (conn.getOut() - conn.getIn()) * randGenerator.nextDouble();
-        LayerType layerType = conn.getOut()<=net.getLastIntermediateLayerNodeId()
+        double id = conn.getInId() + (conn.getOutId() - conn.getInId()) * randGenerator.nextDouble();
+        LayerType layerType = conn.getOutId() <= net.getLastIntermediateLayerNodeId()
                 ? LayerType.Compression : LayerType.Decompression;
         Node middleNode = new Node(id, layerType);
 
         //dodanie wierzcholka i polaczen
-        Connection inConn = new Connection(conn.getIn(), id, conn.getWeight(), true);
-        Connection outConn = new Connection(id, conn.getOut(), 1, true);
+        Connection inConn = new Connection(conn.getIn(), middleNode, conn.getWeight(), true);
+        Connection outConn = new Connection(middleNode, conn.getOut(), 1, true);
         middleNode.addConnection(inConn);
 
         conn.disable();
@@ -116,8 +116,8 @@ public class MutationFactory {
     public boolean addConnection(NeuralNetwork net) {
         int in = randGenerator.nextInt(net.get_nodes().size());
         int out = randGenerator.nextInt(net.get_nodes().size());
-        double inNodeId = net.get_nodes().get(in).getId();
-        double outNodeId = net.get_nodes().get(out).getId();
+        Node inNodeId = net.get_nodes().get(in);
+        Node outNodeId = net.get_nodes().get(out);
 
         Connection connection = new Connection(inNodeId, outNodeId,
                 randGenerator.nextDouble(), true);
@@ -131,12 +131,12 @@ public class MutationFactory {
 
     //private
     public boolean checkCorrectnessOfConnection(NeuralNetwork net, Connection connection) {
-        if(connection.getIn() >= connection.getOut()){
+        if(connection.getInId() >= connection.getOutId()){
             return false;
         }
 
-        Node in = net.getNodeById(connection.getIn());
-        Node out = net.getNodeById(connection.getOut());
+        Node in = connection.getIn();
+        Node out = connection.getOut();
         if( in.getLayerType() == LayerType.Output){
             return false;
         }
@@ -147,7 +147,6 @@ public class MutationFactory {
                 && out.getLayerType() == LayerType.Intermediate ){
             return false;
         }
-
         return true;
     }
 
@@ -159,7 +158,6 @@ public class MutationFactory {
                 return key;
             }
         }
-
         return null;
     }
 

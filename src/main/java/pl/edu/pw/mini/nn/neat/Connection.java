@@ -6,40 +6,37 @@ import java.util.Comparator;
  * Created by Pawel on 2014-12-04.
  */
 public class Connection implements  Cloneable{
-    private double in;
-    private double out;
+    private Node in;
+    private Node out;
     private double weight;
     private boolean enabled;
     private long innovationNumber;
 
-    public Connection(double in, double out, double weight, boolean enabled) {
+    public Connection(Node in, Node out, double weight, boolean enabled) {
         this.in = in;
         this.out = out;
         this.weight = weight;
         this.enabled = enabled;
     }
 
-    public Connection(double in, double out, double weight, boolean enabled, long innovationNumber) {
-        this.in = in;
-        this.out = out;
-        this.weight = weight;
-        this.enabled = enabled;
+    public Connection(Node in, Node out, double weight, boolean enabled, long innovationNumber) {
+        this(in, out, weight, enabled);
         this.innovationNumber = innovationNumber;
     }
 
-    public double getIn() {
+    public Node getIn() {
         return in;
     }
 
-    public void setIn(double in) {
+    public void setIn(Node in) {
         this.in = in;
     }
 
-    public double getOut() {
+    public Node getOut() {
         return out;
     }
 
-    public void setOut(double out) {
+    public void setOut(Node out) {
         this.out = out;
     }
 
@@ -86,5 +83,13 @@ public class Connection implements  Cloneable{
 
     public void disable() {
         setEnabled(false);
+    }
+
+    public double getInId() {
+        return in.getId();
+    }
+
+    public double getOutId() {
+        return out.getId();
     }
 }

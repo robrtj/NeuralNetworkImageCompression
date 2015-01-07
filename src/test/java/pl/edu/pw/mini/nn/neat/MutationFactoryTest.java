@@ -25,8 +25,8 @@ public class MutationFactoryTest{
 
         List<Connection> conns = new ArrayList<>();
         InnovationIdGenerator innovationNumber = new InnovationIdGenerator();
-        Connection conn1 = new Connection(node1.getId(), node2.getId(), 0.5, true);
-        Connection conn2 = new Connection(node2.getId(), node3.getId(), 0.5, true);
+        Connection conn1 = new Connection(node1, node2, 0.5, true);
+        Connection conn2 = new Connection(node2, node3, 0.5, true);
         conn1.setInnovationNumber(innovationNumber.generate());
         conn2.setInnovationNumber(innovationNumber.generate());
         conns.add(conn1);
@@ -93,6 +93,9 @@ public class MutationFactoryTest{
         MutationFactory mutationFactory = new MutationFactory();
 
         Connection con = net.getConnection(0);
+        Node a = new Node(con.getIn());
+        a.setLayerType(LayerType.Output);
+        con.setIn(a);
         net.get_nodes().remove(0);
         net.get_nodes().add(0, new Node(1, LayerType.Output));
         boolean actual = mutationFactory.checkCorrectnessOfConnection(net, con);
@@ -137,15 +140,14 @@ public class MutationFactoryTest{
             List<Connection> conns = newNode.getInputConnections();
             assertEquals(1, conns.size());
             Connection conn = newNode.getInputConnections().get(0);
-            assertEquals(newNode.getId(), conn.getOut(), 0.0d);
+            assertEquals(newNode.getId(), conn.getOutId(), 0.0d);
             int outsCounter = 0;
             for(Connection con : net.get_connections()){
-                if(con.getIn() == newNode.getId()){
+                if(con.getInId() == newNode.getId()){
                     outsCounter++;
                 }
             }
             assertEquals(1, outsCounter);
-
         }
     }
 }

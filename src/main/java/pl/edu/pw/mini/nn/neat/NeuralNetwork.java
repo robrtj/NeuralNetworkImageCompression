@@ -62,7 +62,7 @@ public class NeuralNetwork {
             Node outNode = _nodes.get(i);
             for (int j = 0; j < intermediateLayerSize; j++) {
                 Node middleNode = _nodes.get(firstMiddleNodeId + j);
-                Connection conn = new Connection(middleNode.getId(), outNode.getId(),
+                Connection conn = new Connection(middleNode, outNode,
                         rand.nextDouble(), true,
                         innovationNumberGenerator.generate());
                 _connections.add(conn);
@@ -80,7 +80,7 @@ public class NeuralNetwork {
             Node middleNode = _nodes.get(firstMiddleNodeId + i);
             for (int j = 0; j < inputLayerSize; j++) {
                 Node inNode = _nodes.get(firstInputNodeId + j);
-                Connection conn = new Connection(inNode.getId(), middleNode.getId(),
+                Connection conn = new Connection(inNode, middleNode,
                         rand.nextDouble(), true,
                         innovationNumberGenerator.generate());
                 _connections.add(conn);

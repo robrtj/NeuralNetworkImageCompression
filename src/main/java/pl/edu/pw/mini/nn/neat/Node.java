@@ -25,12 +25,21 @@ public class Node {
         this.inputConnections.addAll(inputConnections);
     }
 
+    public Node(Node node) {
+        this(node.id, node.getLayerType(), node.getInputConnections());
+        this.weight = node.getWeight();
+    }
+
     public double getId() {
         return id;
     }
 
     public LayerType getLayerType() {
         return layerType;
+    }
+
+    public void setLayerType(LayerType layerType) {
+        this.layerType = layerType;
     }
 
     public List<Connection> getInputConnections() {
