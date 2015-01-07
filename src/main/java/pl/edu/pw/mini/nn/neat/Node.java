@@ -60,7 +60,7 @@ public class Node {
         return activationFunction.getValue();
     }
 
-    public void addValue(double weight) {
+    public void addWeight(double weight) {
         activationFunction.addInput(weight);
     }
 
