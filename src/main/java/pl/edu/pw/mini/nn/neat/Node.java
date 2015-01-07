@@ -1,5 +1,8 @@
 package pl.edu.pw.mini.nn.neat;
 
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,24 +13,23 @@ public class Node {
     private double id;
     private LayerType layerType;
     private List<Connection> inputConnections;
-    private int weight;
-
     private ActivationFunction activationFunction;
 
     public Node(double id, LayerType layerType) {
         this.id = id;
         this.layerType = layerType;
         this.inputConnections = new ArrayList<>();
+        activationFunction = new ActivationUniPolar();
     }
 
-    public Node(double id, LayerType layerType, List<Connection> inputConnections) {
+    public Node(double id, LayerType layerType, List<Connection> inputConnections, ActivationFunction activationFunction) {
         this(id, layerType);
         this.inputConnections.addAll(inputConnections);
+        this.activationFunction = activationFunction;
     }
 
     public Node(Node node) {
-        this(node.id, node.getLayerType(), node.getInputConnections());
-        this.weight = node.getWeight();
+        this(node.id, node.getLayerType(), node.getInputConnections(), node.getActivationFunction());
     }
 
     public double getId() {
@@ -46,12 +48,20 @@ public class Node {
         return inputConnections;
     }
 
-    public int getWeight() {
-        return weight;
+    public ActivationFunction getActivationFunction() {
+        return activationFunction;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setActivationFunction(ActivationFunction activationFunction) {
+        this.activationFunction = activationFunction;
+    }
+
+    public double getWeight() {
+        return activationFunction.getValue();
+    }
+
+    public void addValue(double weight) {
+        activationFunction.addInput(weight);
     }
 
     @Override
