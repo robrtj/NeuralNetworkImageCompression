@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  */
 public class NeatPopulation {
     private List<NeuralNetwork> Species;
-    private double[][] image;
+    private double[] image;
     private MutationFactory mutationFactory;
 
     //neat params
@@ -25,12 +25,12 @@ public class NeatPopulation {
     //TODO
     //network params
 
-    NeatPopulation(){
+    NeatPopulation() {
         Species = new LinkedList<>();
         mutationFactory = new MutationFactory();
     }
 
-    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio){
+    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio) {
         this();
 
         this.numberOfSpecies = numberOfSpecies;
@@ -40,7 +40,7 @@ public class NeatPopulation {
     }
 
     //TODO
-    public void setNetworkParameters(){
+    public void setNetworkParameters() {
     }
 
     public List<NeuralNetwork> getSpecies() {
@@ -51,11 +51,11 @@ public class NeatPopulation {
         Species = species;
     }
 
-    public void setImage(double[][] image) {
+    public void setImage(double[] image) {
         this.image = image;
     }
 
-    public void generateFirstPopulation(int inputLayerSize, int middleLayerSize){
+    public void generateFirstPopulation(int inputLayerSize, int middleLayerSize) {
         Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
             NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize);
@@ -63,26 +63,31 @@ public class NeatPopulation {
         }
     }
 
-    public double[][] computeImage(double[][] image, int inputLayerSize, int middleLayerSize){
+    public double[] computeImage(double[] image, int inputLayerSize, int middleLayerSize) {
         setImage(image);
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
         for (int i = 0; i < maxIteration; i++) {
             iteration();
-            if(getBestFitness() < maxError){
+            if (getBestFitness() < maxError) {
                 break;
             }
         }
 
-        return getBestCompressedImage();
+        return getOutputImage();
     }
 
     //TODO
-    private double[][] getBestCompressedImage() {
-        return new double[0][];
+    public double[] getOutputImage() {
+        return new double[0];
     }
 
-    private double iteration(){
+    //TODO
+    public double[] getCompressedImage() {
+        return new double[0];
+    }
+
+    private double iteration() {
         mutation();
         crossover();
         generateNextPopulation();
@@ -106,11 +111,11 @@ public class NeatPopulation {
         }
     }
 
-    class NeuralNetworkFitness implements Comparable<NeuralNetworkFitness>{
+    class NeuralNetworkFitness implements Comparable<NeuralNetworkFitness> {
         double fitness;
         NeuralNetwork net;
 
-        NeuralNetworkFitness(double fitness, NeuralNetwork net){
+        NeuralNetworkFitness(double fitness, NeuralNetwork net) {
             this.fitness = fitness;
             this.net = net;
         }
@@ -123,7 +128,7 @@ public class NeatPopulation {
 
     private double getBestFitness() {
         double bestFitness = Double.POSITIVE_INFINITY;
-        for (NeuralNetwork net : Species){
+        for (NeuralNetwork net : Species) {
             double fitness = net.fitnessFunction(image);
             bestFitness = bestFitness < fitness ? bestFitness : fitness;
         }
@@ -136,8 +141,8 @@ public class NeatPopulation {
 
     private void mutation() {
         Random rand = new Random();
-        for(NeuralNetwork net : Species){
-            if(rand.nextDouble() < mutationRatio){
+        for (NeuralNetwork net : Species) {
+            if (rand.nextDouble() < mutationRatio) {
                 mutationFactory.mutate(net);
             }
         }

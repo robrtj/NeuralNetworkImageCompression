@@ -10,23 +10,32 @@ repositories {
     mavenCentral()
 }
 
-task(runMainWithArg33, group: 'NN',
-        description: 'Run main with argument: 33',
+task(runMainForLenaDefault, group: 'NN',
+        description: 'Run main Lena Default',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
-    int neurons_count = 33
-    args neurons_count
+    String imagePath = "lena_1.png"
+    int inputLayerSize = 64
+    int middleLayerSize = 50
+    int numberOfSpecies = 20
+    int maxIteration = 500
+    double maxError = 0.0001
+    double mutationRatio = 0.6
+    args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio
     classpath = sourceSets.main.runtimeClasspath
 }
 
 
-task(runMainWithTwoArguments, group: 'NN',
-        description: 'Run main with 2 arguments',
+task(runMainNotEveryArguments, group: 'NN',
+        description: 'There is no some of arguments - intentionally',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
-    int neurons_count = 20
-    int iterations = 1000
-    args neurons_count, iterations
+    String imagePath = "lena_1.png"
+    int inputLayerSize = 64
+    int middleLayerSize = 50
+    int numberOfSpecies = 20
+    int maxIteration = 500
+    args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration
     classpath = sourceSets.main.runtimeClasspath
 }
 

@@ -96,6 +96,10 @@ public class GrayImageParser {
         this.parseImageToNetworkImage(INPUT_SIZE);
     }
 
+    public void saveNetworkOutputAsImage(double[] output, int outputBlockSize, String path) {
+
+    }
+
     public double[] getNetworkInput() {
         return _networkInput;
     }

@@ -25,7 +25,7 @@ public class MutationFactory {
         double threshold = 0.0d;
         int count = MutationType.values().length;
         for (MutationType type : MutationType.values()) {
-            mutationTypes.put(type, (double) (1 / count));
+            mutationTypes.put(type, (double) (1.0 / count));
         }
     }
 
