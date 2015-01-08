@@ -29,7 +29,7 @@ public class MainClass {
 
         NeatPopulation pupulation = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio);
         GrayImageParser imageParser = new GrayImageParser(imagePath, false);
-        double[] output = pupulation.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
+        double[][] output = pupulation.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
         imageParser.saveNetworkOutputAsImage(output, inputLayerSize, "out.png");
     }
 }

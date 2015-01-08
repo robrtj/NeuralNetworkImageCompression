@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  */
 public class NeatPopulation {
     private List<NeuralNetwork> Species;
-    private double[] image;
+    private double[][] image;
     private MutationFactory mutationFactory;
 
     //neat params
@@ -51,7 +51,7 @@ public class NeatPopulation {
         Species = species;
     }
 
-    public void setImage(double[] image) {
+    public void setImage(double[][] image) {
         this.image = image;
     }
 
@@ -63,7 +63,7 @@ public class NeatPopulation {
         }
     }
 
-    public double[] computeImage(double[] image, int inputLayerSize, int middleLayerSize) {
+    public double[][] computeImage(double[][] image, int inputLayerSize, int middleLayerSize) {
         setImage(image);
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
@@ -78,13 +78,13 @@ public class NeatPopulation {
     }
 
     //TODO
-    public double[] getOutputImage() {
-        return new double[0];
+    public double[][] getOutputImage() {
+        return new double[0][0];
     }
 
     //TODO
-    public double[] getCompressedImage() {
-        return new double[0];
+    public double[][] getCompressedImage() {
+        return new double[0][0];
     }
 
     private double iteration() {

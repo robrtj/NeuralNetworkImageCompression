@@ -148,7 +148,7 @@ public class NeuralNetwork {
     }
 
     //TODO
-    public double fitnessFunction(double[] input) {
+    public double fitnessFunction(double[][] input) {
 
         return 0.0;
     }

@@ -19,7 +19,7 @@ public class GrayImageParser {
     private int _grayTable[][];
 
     private static int INPUT_SIZE = 64;
-    private double _networkInput[];
+    private double _networkInput[][];
     private int _width;
     private int _height;
     private boolean _isBipolar = false;
@@ -65,42 +65,38 @@ public class GrayImageParser {
         if (PixelsCount % inputLength != 0) {
             throw new Exception("Image is not divisible by input length " + inputLength);
         }
-        int blockCount = PixelsCount/inputLength;
-        _networkInput = new double[blockCount];
-        for (int i = 0; i < blockCount; i++) {
-            _networkInput[i] = 0;
-        }
-
+        int blocksCount = PixelsCount / inputLength;
+        _networkInput = new double[blocksCount][inputLength];
         int pixelsBlockWidth = (int) Math.sqrt(inputLength);
+        int widthDivBlockWidth = _width / pixelsBlockWidth;
 
         for (int i = 0; i < _width; ++i) {
             for (int j = 0; j < _height; ++j) {
                 //+1 because don't want to have 0
-                _networkInput[i - i % pixelsBlockWidth + j - j % pixelsBlockWidth] += _grayTable[i][j] + 1;
+                int pixelBlockNumber = (i / pixelsBlockWidth) * widthDivBlockWidth + j / pixelsBlockWidth;
+                int numberOfPixelInBlock = (i % pixelsBlockWidth) * pixelsBlockWidth + j % pixelsBlockWidth;
+                _networkInput[pixelBlockNumber][numberOfPixelInBlock] = (1.0 + _grayTable[i][j]) / 256;
             }
-        }
-
-        for (int i = 0; i < blockCount; i++) {
-            _networkInput[i] /= 256 * inputLength;
         }
 
         if (_isBipolar) {
-            for (int i = 0; i < blockCount; i++) {
-                _networkInput[i] = _networkInput[i] * 2 - 1;
+            for (int i = 0; i < blocksCount; i++) {
+                for (int j = 0; j < inputLength; j++) {
+                    _networkInput[i][j] = _networkInput[i][j] * 2 - 1;
+                }
             }
         }
     }
-
 
     private void parseImageToNetworkImage() throws Exception {
         this.parseImageToNetworkImage(INPUT_SIZE);
     }
 
-    public void saveNetworkOutputAsImage(double[] output, int outputBlockSize, String path) {
+    public void saveNetworkOutputAsImage(double[][] output, int outputBlockSize, String path) {
 
     }
 
-    public double[] getNetworkInput() {
+    public double[][] getNetworkInput() {
         return _networkInput;
     }
 }
