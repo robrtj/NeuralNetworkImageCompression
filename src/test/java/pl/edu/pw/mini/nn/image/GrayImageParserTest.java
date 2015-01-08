@@ -7,13 +7,19 @@ import static org.junit.Assert.*;
 public class GrayImageParserTest {
 
     @Test
-    public void testGetNetworkInput() throws Exception {
+    public void testGetNetworkInputBlack8x8() throws Exception {
         GrayImageParser tester = new GrayImageParser("black8x8.png", false);
-        double[][] output;
-        output = new double[1][64];
-        for (int j = 0; j < 64; j++) {
-            output[0][j] = 0;
+        double[] output;
+        output = new double[1];
+        for (int j = 0; j < 1; j++) {
+            output[j] = 1.0/256;
         }
-        assertArrayEquals(output, tester.getNetworkInput());
+        assertArrayEquals(output, tester.getNetworkInput(), 0.00000001);
+    }
+
+    @Test
+    public void testGetNetworkInputLenaBlockCount() throws Exception {
+        GrayImageParser tester = new GrayImageParser("lena_1.png", false);
+        assertEquals(1024, tester.getNetworkInput().length);
     }
 }
