@@ -121,6 +121,7 @@ public class NeuralNetwork {
         if(!wrapper.found){
             newConnection.setInnovationNumber(innovationNumberGenerator.generate());
             _connections.add(newConnection);
+            newConnection.getOut().addConnection(newConnection);
         }
         else {
             updateConnection(wrapper.connection, newConnection);
@@ -153,8 +154,14 @@ public class NeuralNetwork {
 
     //TODO
     public double fitnessFunction(double[][] input) {
+        compute(input);
 
         return 0.0;
+    }
+
+    //TODO
+    private void compute(double[][] input) {
+
     }
 
     public List<Node> get_nodes() {
