@@ -77,7 +77,7 @@ public class MutationFactory {
         int sample = randGenerator.nextInt(connectionCounter);
 
         double weight = randGenerator.nextDouble();
-        net.updateWeight(sample, weight);
+        net.updateConnectionWeight(sample, weight);
         return true;
     }
 

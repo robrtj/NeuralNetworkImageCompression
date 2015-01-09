@@ -117,22 +117,26 @@ public class NeuralNetwork {
     }
 
     void addConnection(Connection newConnection) {
-        upsertConnection(newConnection);
-    }
-
-    //TODO
-    //sprawdzenie, czy krawedz juz istnieje,
-    //by bylo szybciej zamienic pola w krawedzi
-    //oznaczajace id wierzcholka na referencje
-    private void upsertConnection(Connection newConnection) {
-        int index = findConnection(newConnection);
-        if(index == -1){
+        FoundConnectionWrapper wrapper = checkConnectionExists(newConnection);
+        if(!wrapper.found){
             newConnection.setInnovationNumber(innovationNumberGenerator.generate());
             _connections.add(newConnection);
         }
         else {
-            updateWeight(index, newConnection.getWeight());
+            updateConnection(wrapper.connection, newConnection);
         }
+    }
+
+    private FoundConnectionWrapper checkConnectionExists(Connection connection) {
+        Node inNode = connection.getIn();
+        Node outNode = connection.getOut();
+
+        FoundConnectionWrapper wrapper;
+        for (Connection inConnection : inNode.getInputConnections())
+            if (inConnection.getOut() == outNode) {
+                return new FoundConnectionWrapper(true, inConnection);
+            }
+        return new FoundConnectionWrapper(false, null);
     }
 
     private int findConnection(Connection newConnection) {
@@ -165,14 +169,12 @@ public class NeuralNetwork {
         return _connections.get(index);
     }
 
-    public boolean updateWeight(int index, double weight) {
-        try {
-            _connections.get(index).setWeight(weight);
-        }
-        catch (IndexOutOfBoundsException e){
-            return false;
-        }
-        return true;
+    public void updateConnectionWeight(int connection, double updatedConnection) {
+        _connections.get(connection).setWeight(updatedConnection);
+    }
+
+    public void updateConnection(Connection connection, Connection updatedConnection) {
+        connection.setWeight(updatedConnection.getWeight());
     }
 
     public Node getNode(int index) {
@@ -194,5 +196,17 @@ public class NeuralNetwork {
 
     public double getLastIntermediateLayerNodeId() {
         return inputLayerSize + intermediateLayerSize;
+    }
+
+
+
+    private class FoundConnectionWrapper {
+        private final Connection connection;
+        private final boolean found;
+
+        FoundConnectionWrapper(boolean found, Connection connection){
+            this.found = found;
+            this.connection = connection;
+        }
     }
 }
