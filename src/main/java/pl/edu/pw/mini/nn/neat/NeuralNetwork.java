@@ -231,7 +231,8 @@ public class NeuralNetwork {
     class NodeByIdComparator implements Comparator<Node> {
         @Override
         public int compare(Node a, Node b) {
-            return (int) (a.getId() - b.getId());
+            double diff = a.getId() - b.getId();
+            return diff < 0 ? -1 : diff == 0 ? 0 : 1;
         }
     }
 
