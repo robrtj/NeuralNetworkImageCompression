@@ -154,14 +154,33 @@ public class NeuralNetwork {
 
     //TODO
     public double fitnessFunction(double[][] input) {
-        compute(input);
+        double fitness = 0.0d;
 
-        return 0.0;
+        for (double[] anInput : input) {
+            compute(anInput);
+            fitness += computeError();
+        }
+        return fitness;
+    }
+
+    private double computeError() {
+        double error = 0.0d;
+        int size = _nodes.size();
+        for (int i = 0; i < inputLayerSize; i++) {
+            double inValue = _nodes.get(i).getWeight();
+            double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
+            error += Math.pow(inValue-outValue, 2);
+        }
+        return error;
     }
 
     //TODO
-    private void compute(double[][] input) {
+    private void compute(double[] input) {
+        sortNodeById(_nodes);
+    }
 
+    //TODO
+    private void sortNodeById(List<Node> nodes) {
     }
 
     public List<Node> get_nodes() {
