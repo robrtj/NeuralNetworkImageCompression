@@ -151,8 +151,7 @@ public class NeuralNetwork {
         }
         return index;
     }
-
-    //TODO
+    
     public double fitnessFunction(double[][] input) {
         double fitness = 0.0d;
 
@@ -163,6 +162,9 @@ public class NeuralNetwork {
         return fitness;
     }
 
+    //assume that input nodes are on the begin of list _nodes
+    //and output nodes are at the end of list
+    //otherwise we must find all input and output nodes before
     private double computeError() {
         double error = 0.0d;
         int size = _nodes.size();
