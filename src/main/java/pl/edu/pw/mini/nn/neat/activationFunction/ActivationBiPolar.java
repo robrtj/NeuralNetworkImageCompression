@@ -5,6 +5,7 @@ public class ActivationBiPolar extends ActivationFunction{
 
     public ActivationBiPolar(){
         this(0);
+        bipolar = true;
     }
 
     @Override

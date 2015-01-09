@@ -5,9 +5,11 @@ package pl.edu.pw.mini.nn.neat.activationFunction;
  */
 public abstract class ActivationFunction {
     double sum;
+    boolean bipolar;
 
     protected ActivationFunction(){
         sum =0;
+        bipolar = false;
     }
 
     public void addInput(double input){
