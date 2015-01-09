@@ -151,7 +151,7 @@ public class NeuralNetwork {
         }
         return index;
     }
-    
+
     public double fitnessFunction(double[][] input) {
         double fitness = 0.0d;
 
@@ -181,8 +181,8 @@ public class NeuralNetwork {
         sortNodeById(_nodes);
     }
 
-    //TODO
     private void sortNodeById(List<Node> nodes) {
+        _nodes.sort(new NodeByIdComparator());
     }
 
     public List<Node> get_nodes() {
@@ -228,7 +228,14 @@ public class NeuralNetwork {
 
 
 
-    private class FoundConnectionWrapper {
+    class NodeByIdComparator implements Comparator<Node> {
+        @Override
+        public int compare(Node a, Node b) {
+            return (int) (a.getId() - b.getId());
+        }
+    }
+
+    class FoundConnectionWrapper {
         private final Connection connection;
         private final boolean found;
 
