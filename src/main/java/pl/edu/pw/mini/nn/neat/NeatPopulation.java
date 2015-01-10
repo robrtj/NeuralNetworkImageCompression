@@ -13,6 +13,7 @@ public class NeatPopulation {
     private List<NeuralNetwork> Species;
     private double[][] image;
     private MutationFactory mutationFactory;
+    private Random randomGenerator = new Random();
 
     //neat params
     private int numberOfSpecies;
@@ -97,7 +98,6 @@ public class NeatPopulation {
     }
 
     private void generateNextPopulation() {
-
         List<NeuralNetworkFitness> tuples = new LinkedList<>();
         for (int i = 0; i < size(); i++) {
             NeuralNetwork net = Species.get(i);
@@ -105,25 +105,9 @@ public class NeatPopulation {
             tuples.add(new NeuralNetworkFitness(fitness, net));
         }
         Collections.sort(tuples);
-
         Species = new LinkedList<>();
         for (int i = 0; i < size(); i++) {
             Species.add(tuples.get(i).net);
-        }
-    }
-
-    class NeuralNetworkFitness implements Comparable<NeuralNetworkFitness> {
-        double fitness;
-        NeuralNetwork net;
-
-        NeuralNetworkFitness(double fitness, NeuralNetwork net) {
-            this.fitness = fitness;
-            this.net = net;
-        }
-
-        @Override
-        public int compareTo(NeuralNetworkFitness o) {
-            return fitness < o.fitness ? -1 : 1;
         }
     }
 
@@ -140,12 +124,16 @@ public class NeatPopulation {
 
     //TODO
     private void crossover() {
+        for (NeuralNetwork net : Species) {
+            if (randomGenerator.nextDouble() < crossoverRatio) {
+
+            }
+        }
     }
 
     private void mutation() {
-        Random rand = new Random();
         for (NeuralNetwork net : Species) {
-            if (rand.nextDouble() < mutationRatio) {
+            if (randomGenerator.nextDouble() < mutationRatio) {
                 mutationFactory.mutate(net);
             }
         }
@@ -159,6 +147,21 @@ public class NeatPopulation {
         return Species.size();
     }
 
+
+    class NeuralNetworkFitness implements Comparable<NeuralNetworkFitness> {
+        double fitness;
+        NeuralNetwork net;
+
+        NeuralNetworkFitness(double fitness, NeuralNetwork net) {
+            this.fitness = fitness;
+            this.net = net;
+        }
+
+        @Override
+        public int compareTo(NeuralNetworkFitness o) {
+            return fitness < o.fitness ? -1 : 1;
+        }
+    }
 
     class FitnessNetworkWrapper {
         private final double fitness;
