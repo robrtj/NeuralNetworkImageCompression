@@ -18,4 +18,3 @@ public abstract class ActivationFunction {
 
     public abstract double getValue();
 }
-

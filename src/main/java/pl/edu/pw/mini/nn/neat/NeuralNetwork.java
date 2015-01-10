@@ -1,5 +1,7 @@
 package pl.edu.pw.mini.nn.neat;
 
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
+
 import java.util.*;
 
 /**
@@ -176,9 +178,24 @@ public class NeuralNetwork {
         return error;
     }
 
-    //TODO
+    //assume that input is in activation function domain
     private void compute(double[] input) {
         sortNodeById(_nodes);
+
+        //set input values
+        for (int i = 0; i < inputLayerSize; i++) {
+            Node node = getNode(i);
+            node.addWeight(input[i]);
+        }
+
+        //compute rest nodes
+        for (int i = inputLayerSize; i < _nodes.size(); i++) {
+            Node node = getNode(i);
+            List<Connection> nodeInputs = node.getInputConnections();
+            for (Connection conn : nodeInputs) {
+                node.addWeight(conn.getWeight() * conn.getIn().getWeight());
+            }
+        }
     }
 
     private void sortNodeById(List<Node> nodes) {
