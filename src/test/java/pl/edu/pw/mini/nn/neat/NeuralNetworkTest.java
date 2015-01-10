@@ -44,4 +44,9 @@ public class NeuralNetworkTest {
 //        assertEquals(0, net.getNode(0).getInputConnections().size());
 //        assertEquals(2, net.getNode(2).getInputConnections().size());
     }
+
+    @Test
+    public void testSortNodeById(){
+
+    }
 }

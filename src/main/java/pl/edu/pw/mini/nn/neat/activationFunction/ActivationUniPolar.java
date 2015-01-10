@@ -1,27 +1,26 @@
 package pl.edu.pw.mini.nn.neat.activationFunction;
 
-public class ActivationUniPolar extends ActivationFunction{
-    private double a;
+public class ActivationUniPolar extends ActivationFunction {
+    private double threshold;
 
-    public ActivationUniPolar(){
+    public ActivationUniPolar() {
         this(0);
     }
 
     @Override
     public double getValue() {
-        return sum < a ? -1 : 1;
+        return sum < threshold ? -1 : 1;
     }
 
-    ActivationUniPolar(double a){
-        this.a = a;
+    ActivationUniPolar(double threshold) {
+        this.threshold = threshold;
     }
 
-    public double getA() {
-        return a;
+    public double getThreshold() {
+        return threshold;
     }
 
-    public void setA(double a) {
-        this.a = a;
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
     }
 }
-

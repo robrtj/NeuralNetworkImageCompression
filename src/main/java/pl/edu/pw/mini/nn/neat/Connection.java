@@ -1,43 +1,41 @@
 package pl.edu.pw.mini.nn.neat;
 
-import java.util.Comparator;
-
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Connection implements  Cloneable{
-    private Node in;
-    private Node out;
+public class Connection implements  Cloneable {
+    private Node from;
+    private Node to;
     private double weight;
     private boolean enabled;
     private long innovationNumber;
 
-    public Connection(Node in, Node out, double weight, boolean enabled) {
-        this.in = in;
-        this.out = out;
+    public Connection(Node from, Node to, double weight, boolean enabled) {
+        this.from = from;
+        this.to = to;
         this.weight = weight;
         this.enabled = enabled;
     }
 
-    public Connection(Node in, Node out, double weight, boolean enabled, long innovationNumber) {
-        this(in, out, weight, enabled);
+    public Connection(Node from, Node to, double weight, boolean enabled, long innovationNumber) {
+        this(from, to, weight, enabled);
         this.innovationNumber = innovationNumber;
     }
 
-    public Node getIn() {
-        return in;
+    public Node getFrom() {
+        return from;
     }
 
-    public void setIn(Node in) {
-        this.in = in;
+    public void setFrom(Node from) {
+        this.from = from;
     }
 
-    public Node getOut() {
-        return out;
+    public Node getTo() {
+        return to;
     }
 
-    public void setOut(Node out) {
-        this.out = out;
+    public void setTo(Node to) {
+        this.to = to;
     }
 
     public double getWeight() {
@@ -65,18 +63,16 @@ public class Connection implements  Cloneable{
     }
 
     @Override
-    public String toString(){
-        return "In " + in + "\n" +
-                "Out " + out + "\n" +
+    public String toString() {
+        return "From " + from + "\n" +
+                "To " + to + "\n" +
                 "Weight " + weight + "\n" +
-                (enabled == true ? "Enabled" : "Disabled") + "\n" +
+                (enabled ? "Enabled" : "Disabled") + "\n" +
                 "Ordinal number " + innovationNumber;
     }
 
-    public Connection clone(){
-        Connection conn = new Connection(in, out, weight, enabled);
-        conn.setInnovationNumber(innovationNumber);
-        return conn;
+    public Connection clone() {
+        return new Connection(from, to, weight, enabled, innovationNumber);
     }
 
     public void disable() {
@@ -84,10 +80,10 @@ public class Connection implements  Cloneable{
     }
 
     public double getInId() {
-        return in.getId();
+        return from.getId();
     }
 
     public double getOutId() {
-        return out.getId();
+        return to.getId();
     }
 }

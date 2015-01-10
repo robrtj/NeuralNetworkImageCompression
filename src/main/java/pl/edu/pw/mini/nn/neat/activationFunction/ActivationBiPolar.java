@@ -1,28 +1,28 @@
 package pl.edu.pw.mini.nn.neat.activationFunction;
 
-public class ActivationBiPolar extends ActivationFunction{
-    private double a;
+public class ActivationBiPolar extends ActivationFunction {
+    private double threshold;
 
-    public ActivationBiPolar(){
+    public ActivationBiPolar() {
         this(0);
         bipolar = true;
     }
 
     @Override
     public double getValue() {
-        return sum < a ? 0 : 1;
+        return sum < threshold ? 0 : 1;
     }
 
-    public ActivationBiPolar(double a){
+    public ActivationBiPolar(double threshold) {
         super();
-        this.a = a;
+        this.threshold = threshold;
     }
 
-    public double getA() {
-        return a;
+    public double getThreshold() {
+        return threshold;
     }
 
-    public void setA(double a) {
-        this.a = a;
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
     }
 }

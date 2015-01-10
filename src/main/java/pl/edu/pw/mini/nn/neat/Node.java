@@ -43,10 +43,6 @@ public class Node {
         return layerType;
     }
 
-    public void setLayerType(LayerType layerType) {
-        this.layerType = layerType;
-    }
-
     public List<Connection> getInputConnections() {
         return inputConnections;
     }
@@ -78,7 +74,7 @@ public class Node {
 
     public void updateRandomConnection(double weight) {
         int size = inputConnections.size();
-        if(size > 0) {
+        if (size > 0) {
             Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
             conn.setWeight(weight);
         }
@@ -86,7 +82,7 @@ public class Node {
 
     public void disableRandomConnection(int sample) {
         int size = inputConnections.size();
-        if(size > 0) {
+        if (size > 0) {
             Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
             conn.disable();
         }
@@ -94,7 +90,7 @@ public class Node {
 
     public Connection getRandomConnection() {
         int size = inputConnections.size();
-        if(size > 0) {
+        if (size > 0) {
             return inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
         }
         return null;

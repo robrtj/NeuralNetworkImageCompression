@@ -108,8 +108,8 @@ public class MutationFactory {
         Node middleNode = new Node(id, layerType);
 
         //dodanie wierzcholka i polaczen
-        Connection inConn = new Connection(conn.getIn(), middleNode, conn.getWeight(), true);
-        Connection outConn = new Connection(middleNode, conn.getOut(), 1, true);
+        Connection inConn = new Connection(conn.getFrom(), middleNode, conn.getWeight(), true);
+        Connection outConn = new Connection(middleNode, conn.getTo(), 1, true);
         middleNode.addConnection(inConn);
 
         conn.disable();
@@ -142,8 +142,8 @@ public class MutationFactory {
             return false;
         }
 
-        Node in = connection.getIn();
-        Node out = connection.getOut();
+        Node in = connection.getFrom();
+        Node out = connection.getTo();
         if( in.getLayerType() == LayerType.Output){
             return false;
         }

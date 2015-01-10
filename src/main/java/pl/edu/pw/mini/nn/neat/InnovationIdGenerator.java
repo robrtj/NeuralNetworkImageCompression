@@ -18,7 +18,7 @@ public class InnovationIdGenerator {
         return instance;
     }
 
-    public long generate(){
+    public long generate() {
         return innovationNumber++;
     }
 }
