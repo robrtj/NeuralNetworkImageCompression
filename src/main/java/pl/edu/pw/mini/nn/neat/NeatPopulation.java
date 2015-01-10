@@ -79,7 +79,13 @@ public class NeatPopulation {
 
     //TODO
     public double[][] getOutputImage() {
-        return new double[0][0];
+        double[][] output = new double[1024][1024];
+        for (int i = 0; i < 1024; i++) {
+            for (int j = 0; j < 1024; j++) {
+                output[i][j] = 1.0;
+            }
+        }
+        return output;
     }
 
     //TODO

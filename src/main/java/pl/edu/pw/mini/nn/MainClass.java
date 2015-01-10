@@ -27,9 +27,9 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        NeatPopulation pupulation = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio);
-        GrayImageParser imageParser = new GrayImageParser(imagePath, false);
-        double[][] output = pupulation.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-        imageParser.saveNetworkOutputAsImage(output, inputLayerSize, "out.png");
+        NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio);
+        GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false);
+        double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
+        imageParser.saveNetworkOutputAsImage(output, "out.png");
     }
 }
