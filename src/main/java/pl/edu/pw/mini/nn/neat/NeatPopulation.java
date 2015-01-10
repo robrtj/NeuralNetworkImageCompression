@@ -18,16 +18,18 @@ public class NeatPopulation {
     private int numberOfSpecies;
     private int maxIteration;
     private double maxError;
-    //TODO
-    //crossover ratio
-    private double mutationRatio;
 
-    //TODO
-    //network params
+    private double mutationRatio;
+    private double crossoverRatio;
+
+    private int inputLayerSize;
+    private int middleLayerSize;
+    private FitnessNetworkWrapper bestNet;
 
     NeatPopulation() {
         Species = new LinkedList<>();
         mutationFactory = new MutationFactory();
+        bestNet = null;
     }
 
     public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio) {
@@ -37,10 +39,6 @@ public class NeatPopulation {
         this.maxIteration = maxIteration;
         this.maxError = maxError;
         this.mutationRatio = mutationRatio;
-    }
-
-    //TODO
-    public void setNetworkParameters() {
     }
 
     public List<NeuralNetwork> getSpecies() {
@@ -65,34 +63,37 @@ public class NeatPopulation {
 
     public double[][] computeImage(double[][] image, int inputLayerSize, int middleLayerSize) {
         setImage(image);
+        this.inputLayerSize = inputLayerSize;
+        this.middleLayerSize = middleLayerSize;
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
+        bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (int i = 0; i < maxIteration; i++) {
             iteration();
-            if (getBestFitness() < maxError) {
+            bestNet = getBestFitness();
+            if (bestNet.fitness < maxError) {
                 break;
             }
         }
-
-        return getOutputImage();
+        return getOutputImage(image, bestNet.network);
     }
 
-    //TODO
-    public double[][] getOutputImage() {
-        return new double[0][0];
+    private double[][] getOutputImage(double[][] image, NeuralNetwork net) {
+        if(net == null){
+            return null;
+        }
+        return net.getOutputImage(image);
     }
 
-    //TODO
-    public double[][] getCompressedImage() {
-        return new double[0][0];
+    private NeuralNetwork getBestNetwork() {
+        FitnessNetworkWrapper bestNet = getBestFitness();
+        return bestNet.network;
     }
 
-    private double iteration() {
+    private void iteration() {
         mutation();
         crossover();
         generateNextPopulation();
-
-        return getBestFitness();
     }
 
     private void generateNextPopulation() {
@@ -126,13 +127,15 @@ public class NeatPopulation {
         }
     }
 
-    private double getBestFitness() {
-        double bestFitness = Double.POSITIVE_INFINITY;
+    private FitnessNetworkWrapper getBestFitness() {
+        FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (NeuralNetwork net : Species) {
             double fitness = net.fitnessFunction(image);
-            bestFitness = bestFitness < fitness ? bestFitness : fitness;
+            if (bestNet.fitness < fitness) {
+                bestNet = new FitnessNetworkWrapper(fitness, net);
+            }
         }
-        return bestFitness;
+        return bestNet;
     }
 
     //TODO
@@ -154,5 +157,16 @@ public class NeatPopulation {
 
     public int size() {
         return Species.size();
+    }
+
+
+    class FitnessNetworkWrapper {
+        private final double fitness;
+        private final NeuralNetwork network;
+
+        FitnessNetworkWrapper(double fitness, NeuralNetwork network) {
+            this.fitness = fitness;
+            this.network = network;
+        }
     }
 }

@@ -222,6 +222,21 @@ public class NeuralNetwork {
         return _nodes.size();
     }
 
+    //TODO
+    public double[][] getCompressedVector(double[][] image) {
+        sortNodeById();
+
+        for (double[] anInput : image) {
+            compute(anInput);
+            //get middle vector
+        }
+        return null;
+    }
+
+    public double[][] getOutputImage(double[][] image) {
+        return new double[0][];
+    }
+
 
     class NodeByIdComparator implements Comparator<Node> {
         @Override
