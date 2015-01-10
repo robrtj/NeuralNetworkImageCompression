@@ -43,6 +43,10 @@ public class Node {
         return layerType;
     }
 
+    public void setLayerType(LayerType layerType) {
+        this.layerType = layerType;
+    }
+
     public List<Connection> getInputConnections() {
         return inputConnections;
     }
