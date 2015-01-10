@@ -80,8 +80,14 @@ public class NeatPopulation {
     }
 
     private double[][] getOutputImage(double[][] image, NeuralNetwork net) {
-        if(net == null){
-            return null;
+        if (net == null) {
+            double[][] output = new double[1024][1024];
+            for (int i = 0; i < 1024; i++) {
+                for (int j = 0; j < 1024; j++) {
+                    output[i][j] = 1.0;
+                }
+            }
+            return output;
         }
         return net.getOutputImage(image);
     }
