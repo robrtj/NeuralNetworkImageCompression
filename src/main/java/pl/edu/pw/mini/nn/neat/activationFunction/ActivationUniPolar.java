@@ -9,7 +9,7 @@ public class ActivationUniPolar extends ActivationFunction {
 
     @Override
     public double getValue() {
-        return sum < threshold ? -1 : 1;
+        return sum < threshold ? 0 : 1;
     }
 
     ActivationUniPolar(double threshold) {

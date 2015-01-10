@@ -10,7 +10,7 @@ public class ActivationBiPolar extends ActivationFunction {
 
     @Override
     public double getValue() {
-        return sum < threshold ? 0 : 1;
+        return sum < threshold ? -1 : 1;
     }
 
     public ActivationBiPolar(double threshold) {

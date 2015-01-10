@@ -56,7 +56,18 @@ public class Node {
     }
 
     public double getWeight() {
-        return activationFunction.getValue();
+        double weight = 0;
+        switch (layerType){
+            case Input:
+                weight = activationFunction.getSum();
+                break;
+            case Output:
+                weight = activationFunction.getSum();
+                break;
+            default:
+                weight = activationFunction.getValue();
+        }
+        return weight;
     }
 
     public void addWeight(double weight) {
@@ -98,6 +109,14 @@ public class Node {
 
     public Connection getConnection(int index) {
         return index < inputConnections.size() ? inputConnections.get(index) : null;
+    }
+
+    public int getNumberOfConnections() {
+        return inputConnections.size();
+    }
+
+    public void resetWeight() {
+        activationFunction.reset();
     }
 }
 

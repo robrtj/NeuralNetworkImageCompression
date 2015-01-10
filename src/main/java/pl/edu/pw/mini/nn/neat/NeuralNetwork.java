@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class NeuralNetwork {
     private List<Node> _nodes;
-    InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
+    private InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
     private int inputLayerSize;
     private int intermediateLayerSize;
 
@@ -89,19 +89,19 @@ public class NeuralNetwork {
         }
     }
 
-    private Collection<Node> createOutputLayer(int size, int intermediateLayerSize) {
+    private List<Node> createOutputLayer(int size, int intermediateLayerSize) {
         return createLayer(size, LayerType.Output, size + intermediateLayerSize);
     }
 
-    private Collection<Node> createMiddleLayer(int size, int inputSize) {
+    private List<Node> createMiddleLayer(int size, int inputSize) {
         return createLayer(size, LayerType.Intermediate, inputSize);
     }
 
-    private Collection<Node> createInputLayer(int size) {
+    private List<Node> createInputLayer(int size) {
         return createLayer(size, LayerType.Input, 0);
     }
 
-    private Collection<Node> createLayer(int size, LayerType type, int startId) {
+    public static List<Node> createLayer(int size, LayerType type, int startId) {
         List<Node> nodes = new LinkedList<>();
         int id = startId;
         while (size > 0) {
@@ -112,11 +112,11 @@ public class NeuralNetwork {
         return nodes;
     }
 
-    void addNode(Node newNode) {
+    public void addNode(Node newNode) {
         _nodes.add(newNode);
     }
 
-    void addConnection(Connection newConnection) {
+    public void addConnection(Connection newConnection) {
         FoundConnectionWrapper wrapper = checkConnectionExists(newConnection);
         if (!wrapper.found) {
             newConnection.setInnovationNumber(innovationNumberGenerator.generate());
@@ -141,18 +141,21 @@ public class NeuralNetwork {
     }
 
     public double fitnessFunction(double[][] input) {
+        sortNodeById();
+
         double fitness = 0.0d;
         for (double[] anInput : input) {
             compute(anInput);
+            double e = computeError();
             fitness += computeError();
         }
         return fitness;
     }
 
-    //assume that input nodes are on the begin of list _nodes
-    //and output nodes are at the end of list
-    //otherwise we must find all input and output nodes before
-    private double computeError() {
+    //assume input nodes are at the start of _nodes
+    //and output nodes are at the end of _nodes
+    //otherwise we must rewrite algorithm to filter input and output nodes before
+    public double computeError() {
         double error = 0.0d;
         int size = _nodes.size();
         for (int i = 0; i < inputLayerSize; i++) {
@@ -160,12 +163,13 @@ public class NeuralNetwork {
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
             error += Math.pow(inValue - outValue, 2);
         }
-        return error;
+        double e = error /inputLayerSize;
+        return error / inputLayerSize;
     }
 
-    //assume that input is in activation function domain
-    private void compute(double[] input) {
-        sortNodeById();
+    //assume input is in activation function domain
+    public void compute(double[] input) {
+        resetNetwork();
 
         //set input values
         for (int i = 0; i < inputLayerSize; i++) {
@@ -180,6 +184,12 @@ public class NeuralNetwork {
             for (Connection conn : nodeInputs) {
                 node.addWeight(conn.getWeight() * conn.getFrom().getWeight());
             }
+        }
+    }
+
+    private void resetNetwork() {
+        for (Node node : _nodes){
+            node.resetWeight();
         }
     }
 

@@ -17,4 +17,12 @@ public abstract class ActivationFunction {
     }
 
     public abstract double getValue();
+
+    public void reset() {
+        sum = 0;
+    }
+
+    public double getSum() {
+        return sum;
+    }
 }
