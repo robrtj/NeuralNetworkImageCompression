@@ -48,8 +48,8 @@ public class NeuralNetwork {
         createStartConnections();
     }
 
-    //zakladamy, ze wierzcholki sa uporzadkowane
-    // wedlug schematu: In - Middle - Out
+    //assume that nodes are in order:
+    //In - Middle - Out
     private void createStartConnections() {
         createInputMiddleLayersConnections();
         createMiddleOutputLayersConnections();
@@ -156,7 +156,6 @@ public class NeuralNetwork {
 
     public double fitnessFunction(double[][] input) {
         double fitness = 0.0d;
-
         for (double[] anInput : input) {
             compute(anInput);
             fitness += computeError();
