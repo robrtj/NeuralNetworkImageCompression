@@ -1,7 +1,5 @@
 package pl.edu.pw.mini.nn.neat;
 
-import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
-
 import java.util.*;
 
 /**
@@ -9,14 +7,12 @@ import java.util.*;
  */
 public class NeuralNetwork {
     private List<Node> _nodes;
-    private List<Connection> _connections;
     InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
     private int inputLayerSize;
     private int intermediateLayerSize;
 
     NeuralNetwork(){
         _nodes = new LinkedList<>();
-        _connections = new LinkedList<>();
         innovationNumberGenerator = new InnovationIdGenerator();
     }
 
@@ -24,8 +20,10 @@ public class NeuralNetwork {
         this();
         _nodes = new ArrayList<>();
         _nodes.addAll(nodes);
-        _connections = new ArrayList<>();
-        _connections.addAll(connections);
+        for (Connection connection : connections){
+            Node node = connection.getOut();
+            node.addConnection(connection);
+        }
 
         for (Node node : _nodes) {
             if (node.getLayerType() == LayerType.Input) {
@@ -67,7 +65,6 @@ public class NeuralNetwork {
                 Connection conn = new Connection(middleNode, outNode,
                         rand.nextDouble(), true,
                         innovationNumberGenerator.generate());
-                _connections.add(conn);
                 outNode.addConnection(conn);
             }
         }
@@ -85,7 +82,6 @@ public class NeuralNetwork {
                 Connection conn = new Connection(inNode, middleNode,
                         rand.nextDouble(), true,
                         innovationNumberGenerator.generate());
-                _connections.add(conn);
                 middleNode.addConnection(conn);
             }
         }
@@ -122,7 +118,6 @@ public class NeuralNetwork {
         FoundConnectionWrapper wrapper = checkConnectionExists(newConnection);
         if(!wrapper.found){
             newConnection.setInnovationNumber(innovationNumberGenerator.generate());
-            _connections.add(newConnection);
             newConnection.getOut().addConnection(newConnection);
         }
         else {
@@ -140,18 +135,6 @@ public class NeuralNetwork {
                 return new FoundConnectionWrapper(true, inConnection);
             }
         return new FoundConnectionWrapper(false, null);
-    }
-
-    private int findConnection(Connection newConnection) {
-        int index = -1;
-        for (int i = 0; i < _connections.size(); i++) {
-            Connection conn = getConnection(i);
-            if(conn.getIn() == newConnection.getIn() && conn.getOut() == newConnection.getOut()){
-                index = i;
-                break;
-            }
-        }
-        return index;
     }
 
     public double fitnessFunction(double[][] input) {
@@ -179,7 +162,7 @@ public class NeuralNetwork {
 
     //assume that input is in activation function domain
     private void compute(double[] input) {
-        sortNodeById(_nodes);
+        sortNodeById();
 
         //set input values
         for (int i = 0; i < inputLayerSize; i++) {
@@ -197,24 +180,12 @@ public class NeuralNetwork {
         }
     }
 
-    private void sortNodeById(List<Node> nodes) {
+    public void sortNodeById() {
         _nodes.sort(new NodeByIdComparator());
     }
 
     public List<Node> get_nodes() {
         return _nodes;
-    }
-
-    public List<Connection> get_connections() {
-        return _connections;
-    }
-
-    public Connection getConnection(int index) {
-        return _connections.get(index);
-    }
-
-    public void updateConnectionWeight(int connection, double updatedConnection) {
-        _connections.get(connection).setWeight(updatedConnection);
     }
 
     public void updateConnection(Connection connection, Connection updatedConnection) {
@@ -234,14 +205,13 @@ public class NeuralNetwork {
         return null;
     }
 
-    public void disableConnection(int index) {
-        _connections.get(index).disable();
-    }
-
     public double getLastIntermediateLayerNodeId() {
         return inputLayerSize + intermediateLayerSize;
     }
 
+    public int getNumberOfNodes() {
+        return _nodes.size();
+    }
 
 
     class NodeByIdComparator implements Comparator<Node> {

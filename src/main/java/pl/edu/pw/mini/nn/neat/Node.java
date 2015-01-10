@@ -5,6 +5,7 @@ import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Pawel on 2014-12-04.
@@ -14,6 +15,8 @@ public class Node {
     private LayerType layerType;
     private List<Connection> inputConnections;
     private ActivationFunction activationFunction;
+
+    private Random randomGenerator = new Random();
 
     public Node(double id, LayerType layerType) {
         this.id = id;
@@ -71,6 +74,24 @@ public class Node {
 
     public void addConnection(Connection newConnection) {
         inputConnections.add(newConnection);
+    }
+
+    public void updateRandomConnection(double weight) {
+        Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+        conn.setWeight(weight);
+    }
+
+    public void disableRandomConnection(int sample) {
+        Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+        conn.disable();
+    }
+
+    public Connection getRandomConnection() {
+        return inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+    }
+
+    public Connection getConnection(int index) {
+        return index < inputConnections.size() ? inputConnections.get(index) : null;
     }
 }
 

@@ -37,10 +37,10 @@ public class MutationFactoryTest{
 
     private List<Double> getConnectionWeight(NeuralNetwork net){
         List<Double> weights = new LinkedList<>();
-        List<Connection> connections = net.get_connections();
-        for (int i = 0; i < connections.size(); i++) {
-            Connection con = connections.get(i);
-            weights.add(con.getWeight());
+        for (Node node : net.get_nodes()){
+            for (Connection conn : node.getInputConnections()){
+                weights.add(conn.getWeight());
+            }
         }
         return weights;
     }
@@ -81,9 +81,11 @@ public class MutationFactoryTest{
         NeuralNetwork net = createSimpleNetwork();
         MutationFactory mutationFactory = new MutationFactory();
 
-        for (int i = 0; i < net.get_connections().size(); i++) {
-            boolean actual = mutationFactory.checkCorrectnessOfConnection(net, net.getConnection(i));
-            assertEquals(true, actual);
+        for (Node node : net.get_nodes()) {
+            for (Connection conn : node.getInputConnections()) {
+                boolean actual = mutationFactory.checkCorrectnessOfConnection(net, conn);
+                assertEquals(true, actual);
+            }
         }
     }
 
@@ -92,7 +94,7 @@ public class MutationFactoryTest{
         NeuralNetwork net = createSimpleNetwork();
         MutationFactory mutationFactory = new MutationFactory();
 
-        Connection con = net.getConnection(0);
+        Connection con = net.getNode(0).getConnection(0);
         Node a = new Node(con.getIn());
         a.setLayerType(LayerType.Output);
         con.setIn(a);
@@ -100,12 +102,6 @@ public class MutationFactoryTest{
         net.get_nodes().add(0, new Node(1, LayerType.Output));
         boolean actual = mutationFactory.checkCorrectnessOfConnection(net, con);
         assertEquals(false, actual);
-
-//        con = net.getConnection(0);
-//        net.get_nodes().add(0, new Node(1, LayerType.Intermediate));
-//        net.get_nodes().add(1, new Node(2, LayerType.Intermediate));
-//        actual = mutationFactory.checkCorrectnessOfConnection(net, con);
-//        assertEquals(false, actual);
     }
 
     @Test

@@ -73,27 +73,30 @@ public class MutationFactory {
     }
 
     private boolean weightMutation(NeuralNetwork net) {
-        int connectionCounter = net.get_connections().size();
-        int sample = randGenerator.nextInt(connectionCounter);
-
+        int nodeCounter = net.getNumberOfNodes();
+        int sample = randGenerator.nextInt(nodeCounter);
         double weight = randGenerator.nextDouble();
-        net.updateConnectionWeight(sample, weight);
+
+        Node node = net.getNode(sample);
+        node.updateRandomConnection(weight);
         return true;
     }
 
     private boolean disableConnection(NeuralNetwork net) {
-        int connectionCounter = net.get_connections().size();
-        int sample = randGenerator.nextInt(connectionCounter);
+        int nodeCounter = net.getNumberOfNodes();
+        int sample = randGenerator.nextInt(nodeCounter);
 
-        net.disableConnection(sample);
+        Node node = net.getNode(sample);
+        node.disableRandomConnection(sample);
         return true;
     }
 
     //private
     public boolean addNode(NeuralNetwork net) {
-        int connectionCounter = net.get_connections().size();
-        int index = randGenerator.nextInt(connectionCounter);
-        Connection conn = net.getConnection(index);
+        int nodeCounter = net.getNumberOfNodes();
+        int sample = randGenerator.nextInt(nodeCounter);
+        Node node = net.getNode(sample);
+        Connection conn = node.getRandomConnection();
 
         double id = conn.getInId() + (conn.getOutId() - conn.getInId()) * randGenerator.nextDouble();
         LayerType layerType = conn.getOutId() <= net.getLastIntermediateLayerNodeId()

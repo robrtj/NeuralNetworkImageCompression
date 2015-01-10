@@ -34,11 +34,14 @@ public class NeuralNetworkTest {
     @Test
     public void testCreatingNeuralNetwork() throws Exception {
         NeuralNetwork net = new NeuralNetwork(2, 1);
+        net.sortNodeById();
         assertEquals(5, net.get_nodes().size());
-        assertEquals(4, net.get_connections().size());
+        assertEquals(0, net.getNode(0).getInputConnections().size());
+        assertEquals(2, net.getNode(2).getInputConnections().size());
 
         net = new NeuralNetwork(2, 2);
         assertEquals(6, net.get_nodes().size());
-        assertEquals(8, net.get_connections().size());
+        assertEquals(0, net.getNode(0).getInputConnections().size());
+        assertEquals(2, net.getNode(2).getInputConnections().size());
     }
 }
