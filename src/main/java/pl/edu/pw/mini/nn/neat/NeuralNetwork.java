@@ -7,29 +7,31 @@ import java.util.*;
  */
 public class NeuralNetwork {
     private List<Node> _nodes;
-    InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
+    private InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
     private int inputLayerSize;
     private int intermediateLayerSize;
 
-    NeuralNetwork(){
+    NeuralNetwork() {
         _nodes = new LinkedList<>();
         innovationNumberGenerator = new InnovationIdGenerator();
     }
 
+    //assume inputConnections in node is empty
     NeuralNetwork(List<Node> nodes, List<Connection> connections) {
         this();
         _nodes = new ArrayList<>();
         _nodes.addAll(nodes);
-        for (Connection connection : connections){
-            Node node = connection.getOut();
+        for (Connection connection : connections) {
+            Node node = connection.getTo();
             node.addConnection(connection);
         }
 
         for (Node node : _nodes) {
+            int id = (int) node.getId();
             if (node.getLayerType() == LayerType.Input) {
-                inputLayerSize = (int) node.getId();
+                inputLayerSize = inputLayerSize > id ? inputLayerSize : id;
             } else if (node.getLayerType() == LayerType.Intermediate) {
-                intermediateLayerSize = (int) node.getId();
+                intermediateLayerSize = intermediateLayerSize > id ? intermediateLayerSize : id;
             }
         }
     }
@@ -42,35 +44,35 @@ public class NeuralNetwork {
         _nodes.addAll(createInputLayer(inputSize));
         _nodes.addAll(createMiddleLayer(intermediateLayerSize, inputSize));
         _nodes.addAll(createOutputLayer(inputSize, intermediateLayerSize));
-
         createStartConnections();
     }
 
-    //assume that nodes are in order:
+    //assume that node ids are in order:
     //In - Middle - Out
     private void createStartConnections() {
-        createInputMiddleLayersConnections();
-        createMiddleOutputLayersConnections();
+        sortNodeById();
+        createStartInputMiddleLayersConnections();
+        createStartMiddleOutputLayersConnections();
     }
 
-    private void createMiddleOutputLayersConnections() {
+    private void createStartMiddleOutputLayersConnections() {
         Random rand = new Random();
         int firstMiddleNodeId = inputLayerSize;
         int firstOutputNodeId = inputLayerSize + intermediateLayerSize;
 
         for (int i = 0; i < inputLayerSize; i++) {
-            Node outNode = _nodes.get(i);
+            Node outNode = _nodes.get(firstOutputNodeId + i);
             for (int j = 0; j < intermediateLayerSize; j++) {
                 Node middleNode = _nodes.get(firstMiddleNodeId + j);
                 Connection conn = new Connection(middleNode, outNode,
-                        rand.nextDouble(), true,
+                        rand.nextDouble() - 0.5d, true,
                         innovationNumberGenerator.generate());
                 outNode.addConnection(conn);
             }
         }
     }
 
-    private void createInputMiddleLayersConnections() {
+    private void createStartInputMiddleLayersConnections() {
         Random rand = new Random();
         int firstInputNodeId = 0;
         int firstMiddleNodeId = inputLayerSize;
@@ -80,29 +82,29 @@ public class NeuralNetwork {
             for (int j = 0; j < inputLayerSize; j++) {
                 Node inNode = _nodes.get(firstInputNodeId + j);
                 Connection conn = new Connection(inNode, middleNode,
-                        rand.nextDouble(), true,
+                        rand.nextDouble() - 0.5d, true,
                         innovationNumberGenerator.generate());
                 middleNode.addConnection(conn);
             }
         }
     }
 
-    private Collection<Node> createOutputLayer(int size, int intermediateLayerSize) {
-        return createLayer(size, LayerType.Output, size+intermediateLayerSize);
+    private List<Node> createOutputLayer(int size, int intermediateLayerSize) {
+        return createLayer(size, LayerType.Output, size + intermediateLayerSize);
     }
 
-    private Collection<Node> createMiddleLayer(int size, int inputSize) {
+    private List<Node> createMiddleLayer(int size, int inputSize) {
         return createLayer(size, LayerType.Intermediate, inputSize);
     }
 
-    private Collection<Node> createInputLayer(int size) {
+    private List<Node> createInputLayer(int size) {
         return createLayer(size, LayerType.Input, 0);
     }
 
-    private Collection<Node> createLayer(int size, LayerType type, int startId){
+    public static List<Node> createLayer(int size, LayerType type, int startId) {
         List<Node> nodes = new LinkedList<>();
         int id = startId;
-        while (size>0){
+        while (size > 0) {
             Node node = new Node(id++, type);
             nodes.add(node);
             size--;
@@ -110,59 +112,64 @@ public class NeuralNetwork {
         return nodes;
     }
 
-    void addNode(Node newNode) {
+    public void addNode(Node newNode) {
         _nodes.add(newNode);
     }
 
-    void addConnection(Connection newConnection) {
+    public void addConnection(Connection newConnection) {
         FoundConnectionWrapper wrapper = checkConnectionExists(newConnection);
-        if(!wrapper.found){
+        if (!wrapper.found) {
             newConnection.setInnovationNumber(innovationNumberGenerator.generate());
-            newConnection.getOut().addConnection(newConnection);
-        }
-        else {
+            newConnection.getTo().addConnection(newConnection);
+        } else {
             updateConnection(wrapper.connection, newConnection);
         }
     }
 
     private FoundConnectionWrapper checkConnectionExists(Connection connection) {
-        Node inNode = connection.getIn();
-        Node outNode = connection.getOut();
-
-        FoundConnectionWrapper wrapper;
-        for (Connection inConnection : inNode.getInputConnections())
-            if (inConnection.getOut() == outNode) {
+        Node inNode = connection.getFrom();
+        Node outNode = connection.getTo();
+        for (Connection inConnection : outNode.getInputConnections())
+            if (inConnection.getFrom() == inNode) {
                 return new FoundConnectionWrapper(true, inConnection);
             }
         return new FoundConnectionWrapper(false, null);
     }
 
+    public void updateConnection(Connection connection, Connection updatedConnection) {
+        connection.setWeight(updatedConnection.getWeight());
+    }
+
     public double fitnessFunction(double[][] input) {
+        sortNodeById();
+
         double fitness = 0.0d;
         for (double[] anInput : input) {
             compute(anInput);
+            double e = computeError();
             fitness += computeError();
         }
         return fitness;
     }
 
-    //assume that input nodes are on the begin of list _nodes
-    //and output nodes are at the end of list
-    //otherwise we must find all input and output nodes before
-    private double computeError() {
+    //assume input nodes are at the start of _nodes
+    //and output nodes are at the end of _nodes
+    //otherwise we must rewrite algorithm to filter input and output nodes before
+    public double computeError() {
         double error = 0.0d;
         int size = _nodes.size();
         for (int i = 0; i < inputLayerSize; i++) {
             double inValue = _nodes.get(i).getWeight();
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
-            error += Math.pow(inValue-outValue, 2);
+            error += Math.pow(inValue - outValue, 2);
         }
-        return error;
+        double e = error /inputLayerSize;
+        return error / inputLayerSize;
     }
 
-    //assume that input is in activation function domain
-    private void compute(double[] input) {
-        sortNodeById();
+    //assume input is in activation function domain
+    public void compute(double[] input) {
+        resetNetwork();
 
         //set input values
         for (int i = 0; i < inputLayerSize; i++) {
@@ -175,8 +182,14 @@ public class NeuralNetwork {
             Node node = getNode(i);
             List<Connection> nodeInputs = node.getInputConnections();
             for (Connection conn : nodeInputs) {
-                node.addWeight(conn.getWeight() * conn.getIn().getWeight());
+                node.addWeight(conn.getWeight() * conn.getFrom().getWeight());
             }
+        }
+    }
+
+    private void resetNetwork() {
+        for (Node node : _nodes){
+            node.resetWeight();
         }
     }
 
@@ -188,17 +201,13 @@ public class NeuralNetwork {
         return _nodes;
     }
 
-    public void updateConnection(Connection connection, Connection updatedConnection) {
-        connection.setWeight(updatedConnection.getWeight());
-    }
-
     public Node getNode(int index) {
         return _nodes.get(index);
     }
 
     public Node getNodeById(double id) {
-        for (Node node : _nodes){
-            if(node.getId() == id){
+        for (Node node : _nodes) {
+            if (node.getId() == id) {
                 return node;
             }
         }
@@ -206,11 +215,26 @@ public class NeuralNetwork {
     }
 
     public double getLastIntermediateLayerNodeId() {
-        return inputLayerSize + intermediateLayerSize;
+        return inputLayerSize + intermediateLayerSize - 1;
     }
 
     public int getNumberOfNodes() {
         return _nodes.size();
+    }
+
+    //TODO
+    public double[][] getCompressedVector(double[][] image) {
+        sortNodeById();
+
+        for (double[] anInput : image) {
+            compute(anInput);
+            //get middle vector
+        }
+        return null;
+    }
+
+    public double[][] getOutputImage(double[][] image) {
+        return new double[0][];
     }
 
 
@@ -226,7 +250,7 @@ public class NeuralNetwork {
         private final Connection connection;
         private final boolean found;
 
-        FoundConnectionWrapper(boolean found, Connection connection){
+        FoundConnectionWrapper(boolean found, Connection connection) {
             this.found = found;
             this.connection = connection;
         }

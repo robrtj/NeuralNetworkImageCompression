@@ -95,9 +95,9 @@ public class MutationFactoryTest{
 //        MutationFactory mutationFactory = new MutationFactory();
 //
 //        Connection con = net.getNode(0).getConnection(0);
-//        Node a = new Node(con.getIn());
+//        Node a = new Node(con.getFrom());
 //        a.setLayerType(LayerType.Output);
-//        con.setIn(a);
+//        con.setFrom(a);
 //        net.get_nodes().remove(0);
 //        net.get_nodes().add(0, new Node(1, LayerType.Output));
 //        boolean actual = mutationFactory.checkCorrectnessOfConnection(net, con);

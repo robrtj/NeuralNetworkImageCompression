@@ -21,6 +21,6 @@ public class InnovationNumberTest {
             two.generate();
             three.generate();
         }
-        assertEquals(3* count, one.generate());
+        assertEquals(3 * count, one.generate());
     }
 }
