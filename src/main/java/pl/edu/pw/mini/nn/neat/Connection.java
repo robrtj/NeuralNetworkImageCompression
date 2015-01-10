@@ -44,8 +44,6 @@ public class Connection implements  Cloneable{
         return weight;
     }
 
-    //TODO
-    //waga jest interpolowana do przedzialu dziedziny f. aktywacji
     public void setWeight(double weight) {
         this.weight = weight;
     }
