@@ -77,17 +77,27 @@ public class Node {
     }
 
     public void updateRandomConnection(double weight) {
-        Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
-        conn.setWeight(weight);
+        int size = inputConnections.size();
+        if(size > 0) {
+            Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+            conn.setWeight(weight);
+        }
     }
 
     public void disableRandomConnection(int sample) {
-        Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
-        conn.disable();
+        int size = inputConnections.size();
+        if(size > 0) {
+            Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+            conn.disable();
+        }
     }
 
     public Connection getRandomConnection() {
-        return inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+        int size = inputConnections.size();
+        if(size > 0) {
+            return inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
+        }
+        return null;
     }
 
     public Connection getConnection(int index) {
