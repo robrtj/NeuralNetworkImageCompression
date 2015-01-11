@@ -237,6 +237,14 @@ public class NeuralNetwork {
         return new double[0][];
     }
 
+    public List<Connection> getConnections() {
+        List<Connection> conns = new ArrayList<>();
+        for(Node node : _nodes){
+            conns.addAll(node.getInputConnections());
+        }
+        return conns;
+    }
+
 
     class NodeByIdComparator implements Comparator<Node> {
         @Override
