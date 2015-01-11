@@ -24,8 +24,6 @@ public class NeatPopulation {
     private double mutationRatio;
     private double crossoverRatio;
 
-    private int inputLayerSize;
-    private int middleLayerSize;
     private FitnessNetworkWrapper bestNet;
 
     NeatPopulation() {
@@ -35,13 +33,14 @@ public class NeatPopulation {
         bestNet = null;
     }
 
-    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio) {
+    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio, double crossoverRatio) {
         this();
 
         this.numberOfSpecies = numberOfSpecies;
         this.maxIteration = maxIteration;
         this.maxError = maxError;
         this.mutationRatio = mutationRatio;
+        this.crossoverRatio = crossoverRatio;
     }
 
     public List<NeuralNetwork> getSpecies() {
@@ -66,8 +65,6 @@ public class NeatPopulation {
 
     public double[][] computeImage(double[][] image, int inputLayerSize, int middleLayerSize) {
         setImage(image);
-        this.inputLayerSize = inputLayerSize;
-        this.middleLayerSize = middleLayerSize;
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
@@ -131,13 +128,15 @@ public class NeatPopulation {
     }
 
     private void crossover() {
+        List<NeuralNetwork> children = new LinkedList<>();
         for (NeuralNetwork firstParent : Species) {
             if (randomGenerator.nextDouble() < crossoverRatio) {
                 NeuralNetwork secondParent = Species.get(randomGenerator.nextInt(Species.size()));
                 NeuralNetwork child = crossoverFactory.cross(firstParent, secondParent);
-                Species.add(child);
+                children.add(child);
             }
         }
+        Species.addAll(children);
     }
 
     private void mutation() {

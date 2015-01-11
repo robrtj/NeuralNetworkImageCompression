@@ -15,6 +15,7 @@ public class MainClass {
         int maxIteration = 100;
         double maxError = 0.01;
         double mutationRatio = 0.5;
+        double crossoverRatio = 0.5;
 
         try {
             imagePath = args[0];
@@ -27,7 +28,9 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio);
+        NeatPopulation population = new NeatPopulation(numberOfSpecies,
+                maxIteration, maxError,
+                mutationRatio, crossoverRatio );
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false);
         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
         imageParser.saveNetworkOutputAsImage(output, "out.png");
