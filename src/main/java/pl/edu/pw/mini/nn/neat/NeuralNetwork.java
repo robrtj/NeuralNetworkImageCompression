@@ -245,6 +245,11 @@ public class NeuralNetwork {
         return conns;
     }
 
+    public void setLayerSizes(int inputLayerSize, int intermediateLayerSize) {
+        this.inputLayerSize = inputLayerSize;
+        this.intermediateLayerSize = intermediateLayerSize;
+    }
+
 
     class NodeByIdComparator implements Comparator<Node> {
         @Override

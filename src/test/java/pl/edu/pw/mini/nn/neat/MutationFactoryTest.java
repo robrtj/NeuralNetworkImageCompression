@@ -79,7 +79,7 @@ public class MutationFactoryTest{
         MutationFactory mutationFactory = new MutationFactory();
 
         for (int i = 0; i < 10; i++) {
-            int nodeCounter_before = net.get_nodes().size();
+            int nodeCounter_before = net.getNumberOfNodes();
             int connCounter_before = 0;
             for(Node node : net.get_nodes()){
                 connCounter_before += node.getNumberOfConnections();

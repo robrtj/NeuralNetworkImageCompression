@@ -102,7 +102,11 @@ public class MutationFactory {
             return false;
         }
 
-        double id = conn.getInId() + (conn.getOutId() - conn.getInId()) * randGenerator.nextDouble();
+        double id = 0;
+        do {
+            id = conn.getInId() + (conn.getOutId() - conn.getInId()) * randGenerator.nextDouble();
+        }while(net.getNodeById(id) != null);
+
         LayerType layerType = conn.getOutId() <= net.getLastIntermediateLayerNodeId()
                 ? LayerType.Compression : LayerType.Decompression;
         Node middleNode = new Node(id, layerType);
