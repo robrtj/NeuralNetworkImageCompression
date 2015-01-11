@@ -23,5 +23,7 @@ public class GrayImageParserTest {
     public void testGetNetworkInputLenaBlockCount() throws Exception {
         GrayImageParser tester = new GrayImageParser("lena_1.png", 64, false);
         assertEquals(1024, tester.getNetworkInput().length);
+
+        tester.saveNetworkOutputAsImage(tester.getNetworkInput(), "lena_test.png");
     }
 }

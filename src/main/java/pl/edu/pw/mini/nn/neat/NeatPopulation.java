@@ -85,7 +85,8 @@ public class NeatPopulation {
             }
             return output;
         }
-        return net.getOutputImage(image);
+
+        return net.getNetworkOutput(image);
     }
 
     private NeuralNetwork getBestNetwork() {

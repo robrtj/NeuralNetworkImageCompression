@@ -31,9 +31,8 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        NeatPopulation population = new NeatPopulation(numberOfSpecies,
-                maxIteration, maxError,
-                mutationRatio, crossoverRatio, function );
+        NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
+                crossoverRatio, function);
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false);
         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
         imageParser.saveNetworkOutputAsImage(output, "out.png");

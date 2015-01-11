@@ -152,7 +152,6 @@ public class NeuralNetwork {
         double fitness = 0.0d;
         for (double[] anInput : input) {
             compute(anInput);
-            double e = computeError();
             fitness += computeError();
         }
         return fitness;
@@ -239,8 +238,19 @@ public class NeuralNetwork {
         return null;
     }
 
-    public double[][] getOutputImage(double[][] image) {
-        return new double[0][];
+    public double[][] getNetworkOutput(double[][] input) {
+        double[][] output = new double[input.length][inputLayerSize];
+
+        for (int i = 0; i < input.length; i++) {
+            compute(input[i]);
+
+            int firstOutputNeuronIndex = _nodes.size() - inputLayerSize;
+            for (int j = 0; j < inputLayerSize; j++) {
+                output[i][j] = _nodes.get(j + firstOutputNeuronIndex).getWeight();
+            }
+        }
+
+        return output;
     }
 
     public List<Connection> getConnections() {
