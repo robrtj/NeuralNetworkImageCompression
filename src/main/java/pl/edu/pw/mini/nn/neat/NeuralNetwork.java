@@ -1,5 +1,8 @@
 package pl.edu.pw.mini.nn.neat;
 
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
+
 import java.util.*;
 
 /**
@@ -10,10 +13,12 @@ public class NeuralNetwork {
     private InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
     private int inputLayerSize;
     private int intermediateLayerSize;
+    private ActivationFunction activationFunction;
 
     NeuralNetwork() {
         _nodes = new LinkedList<>();
         innovationNumberGenerator = new InnovationIdGenerator();
+        activationFunction = new ActivationUniPolar();
     }
 
     //assume inputConnections in node is empty
@@ -113,6 +118,7 @@ public class NeuralNetwork {
     }
 
     public void addNode(Node newNode) {
+        newNode.setActivationFunction(activationFunction);
         _nodes.add(newNode);
     }
 
@@ -248,6 +254,13 @@ public class NeuralNetwork {
     public void setLayerSizes(int inputLayerSize, int intermediateLayerSize) {
         this.inputLayerSize = inputLayerSize;
         this.intermediateLayerSize = intermediateLayerSize;
+    }
+
+    public void setActivationFunction(ActivationFunction activationFunction) {
+        this.activationFunction = activationFunction;
+        for(Node node : _nodes){
+            node.setActivationFunction(activationFunction);
+        }
     }
 
 

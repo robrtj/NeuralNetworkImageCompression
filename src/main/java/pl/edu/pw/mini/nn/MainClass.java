@@ -2,6 +2,8 @@ package pl.edu.pw.mini.nn;
 
 import pl.edu.pw.mini.nn.image.GrayImageParser;
 import pl.edu.pw.mini.nn.neat.NeatPopulation;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationBiPolar;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 
 /**
  * Created by Robert on 2015-01-02.
@@ -12,10 +14,11 @@ public class MainClass {
         int inputLayerSize = 64;
         int middleLayerSize = 40;
         int numberOfSpecies = 10;
-        int maxIteration = 100;
+        int maxIteration = 1000;
         double maxError = 0.01;
         double mutationRatio = 0.5;
         double crossoverRatio = 0.5;
+        ActivationFunction function = new ActivationBiPolar();
 
         try {
             imagePath = args[0];
@@ -30,7 +33,7 @@ public class MainClass {
 
         NeatPopulation population = new NeatPopulation(numberOfSpecies,
                 maxIteration, maxError,
-                mutationRatio, crossoverRatio );
+                mutationRatio, crossoverRatio, function );
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false);
         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
         imageParser.saveNetworkOutputAsImage(output, "out.png");

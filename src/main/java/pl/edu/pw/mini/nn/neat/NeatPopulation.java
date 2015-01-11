@@ -1,10 +1,9 @@
 package pl.edu.pw.mini.nn.neat;
 
-import javafx.util.Pair;
-import org.apache.commons.math3.geometry.partitioning.utilities.OrderedTuple;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Created by Pawel on 2015-01-03.
@@ -23,6 +22,7 @@ public class NeatPopulation {
 
     private double mutationRatio;
     private double crossoverRatio;
+    private ActivationFunction activationFunction;
 
     private FitnessNetworkWrapper bestNet;
 
@@ -30,10 +30,13 @@ public class NeatPopulation {
         Species = new LinkedList<>();
         mutationFactory = new MutationFactory();
         crossoverFactory = new CrossoverFactory();
+        activationFunction = new ActivationUniPolar();
         bestNet = null;
     }
 
-    public NeatPopulation(int numberOfSpecies, int maxIteration, double maxError, double mutationRatio, double crossoverRatio) {
+    public NeatPopulation(int numberOfSpecies, int maxIteration,
+                          double maxError, double mutationRatio, double crossoverRatio,
+                          ActivationFunction function) {
         this();
 
         this.numberOfSpecies = numberOfSpecies;
@@ -41,14 +44,7 @@ public class NeatPopulation {
         this.maxError = maxError;
         this.mutationRatio = mutationRatio;
         this.crossoverRatio = crossoverRatio;
-    }
-
-    public List<NeuralNetwork> getSpecies() {
-        return Species;
-    }
-
-    public void setSpecies(List<NeuralNetwork> species) {
-        Species = species;
+        this.activationFunction = function;
     }
 
     public void setImage(double[][] image) {
@@ -59,6 +55,7 @@ public class NeatPopulation {
         Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
             NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize);
+            network.setActivationFunction(activationFunction);
             Species.add(network);
         }
     }
