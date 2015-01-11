@@ -51,7 +51,7 @@ public class NeatPopulation {
         this.image = image;
     }
 
-    public void generateFirstPopulation(int inputLayerSize, int middleLayerSize) {
+    private void generateFirstPopulation(int inputLayerSize, int middleLayerSize) {
         Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
             NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize);

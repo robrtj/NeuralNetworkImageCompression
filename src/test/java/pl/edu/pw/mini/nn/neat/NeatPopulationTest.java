@@ -14,11 +14,6 @@ public class NeatPopulationTest {
     public void generateEmptyPopulation() throws Exception {
         int species = 100;
         NeatPopulation neat = new NeatPopulation(species, 100, 0.001d, 0.5d, 0.5d, new ActivationUniPolar());
-        neat.generateFirstPopulation(1, 1);
-        assertEquals(species, neat.size());
-    }
-
-    @Test
-    public void generateNextPopulation() throws Exception {
+        assertEquals(0, neat.size());
     }
 }
