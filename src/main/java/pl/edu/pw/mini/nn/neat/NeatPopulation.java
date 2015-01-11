@@ -118,7 +118,7 @@ public class NeatPopulation {
         FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (NeuralNetwork net : Species) {
             double fitness = net.fitnessFunction(image);
-            if (bestNet.fitness < fitness) {
+            if (bestNet.fitness > fitness) {
                 bestNet = new FitnessNetworkWrapper(fitness, net);
             }
         }
