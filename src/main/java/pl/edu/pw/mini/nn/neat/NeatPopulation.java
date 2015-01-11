@@ -109,7 +109,7 @@ public class NeatPopulation {
         }
         Collections.sort(tuples);
         Species = new LinkedList<>();
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < numberOfSpecies; i++) {
             Species.add(tuples.get(i).net);
         }
     }
