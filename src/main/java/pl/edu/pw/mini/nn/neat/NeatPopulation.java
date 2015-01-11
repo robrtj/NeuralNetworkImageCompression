@@ -13,6 +13,7 @@ public class NeatPopulation {
     private List<NeuralNetwork> Species;
     private double[][] image;
     private MutationFactory mutationFactory;
+    private CrossoverFactory crossoverFactory;
     private Random randomGenerator = new Random();
 
     //neat params
@@ -30,6 +31,7 @@ public class NeatPopulation {
     NeatPopulation() {
         Species = new LinkedList<>();
         mutationFactory = new MutationFactory();
+        crossoverFactory = new CrossoverFactory();
         bestNet = null;
     }
 
@@ -128,11 +130,12 @@ public class NeatPopulation {
         return bestNet;
     }
 
-    //TODO
     private void crossover() {
-        for (NeuralNetwork net : Species) {
+        for (NeuralNetwork firstParent : Species) {
             if (randomGenerator.nextDouble() < crossoverRatio) {
-
+                NeuralNetwork secondParent = Species.get(randomGenerator.nextInt(Species.size()));
+                NeuralNetwork child = crossoverFactory.cross(firstParent, secondParent);
+                Species.add(child);
             }
         }
     }
