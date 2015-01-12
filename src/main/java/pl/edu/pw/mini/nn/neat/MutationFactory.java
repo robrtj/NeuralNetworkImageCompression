@@ -60,10 +60,10 @@ public class MutationFactory {
                 mutated = addNode(net);
                 break;
 //            case DeleteConnection:
-//                mutated = disableConnection(net);
+//                mutated = disableConnection(network);
 //                break;
 //            case WeightMutation:
-//                mutated = weightMutation(net);
+//                mutated = weightMutation(network);
 //                break;
         }
         return mutated;

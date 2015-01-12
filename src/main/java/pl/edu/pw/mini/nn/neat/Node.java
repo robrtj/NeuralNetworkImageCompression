@@ -28,7 +28,7 @@ public class Node {
     public Node(double id, LayerType layerType, List<Connection> inputConnections, ActivationFunction activationFunction) {
         this(id, layerType);
         this.inputConnections.addAll(inputConnections);
-        this.activationFunction = activationFunction;
+        this.activationFunction = activationFunction.clone();
     }
 
     public Node(Node node) {
@@ -56,7 +56,7 @@ public class Node {
     }
 
     public void setActivationFunction(ActivationFunction activationFunction) {
-        this.activationFunction = activationFunction;
+        this.activationFunction = activationFunction.clone();
     }
 
     public double getWeight() {

@@ -9,7 +9,7 @@ import java.util.*;
  * Created by Pawel on 2015-01-03.
  */
 public class NeatPopulation {
-    private List<NeuralNetwork> Species;
+    private List<FitnessNetworkWrapper> Species;
     private double[][] image;
     private MutationFactory mutationFactory;
     private CrossoverFactory crossoverFactory;
@@ -44,7 +44,7 @@ public class NeatPopulation {
         this.maxError = maxError;
         this.mutationRatio = mutationRatio;
         this.crossoverRatio = crossoverRatio;
-        this.activationFunction = function;
+        this.activationFunction = function.clone();
     }
 
     public void setImage(double[][] image) {
@@ -54,9 +54,8 @@ public class NeatPopulation {
     private void generateFirstPopulation(int inputLayerSize, int middleLayerSize) {
         Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
-            NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize);
-            network.setActivationFunction(activationFunction);
-            Species.add(network);
+            NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize, activationFunction);
+            Species.add(new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, network));
         }
     }
 
@@ -66,7 +65,7 @@ public class NeatPopulation {
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (int i = 0; i < maxIteration; i++) {
-            System.out.println("iteration " + (i+1));
+            System.out.println("iteration " + (i + 1));
             iteration();
             bestNet = getBestFitness();
             if (bestNet.fitness < maxError) {
@@ -95,11 +94,6 @@ public class NeatPopulation {
         return bestNet.network.getCompressedVector(image);
     }
 
-    private NeuralNetwork getBestNetwork() {
-        FitnessNetworkWrapper bestNet = getBestFitness();
-        return bestNet.network;
-    }
-
     private void iteration() {
         mutation();
 //        crossover();
@@ -107,52 +101,49 @@ public class NeatPopulation {
     }
 
     private void generateNextPopulation() {
-        List<NeuralNetworkFitness> tuples = new LinkedList<>();
-        for (int i = 0; i < size(); i++) {
-            NeuralNetwork net = Species.get(i);
-            double fitness = net.fitnessFunction(image);
-            tuples.add(new NeuralNetworkFitness(fitness, net));
-        }
-        Collections.sort(tuples);
-        Species = new LinkedList<>();
-        for (int i = 0; i < numberOfSpecies; i++) {
-            Species.add(tuples.get(i).net);
-        }
+        computeFitness();
+        Collections.sort(Species);
+
     }
 
     private FitnessNetworkWrapper getBestFitness() {
         FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
-        for (NeuralNetwork net : Species) {
-            double fitness = net.fitnessFunction(image);
+        for (FitnessNetworkWrapper individual : Species) {
+            double fitness = individual.fitness;
             if (bestNet.fitness > fitness) {
-                bestNet = new FitnessNetworkWrapper(fitness, net);
+                bestNet = individual;
             }
         }
         return bestNet;
     }
 
+    private void computeFitness() {
+        for (FitnessNetworkWrapper individual : Species) {
+            individual.fitness = individual.network.fitnessFunction(image);
+        }
+    }
+
     private void crossover() {
-        List<NeuralNetwork> children = new LinkedList<>();
-        for (NeuralNetwork firstParent : Species) {
+        List<FitnessNetworkWrapper> children = new LinkedList<>();
+        for (FitnessNetworkWrapper individual : Species) {
+            NeuralNetwork firstParent = individual.network;
             if (randomGenerator.nextDouble() < crossoverRatio) {
-                NeuralNetwork secondParent = Species.get(randomGenerator.nextInt(Species.size()));
+                NeuralNetwork secondParent = Species.get(randomGenerator.nextInt(Species.size())).network;
                 NeuralNetwork child = crossoverFactory.cross(firstParent, secondParent);
-                children.add(child);
+                FitnessNetworkWrapper wrapper = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, child);
+                children.add(wrapper);
             }
         }
         Species.addAll(children);
     }
 
     private void mutation() {
-        for (NeuralNetwork net : Species) {
+        for (FitnessNetworkWrapper individual : Species) {
+            NeuralNetwork net = individual.network;
             if (randomGenerator.nextDouble() < mutationRatio) {
                 mutationFactory.mutate(net);
             }
         }
-        //testy sa odpalane z flaga "-source 1.7"
-        // wiec nie ma stream'a z java8,
-        // a nie chce sie bawic z konfiguracja, bo gradle'a nie znam
-        //Species.stream().filter(net -> rand.nextDouble() < mutationRatio).forEach(mutationFactory::mutate);
     }
 
     public int size() {
@@ -160,28 +151,18 @@ public class NeatPopulation {
     }
 
 
-    class NeuralNetworkFitness implements Comparable<NeuralNetworkFitness> {
+    class FitnessNetworkWrapper implements Comparable<FitnessNetworkWrapper> {
         double fitness;
-        NeuralNetwork net;
-
-        NeuralNetworkFitness(double fitness, NeuralNetwork net) {
-            this.fitness = fitness;
-            this.net = net;
-        }
-
-        @Override
-        public int compareTo(NeuralNetworkFitness o) {
-            return fitness < o.fitness ? -1 : 1;
-        }
-    }
-
-    class FitnessNetworkWrapper {
-        private final double fitness;
-        private final NeuralNetwork network;
+        NeuralNetwork network;
 
         FitnessNetworkWrapper(double fitness, NeuralNetwork network) {
             this.fitness = fitness;
             this.network = network;
+        }
+
+        @Override
+        public int compareTo(FitnessNetworkWrapper o) {
+            return fitness < o.fitness ? -1 : 1;
         }
     }
 }

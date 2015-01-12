@@ -1,6 +1,7 @@
 package pl.edu.pw.mini.nn.neat;
 
 import org.junit.Test;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -46,7 +47,7 @@ public class NeuralNetworkTest {
         }
     }
 
-    @Test
+/*    @Test
     public void testCreateLayer() throws Exception {
         int size = 5;
         LayerType type = LayerType.Input;
@@ -56,7 +57,7 @@ public class NeuralNetworkTest {
         assertEquals(size, nodes.size());
         assertEquals(type, nodes.get(1).getLayerType());
         assertEquals(start + 2, nodes.get(2).getId(), 0.0d);
-    }
+    }*/
 
     @Test
     public void testAddNewConnection() throws Exception {
@@ -139,16 +140,17 @@ public class NeuralNetworkTest {
 
     @Test
     public void testComputeError() throws Exception {
-        NeuralNetwork net = new NeuralNetwork(3, 2);
+        NeuralNetwork net = new NeuralNetwork(3, 2, new ActivationUniPolar());
 
         for (Node node : net.get_nodes()){
             if(node.getLayerType() == LayerType.Input){
                 node.addWeight(1);
             }
             if(node.getLayerType() == LayerType.Output){
-                node.addWeight(2);
+                node.addWeight(4);
             }
         }
+        net.sortNodeById();
         double error = net.computeError();
         assertEquals(1, error, 0.0d);
 
@@ -158,7 +160,7 @@ public class NeuralNetworkTest {
                 node.addWeight(-1);
             }
             if(node.getLayerType() == LayerType.Output){
-                node.addWeight(2);
+                node.addWeight(4);
             }
         }
         error = net.computeError();
