@@ -54,7 +54,7 @@ public class NeuralNetwork {
 
     public NeuralNetwork(int inputLayerSize, int middleLayerSize, ActivationFunction activationFunction) {
         this(inputLayerSize, middleLayerSize);
-        setActivationFunction();
+        setActivationFunction(activationFunction);
     }
 
     //assume that node ids are in order:
@@ -111,7 +111,7 @@ public class NeuralNetwork {
         return createLayer(size, LayerType.Input, 0);
     }
 
-    public static List<Node> createLayer(int size, LayerType type, int startId) {
+    private static List<Node> createLayer(int size, LayerType type, int startId) {
         List<Node> nodes = new LinkedList<>();
         int id = startId;
         while (size > 0) {
@@ -123,28 +123,28 @@ public class NeuralNetwork {
     }
 
     public void addNode(Node newNode) {
-        newNode.setActivationFunction(activationFunction.clone());
+        newNode.setActivationFunction(activationFunction);
         _nodes.add(newNode);
     }
 
     public void addConnection(Connection newConnection) {
-        FoundConnectionWrapper wrapper = checkConnectionExists(newConnection);
-        if (!wrapper.found) {
+        Connection existingConnection = checkConnectionExists(newConnection);
+        if (existingConnection == null) {
             newConnection.setInnovationNumber(innovationNumberGenerator.generate());
             newConnection.getTo().addConnection(newConnection);
         } else {
-            updateConnection(wrapper.connection, newConnection);
+            updateConnection(existingConnection, newConnection);
         }
     }
 
-    private FoundConnectionWrapper checkConnectionExists(Connection connection) {
+    private Connection checkConnectionExists(Connection connection) {
         Node inNode = connection.getFrom();
         Node outNode = connection.getTo();
         for (Connection inConnection : outNode.getInputConnections())
             if (inConnection.getFrom() == inNode) {
-                return new FoundConnectionWrapper(true, inConnection);
+                return inConnection;
             }
-        return new FoundConnectionWrapper(false, null);
+        return null;
     }
 
     public void updateConnection(Connection connection, Connection updatedConnection) {
@@ -282,7 +282,7 @@ public class NeuralNetwork {
     public void setActivationFunction(ActivationFunction activationFunction) {
         this.activationFunction = activationFunction;
         for(Node node : _nodes){
-            node.setActivationFunction(activationFunction.clone());
+            node.setActivationFunction(activationFunction);
         }
     }
 
@@ -292,16 +292,6 @@ public class NeuralNetwork {
         public int compare(Node a, Node b) {
             double diff = a.getId() - b.getId();
             return diff < 0 ? -1 : diff == 0 ? 0 : 1;
-        }
-    }
-
-    class FoundConnectionWrapper {
-        private final Connection connection;
-        private final boolean found;
-
-        FoundConnectionWrapper(boolean found, Connection connection) {
-            this.found = found;
-            this.connection = connection;
         }
     }
 }
