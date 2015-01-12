@@ -96,7 +96,7 @@ public class NeatPopulation {
 
     private void iteration() {
         mutation();
-        crossover();
+//        crossover();
         generateNextPopulation();
     }
 

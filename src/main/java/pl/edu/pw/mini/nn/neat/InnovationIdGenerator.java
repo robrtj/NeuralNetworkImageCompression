@@ -5,7 +5,7 @@ package pl.edu.pw.mini.nn.neat;
  */
 public class InnovationIdGenerator {
     private static InnovationIdGenerator instance = null;
-    private static long innovationNumber;
+    private static long innovationNumber = 0;
 
     protected InnovationIdGenerator() {
         // Exists only to defeat instantiation.

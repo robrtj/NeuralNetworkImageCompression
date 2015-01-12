@@ -97,7 +97,7 @@ public class GrayImageParser {
         if (_isBipolar) {
             for (int i = 0; i < _blocksCount; i++) {
                 for (int j = 0; j < _inputLength; j++) {
-                    _networkInput[i][j] = (_networkInput[i][j] + 1) / 2;
+                    output[i][j] = (output[i][j] + 1) / 2;
                 }
             }
         }

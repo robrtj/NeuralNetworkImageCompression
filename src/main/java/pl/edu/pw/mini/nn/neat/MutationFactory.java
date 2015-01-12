@@ -10,14 +10,11 @@ import java.util.Random;
 public class MutationFactory {
 
     private Map<MutationType, Double> mutationTypes;
-    private double ratio;
 
     private Random randGenerator = new Random();
 
     public MutationFactory() {
         mutationTypes = new HashMap<>();
-        ratio = 0.5d;
-
         mutationTypesInitialization();
     }
 
@@ -44,8 +41,8 @@ public class MutationFactory {
     public void setThresholds(double addConnection, double addNode, double deleteConnection, double weightMutation) {
         mutationTypes.replace(MutationType.AddConnection, addConnection);
         mutationTypes.replace(MutationType.AddNode, addNode);
-        mutationTypes.replace(MutationType.DeleteConnection, deleteConnection);
-        mutationTypes.replace(MutationType.WeightMutation, weightMutation);
+//        mutationTypes.replace(MutationType.DeleteConnection, deleteConnection);
+//        mutationTypes.replace(MutationType.WeightMutation, weightMutation);
 
         normalizeThresholds();
     }
@@ -62,12 +59,12 @@ public class MutationFactory {
             case AddNode:
                 mutated = addNode(net);
                 break;
-            case DeleteConnection:
-                mutated = disableConnection(net);
-                break;
-            case WeightMutation:
-                mutated = weightMutation(net);
-                break;
+//            case DeleteConnection:
+//                mutated = disableConnection(net);
+//                break;
+//            case WeightMutation:
+//                mutated = weightMutation(net);
+//                break;
         }
         return mutated;
     }
@@ -98,23 +95,34 @@ public class MutationFactory {
         Node node = net.getNode(sample);
         Connection conn = node.getRandomConnection();
 
-        if (conn == null){
+        if (conn == null) {
             return false;
         }
 
+        double lastInput = net.getLastInputLayerNodeId();
+        double firstOutput = net.getLastIntermediateLayerNodeId() + 1;
         double id = 0;
         do {
-            id = conn.getInId() + (conn.getOutId() - conn.getInId()) * randGenerator.nextDouble();
-        }while(net.getNodeById(id) != null);
+            double start = lastInput;
+            double stop = firstOutput;
+            if (conn.getFromId() >= lastInput) {
+                start = conn.getFromId();
+            }
+            if(conn.getToId() < firstOutput) {
+                stop = conn.getToId();
+            }
 
-        LayerType layerType = conn.getOutId() <= net.getLastIntermediateLayerNodeId()
+            id = start + (stop - start) * randGenerator.nextDouble();
+        } while (net.getNodeById(id) != null);
+
+        LayerType layerType = conn.getToId() <= net.getLastIntermediateLayerNodeId()
                 ? LayerType.Compression : LayerType.Decompression;
         Node middleNode = new Node(id, layerType);
 
         //dodanie wierzcholka i polaczen
         Connection inConn = new Connection(conn.getFrom(), middleNode, conn.getWeight(), true);
         Connection outConn = new Connection(middleNode, conn.getTo(), 1, true);
-        middleNode.addConnection(inConn);
+        //middleNode.addConnection(inConn);
 
         conn.disable();
         net.addNode(middleNode);
@@ -133,7 +141,7 @@ public class MutationFactory {
         Connection connection = new Connection(inNodeId, outNodeId,
                 randGenerator.nextDouble(), true);
 
-        if(checkCorrectnessOfConnection(net, connection)){
+        if (checkCorrectnessOfConnection(net, connection)) {
             net.addConnection(connection);
             return true;
         }
@@ -142,20 +150,20 @@ public class MutationFactory {
 
     //private
     public boolean checkCorrectnessOfConnection(NeuralNetwork net, Connection connection) {
-        if(connection.getInId() >= connection.getOutId()){
+        if (connection.getFromId() >= connection.getToId()) {
             return false;
         }
 
         Node in = connection.getFrom();
         Node out = connection.getTo();
-        if( in.getLayerType() == LayerType.Output){
+        if (in.getLayerType() == LayerType.Output) {
             return false;
         }
-        if( out.getLayerType() == LayerType.Input){
+        if (out.getLayerType() == LayerType.Input) {
             return false;
         }
-        if( in.getLayerType() == LayerType.Intermediate
-                && out.getLayerType() == LayerType.Intermediate ){
+        if (in.getLayerType() == LayerType.Intermediate
+                && out.getLayerType() == LayerType.Intermediate) {
             return false;
         }
         return true;
@@ -170,13 +178,5 @@ public class MutationFactory {
             }
         }
         return null;
-    }
-
-    public double getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(double ratio) {
-        this.ratio = ratio;
     }
 }

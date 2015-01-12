@@ -15,6 +15,7 @@ public class Connection implements  Cloneable {
         this.to = to;
         this.weight = weight;
         this.enabled = enabled;
+        innovationNumber = -1;
     }
 
     public Connection(Node from, Node to, double weight, boolean enabled, long innovationNumber) {
@@ -79,11 +80,11 @@ public class Connection implements  Cloneable {
         setEnabled(false);
     }
 
-    public double getInId() {
+    public double getFromId() {
         return from.getId();
     }
 
-    public double getOutId() {
+    public double getToId() {
         return to.getId();
     }
 }

@@ -219,6 +219,10 @@ public class NeuralNetwork {
         return null;
     }
 
+    public double getLastInputLayerNodeId() {
+        return inputLayerSize - 1;
+    }
+
     public double getLastIntermediateLayerNodeId() {
         return inputLayerSize + intermediateLayerSize - 1;
     }

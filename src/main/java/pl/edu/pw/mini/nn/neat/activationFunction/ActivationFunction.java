@@ -25,4 +25,8 @@ public abstract class ActivationFunction {
     public double getSum() {
         return sum;
     }
+
+    public boolean getType() {
+        return bipolar;
+    }
 }

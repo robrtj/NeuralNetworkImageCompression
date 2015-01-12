@@ -16,8 +16,8 @@ public class MainClass {
         int numberOfSpecies = 10;
         int maxIteration = 1000;
         double maxError = 0.01;
-        double mutationRatio = 0.5;
-        double crossoverRatio = 0.5;
+        double mutationRatio = 0.9;
+        double crossoverRatio = 0.9;
         ActivationFunction function = new ActivationBiPolar();
 
         try {
@@ -28,12 +28,13 @@ public class MainClass {
             maxIteration = Integer.parseInt(args[4]);
             maxError = Double.parseDouble(args[5]);
             mutationRatio = Double.parseDouble(args[6]);
+            crossoverRatio = Double.parseDouble(args[7]);
         } catch (IndexOutOfBoundsException ex) {
         }
 
         NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
                 crossoverRatio, function);
-        GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false);
+        GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
         imageParser.saveNetworkOutputAsImage(output, "out.png");
     }

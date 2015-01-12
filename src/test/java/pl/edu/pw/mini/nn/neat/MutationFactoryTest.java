@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -111,11 +110,11 @@ public class MutationFactoryTest{
             List<Connection> conns = newNode.getInputConnections();
             assertEquals(1, conns.size());
             Connection conn = newNode.getInputConnections().get(0);
-            assertEquals(newNode.getId(), conn.getOutId(), 0.0d);
+            assertEquals(newNode.getId(), conn.getToId(), 0.0d);
             int outsCounter = 0;
             for(Node node : net.get_nodes()) {
                 for (Connection con : node.getInputConnections()) {
-                    if (con.getInId() == newNode.getId()) {
+                    if (con.getFromId() == newNode.getId()) {
                         outsCounter++;
                     }
                 }
