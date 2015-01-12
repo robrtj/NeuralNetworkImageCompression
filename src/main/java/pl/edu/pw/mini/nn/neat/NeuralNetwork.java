@@ -231,15 +231,19 @@ public class NeuralNetwork {
         return _nodes.size();
     }
 
-    //TODO
     public double[][] getCompressedVector(double[][] image) {
         sortNodeById();
 
-        for (double[] anInput : image) {
+        double[][] compressed = new double[image.length][];
+        for (int i = 0, imageLength = image.length; i < imageLength; i++) {
+            double[] anInput = image[i];
             compute(anInput);
             //get middle vector
+            for (int j = inputLayerSize+1; j < intermediateLayerSize; j++) {
+                compressed[i][j] = getNodeById(j).getCompressedOutput();
+            }
         }
-        return null;
+        return compressed;
     }
 
     public double[][] getNetworkOutput(double[][] input) {

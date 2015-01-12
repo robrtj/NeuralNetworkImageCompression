@@ -66,7 +66,7 @@ public class NeatPopulation {
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (int i = 0; i < maxIteration; i++) {
-            System.out.println("iteration " + i);
+            System.out.println("iteration " + (i+1));
             iteration();
             bestNet = getBestFitness();
             if (bestNet.fitness < maxError) {
@@ -88,6 +88,11 @@ public class NeatPopulation {
         }
 
         return net.getNetworkOutput(image);
+    }
+
+    public double[][] getCompressedVector(double[][] image) {
+        FitnessNetworkWrapper bestNet = getBestFitness();
+        return bestNet.network.getCompressedVector(image);
     }
 
     private NeuralNetwork getBestNetwork() {

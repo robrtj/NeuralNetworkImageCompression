@@ -122,5 +122,16 @@ public class Node {
     public void resetWeight() {
         activationFunction.reset();
     }
+
+    public double getCompressedOutput() {
+        if(LayerType.Intermediate != layerType){
+            return 0;
+        }
+        return getSum();
+    }
+
+    private double getSum() {
+        return activationFunction.getSum();
+    }
 }
 

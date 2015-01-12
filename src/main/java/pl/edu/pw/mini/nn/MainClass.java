@@ -10,11 +10,11 @@ import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
  */
 public class MainClass {
     public static void main(final String args[]) {
-        String imagePath = "lena_1.png";
+        String imagePath = "gray2.png";
         int inputLayerSize = 64;
         int middleLayerSize = 40;
-        int numberOfSpecies = 10;
-        int maxIteration = 10;
+        int numberOfSpecies = 50;
+        int maxIteration = 500;
         double maxError = 0.01;
         double mutationRatio = 0.9;
         double crossoverRatio = 0.9;

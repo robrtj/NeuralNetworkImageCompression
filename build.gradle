@@ -16,8 +16,8 @@ task(runMainForLenaDefault, group: 'NN',
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "lena_1.png"
     int inputLayerSize = 64
-    int middleLayerSize = 50
-    int numberOfSpecies = 100
+    int middleLayerSize = 32
+    int numberOfSpecies = 50
     int maxIteration = 500
     double maxError = 0.1
     double mutationRatio = 0.6
