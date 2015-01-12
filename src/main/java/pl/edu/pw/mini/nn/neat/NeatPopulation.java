@@ -72,6 +72,7 @@ public class NeatPopulation {
                 break;
             }
         }
+        System.out.println("Error: " + bestNet.fitness);
         return getOutputImage(image, bestNet.network);
     }
 
