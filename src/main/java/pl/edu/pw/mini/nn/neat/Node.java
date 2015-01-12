@@ -66,7 +66,7 @@ public class Node {
                 weight = activationFunction.getSum();
                 break;
             case Output:
-                weight = activationFunction.getSum();
+                weight = activationFunction.getSum()/getInputConnections().size();
                 break;
             default:
                 weight = activationFunction.getValue();
