@@ -54,7 +54,7 @@ public class NeuralNetwork {
 
     public NeuralNetwork(int inputLayerSize, int middleLayerSize, ActivationFunction activationFunction) {
         this(inputLayerSize, middleLayerSize);
-        setActivationFunction(activationFunction);
+        setActivationFunction();
     }
 
     //assume that node ids are in order:
@@ -111,7 +111,7 @@ public class NeuralNetwork {
         return createLayer(size, LayerType.Input, 0);
     }
 
-    private static List<Node> createLayer(int size, LayerType type, int startId) {
+    public static List<Node> createLayer(int size, LayerType type, int startId) {
         List<Node> nodes = new LinkedList<>();
         int id = startId;
         while (size > 0) {
@@ -123,7 +123,7 @@ public class NeuralNetwork {
     }
 
     public void addNode(Node newNode) {
-        newNode.setActivationFunction(activationFunction);
+        newNode.setActivationFunction(activationFunction.clone());
         _nodes.add(newNode);
     }
 
@@ -282,7 +282,7 @@ public class NeuralNetwork {
     public void setActivationFunction(ActivationFunction activationFunction) {
         this.activationFunction = activationFunction;
         for(Node node : _nodes){
-            node.setActivationFunction(activationFunction);
+            node.setActivationFunction(activationFunction.clone());
         }
     }
 
