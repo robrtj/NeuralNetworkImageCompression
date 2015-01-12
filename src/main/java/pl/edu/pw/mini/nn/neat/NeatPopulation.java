@@ -66,6 +66,7 @@ public class NeatPopulation {
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (int i = 0; i < maxIteration; i++) {
+            System.out.println("iteration " + i);
             iteration();
             bestNet = getBestFitness();
             if (bestNet.fitness < maxError) {

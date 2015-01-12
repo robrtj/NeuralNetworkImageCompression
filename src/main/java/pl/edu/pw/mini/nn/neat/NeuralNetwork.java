@@ -118,7 +118,7 @@ public class NeuralNetwork {
     }
 
     public void addNode(Node newNode) {
-        newNode.setActivationFunction(activationFunction);
+        newNode.setActivationFunction(activationFunction.clone());
         _nodes.add(newNode);
     }
 

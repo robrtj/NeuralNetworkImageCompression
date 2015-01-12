@@ -13,6 +13,13 @@ public class ActivationBiPolar extends ActivationFunction {
         return sum < threshold ? -1 : 1;
     }
 
+    @Override
+    public ActivationFunction clone() {
+        ActivationBiPolar function = new ActivationBiPolar(threshold);
+        function.addInput(sum);
+        return function;
+    }
+
     public ActivationBiPolar(double threshold) {
         super();
         this.threshold = threshold;

@@ -14,7 +14,7 @@ public class MainClass {
         int inputLayerSize = 64;
         int middleLayerSize = 40;
         int numberOfSpecies = 10;
-        int maxIteration = 1000;
+        int maxIteration = 10;
         double maxError = 0.01;
         double mutationRatio = 0.9;
         double crossoverRatio = 0.9;

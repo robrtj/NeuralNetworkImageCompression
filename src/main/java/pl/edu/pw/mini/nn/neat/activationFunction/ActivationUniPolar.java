@@ -12,6 +12,13 @@ public class ActivationUniPolar extends ActivationFunction {
         return sum < threshold ? 0 : 1;
     }
 
+    @Override
+    public ActivationFunction clone() {
+        ActivationUniPolar function = new ActivationUniPolar(threshold);
+        function.addInput(sum);
+        return function;
+    }
+
     ActivationUniPolar(double threshold) {
         this.threshold = threshold;
     }

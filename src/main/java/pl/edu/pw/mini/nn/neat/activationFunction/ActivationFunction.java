@@ -3,7 +3,7 @@ package pl.edu.pw.mini.nn.neat.activationFunction;
 /**
  * Created by Pawel on 2015-01-06.
  */
-public abstract class ActivationFunction {
+public abstract class ActivationFunction{
     double sum;
     boolean bipolar;
 
@@ -29,4 +29,6 @@ public abstract class ActivationFunction {
     public boolean getType() {
         return bipolar;
     }
+
+    public abstract ActivationFunction clone();
 }
