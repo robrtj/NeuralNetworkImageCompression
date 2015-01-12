@@ -273,7 +273,7 @@ public class NeuralNetwork {
     public void setActivationFunction(ActivationFunction activationFunction) {
         this.activationFunction = activationFunction;
         for(Node node : _nodes){
-            node.setActivationFunction(activationFunction);
+            node.setActivationFunction(activationFunction.clone());
         }
     }
 
