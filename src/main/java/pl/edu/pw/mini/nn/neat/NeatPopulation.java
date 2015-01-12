@@ -68,11 +68,11 @@ public class NeatPopulation {
             System.out.println("iteration " + (i + 1));
             iteration();
             bestNet = getBestFitness();
+            System.out.println("Error: " + bestNet.fitness);
             if (bestNet.fitness < maxError) {
                 break;
             }
         }
-        System.out.println("Error: " + bestNet.fitness);
         return getOutputImage(image, bestNet.network);
     }
 
