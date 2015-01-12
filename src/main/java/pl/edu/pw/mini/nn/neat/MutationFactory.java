@@ -99,19 +99,31 @@ public class MutationFactory {
             return false;
         }
 
-        double lastInput = net.getLastInputLayerNodeId();
+        double firstMiddle = net.getLastInputLayerNodeId() + 1;
         double firstOutput = net.getLastIntermediateLayerNodeId() + 1;
+        double start = conn.getFromId();
+        double stop = conn.getToId();
+        LayerType fromLayer = conn.getFrom().getLayerType();
+        LayerType toLayer = conn.getTo().getLayerType();
+        switch (fromLayer) {
+            case Input:
+                start = firstMiddle - 1;
+                break;
+            case Intermediate:
+                start = firstOutput - 1;
+                break;
+        }
+        switch (toLayer) {
+            case Intermediate:
+                stop = firstMiddle;
+                break;
+            case Output:
+                stop = firstOutput;
+                break;
+        }
+
         double id = 0;
         do {
-            double start = lastInput;
-            double stop = firstOutput;
-            if (conn.getFromId() >= lastInput) {
-                start = conn.getFromId();
-            }
-            if(conn.getToId() < firstOutput) {
-                stop = conn.getToId();
-            }
-
             id = start + (stop - start) * randGenerator.nextDouble();
         } while (net.getNodeById(id) != null);
 

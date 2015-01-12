@@ -102,8 +102,35 @@ public class NeatPopulation {
 
     private void generateNextPopulation() {
         computeFitness();
+
+        double fitnessSum = 0;
+        for (FitnessNetworkWrapper individual : Species) {
+            fitnessSum += individual.fitness;
+        }
+        for (FitnessNetworkWrapper individual : Species) {
+            individual.fitness /= fitnessSum;
+        }
         Collections.sort(Species);
 
+        List<FitnessNetworkWrapper> generation = new LinkedList<>();
+        for (int i = 0; i < numberOfSpecies; i++) {
+            double threshold = randomGenerator.nextDouble();
+            double sum = 0;
+            for (FitnessNetworkWrapper individual : Species) {
+                sum += individual.fitness;
+                if (sum < threshold) {
+                    generation.add(individual);
+                    break;
+                }
+            }
+        }
+        Species = new ArrayList<>();
+        Species.addAll(generation);
+
+        //return true fitness
+        for (FitnessNetworkWrapper individual : Species) {
+            individual.fitness *= fitnessSum;
+        }
     }
 
     private FitnessNetworkWrapper getBestFitness() {
