@@ -36,8 +36,8 @@ task(runMainForGray2, group: 'NN',
     int numberOfSpecies = 100
     int maxIteration = 100
     double maxError = 0.1
-    double mutationRatio = 0.9
-    double crossoverRatio = 0.2
+    double mutationRatio = 0.5
+    double crossoverRatio = 0.5
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
 }

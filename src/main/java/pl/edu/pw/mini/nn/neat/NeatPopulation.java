@@ -103,39 +103,54 @@ public class NeatPopulation {
 
     private void generateNextPopulation() {
         computeFitness();
+        takeNBestSpecies();
 
-        double fitnessSum = 0;
-        for (FitnessNetworkWrapper individual : Species) {
-            fitnessSum += individual.fitness;
-        }
-        for (FitnessNetworkWrapper individual : Species) {
-//            individual.fitness = (fitnessSum - individual.fitness) / fitnessSum;
-            individual.fitness /= fitnessSum;
-        }
+//        double fitnessSum = 0;
+//        for (FitnessNetworkWrapper individual : Species) {
+//            fitnessSum += individual.fitness;
+//        }
+//        for (FitnessNetworkWrapper individual : Species) {
+////            individual.fitness = (fitnessSum - individual.fitness) / fitnessSum;
+//            individual.fitness /= fitnessSum;
+//        }
+//        Collections.sort(Species);
+//        Collections.reverse(Species);
+//
+//        List<FitnessNetworkWrapper> generation = new LinkedList<>();
+//        for (int i = 0; i < numberOfSpecies; i++) {
+////            generation.add(Species.get(i));
+//            double threshold = randomGenerator.nextDouble();
+//            double sum = 0;
+//            for (FitnessNetworkWrapper individual : Species) {
+//                sum += individual.fitness;
+//                if (sum > threshold) {
+//                    generation.add(individual.clone());
+//                    break;
+//                }
+//            }
+//        }
+//        Species = new ArrayList<>();
+//        Species.addAll(generation);
+//
+//        //return true fitness
+//        for (FitnessNetworkWrapper individual : Species) {
+////            individual.fitness = fitnessSum - fitnessSum * individual.fitness;
+//            individual.fitness *= fitnessSum;
+//        }
+    }
+
+    private void takeNBestSpecies(){
         Collections.sort(Species);
         Collections.reverse(Species);
 
         List<FitnessNetworkWrapper> generation = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
-//            generation.add(Species.get(i));
-            double threshold = randomGenerator.nextDouble();
-            double sum = 0;
-            for (FitnessNetworkWrapper individual : Species) {
-                sum += individual.fitness;
-                if (sum > threshold) {
-                    generation.add(individual.clone());
-                    break;
-                }
-            }
+            FitnessNetworkWrapper individual = Species.get(i);
+            generation.add(individual.clone());
         }
+
         Species = new ArrayList<>();
         Species.addAll(generation);
-
-        //return true fitness
-        for (FitnessNetworkWrapper individual : Species) {
-//            individual.fitness = fitnessSum - fitnessSum * individual.fitness;
-            individual.fitness *= fitnessSum;
-        }
     }
 
     private FitnessNetworkWrapper getBestFitness() {
