@@ -6,7 +6,7 @@ set datafile separator ","
 
 
 set term png
-set output "errorPlot.png"
+set output errorPlotFile
 
 
-plot 'error_test.csv' using 1:2 with line
+plot dataFile using 1:2 with line
