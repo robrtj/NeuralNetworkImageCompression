@@ -4,6 +4,9 @@ import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -203,8 +206,18 @@ public class NeatPopulation {
     }
 
     public void saveErrorToFile(){
+        DateFormat dateFormat = new SimpleDateFormat("HH_mm_ss");
         Date date = new Date();
-        saveErrorToFile("errorData_" + date + ".txt");
+        System.out.println(dateFormat.format(date));
+        String time = dateFormat.format(date);
+        String dataFile = "errors\\errorData_" + time + ".csv";
+        String errorPlot = "errors\\errorPlot_" + time + ".png";
+        saveErrorToFile(dataFile);
+        try {
+            Process p = Runtime.getRuntime().exec("gnuplot\\gnuplot -e \"dataFile='" + dataFile+ "'; errorPlotFile='" + errorPlot + "'\" skrypt_err.plt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveErrorToFile(String path){

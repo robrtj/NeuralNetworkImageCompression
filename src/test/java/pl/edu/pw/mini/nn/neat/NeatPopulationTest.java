@@ -33,17 +33,12 @@ public class NeatPopulationTest {
 
     @Test
     public void errorDataTest(){
-        int iterations = 2;
+        int iterations = 5;
         NeatPopulation neat = new NeatPopulation(100, iterations, 0.001d, 0.5d, 0.5d, new ActivationUniPolar());
         GrayImageParser imageParser = new GrayImageParser("gray2.png", 64, false, false);
         double[][] output = neat.computeImage(imageParser.getNetworkInput(), 64, 32);
         double[] error = neat.getErrorData();
 
-        neat.saveErrorToFile("error_test.csv");
-        try {
-            Process p = Runtime.getRuntime().exec("gnuplot\\gnuplot -e \"dataFile='error_test.csv'; errorPlotFile='errorPlotTest.png'\" skrypt_err.plt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        neat.saveErrorToFile();
     }
 }
