@@ -55,7 +55,7 @@ public class NeatPopulation {
         Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
             NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize, activationFunction);
-            Species.add(new FitnessNetworkWrapper(-Double.POSITIVE_INFINITY, network));
+            Species.add(new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, network));
         }
     }
 
@@ -63,7 +63,7 @@ public class NeatPopulation {
         setImage(image);
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
-        bestNet = new FitnessNetworkWrapper(-Double.POSITIVE_INFINITY, null);
+        bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
         for (int i = 0; i < maxIteration; i++) {
             System.out.println("iteration " + (i + 1));
             iteration();
@@ -141,7 +141,6 @@ public class NeatPopulation {
 
     private void takeNBestSpecies(){
         Collections.sort(Species);
-        Collections.reverse(Species);
 
         List<FitnessNetworkWrapper> generation = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
@@ -149,12 +148,11 @@ public class NeatPopulation {
             generation.add(individual.clone());
         }
 
-        Species = new ArrayList<>();
-        Species.addAll(generation);
+        Species = new LinkedList<>(generation);
     }
 
     private FitnessNetworkWrapper getBestFitness() {
-        FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(-Double.POSITIVE_INFINITY, null);
+        FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
         for (FitnessNetworkWrapper individual : Species) {
             double fitness = individual.fitness;
             if (bestNet.fitness < fitness) {
@@ -177,7 +175,7 @@ public class NeatPopulation {
             if (randomGenerator.nextDouble() < crossoverRatio) {
                 NeuralNetwork secondParent = Species.get(randomGenerator.nextInt(Species.size())).network;
                 NeuralNetwork child = crossoverFactory.cross(firstParent, secondParent);
-                FitnessNetworkWrapper wrapper = new FitnessNetworkWrapper(-Double.POSITIVE_INFINITY, child);
+                FitnessNetworkWrapper wrapper = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, child);
                 children.add(wrapper);
             }
         }
@@ -207,8 +205,15 @@ public class NeatPopulation {
             this.network = network;
         }
 
+        //Descending order
         @Override
         public int compareTo(FitnessNetworkWrapper o) {
+            double a = fitness - o.fitness;
+            return a < 0 ? 1 : a == 0 ? 0 : -1;
+        }
+
+        //Ascending order
+        public int compareToAscOrder(FitnessNetworkWrapper o) {
             double a = fitness - o.fitness;
             return a > 0 ? 1 : a == 0 ? 0 : -1;
         }
