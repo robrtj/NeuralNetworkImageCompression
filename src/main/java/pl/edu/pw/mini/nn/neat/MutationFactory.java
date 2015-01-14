@@ -134,7 +134,6 @@ public class MutationFactory {
         //dodanie wierzcholka i polaczen
         Connection inConn = new Connection(conn.getFrom(), middleNode, conn.getWeight(), true);
         Connection outConn = new Connection(middleNode, conn.getTo(), 1, true);
-        //middleNode.addConnection(inConn);
 
         conn.disable();
         net.addNode(middleNode);
