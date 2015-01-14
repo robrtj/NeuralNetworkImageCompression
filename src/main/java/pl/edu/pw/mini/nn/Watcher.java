@@ -1,4 +1,6 @@
-package pl.edu.pw.mini.nn.neat;
+package pl.edu.pw.mini.nn;
+
+import pl.edu.pw.mini.nn.neat.NeatPopulation;
 
 import java.util.Scanner;
 

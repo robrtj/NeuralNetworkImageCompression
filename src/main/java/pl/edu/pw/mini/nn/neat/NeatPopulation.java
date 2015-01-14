@@ -152,12 +152,7 @@ public class NeatPopulation {
         Collections.sort(Species);
 
         List<FitnessNetworkWrapper> generation = new LinkedList<>();
-
-        if(bestNet.network != null) {
-            generation.add(bestNet.clone());
-        }
-
-        for (int i = 1; i < numberOfSpecies; i++) {
+        for (int i = 0; i < numberOfSpecies; i++) {
             FitnessNetworkWrapper individual = Species.get(i);
             generation.add(individual.clone());
         }
