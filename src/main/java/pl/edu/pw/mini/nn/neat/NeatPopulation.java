@@ -3,7 +3,11 @@ package pl.edu.pw.mini.nn.neat;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Created by Pawel on 2015-01-03.
@@ -25,13 +29,14 @@ public class NeatPopulation {
     private ActivationFunction activationFunction;
 
     private FitnessNetworkWrapper bestNet;
+    private boolean endEarlier = false;
 
     NeatPopulation() {
         Species = new LinkedList<>();
         mutationFactory = new MutationFactory();
         crossoverFactory = new CrossoverFactory();
         activationFunction = new ActivationUniPolar();
-        bestNet = null;
+        bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
     }
 
     public NeatPopulation(int numberOfSpecies, int maxIteration,
@@ -63,7 +68,7 @@ public class NeatPopulation {
         setImage(image);
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
-        bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
+        //bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
         for (int i = 0; i < maxIteration; i++) {
             System.out.println("iteration " + (i + 1));
             iteration();
@@ -72,7 +77,11 @@ public class NeatPopulation {
             if (Math.abs(bestNet.fitness) < maxError) {
                 break;
             }
+            if(endEarlier){
+                break;
+            }
         }
+        System.out.print("Ended...");
         return getOutputImage(image, bestNet.network);
     }
 
@@ -143,7 +152,12 @@ public class NeatPopulation {
         Collections.sort(Species);
 
         List<FitnessNetworkWrapper> generation = new LinkedList<>();
-        for (int i = 0; i < numberOfSpecies; i++) {
+
+        if(bestNet.network != null) {
+            generation.add(bestNet.clone());
+        }
+
+        for (int i = 1; i < numberOfSpecies; i++) {
             FitnessNetworkWrapper individual = Species.get(i);
             generation.add(individual.clone());
         }
@@ -193,6 +207,10 @@ public class NeatPopulation {
 
     public int size() {
         return Species.size();
+    }
+
+    public void stopComputing() {
+        endEarlier = true;
     }
 
 

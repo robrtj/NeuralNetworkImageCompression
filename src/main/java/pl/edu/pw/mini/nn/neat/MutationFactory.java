@@ -16,6 +16,8 @@ public class MutationFactory {
     public MutationFactory() {
         mutationTypes = new HashMap<>();
         mutationTypesInitialization();
+
+        setThresholds(0.4, 0.4, 0.1, 0.1);
     }
 
     private void mutationTypesInitialization() {
@@ -41,8 +43,8 @@ public class MutationFactory {
     public void setThresholds(double addConnection, double addNode, double deleteConnection, double weightMutation) {
         mutationTypes.replace(MutationType.AddConnection, addConnection);
         mutationTypes.replace(MutationType.AddNode, addNode);
-//        mutationTypes.replace(MutationType.DeleteConnection, deleteConnection);
-//        mutationTypes.replace(MutationType.WeightMutation, weightMutation);
+        mutationTypes.replace(MutationType.DeleteConnection, deleteConnection);
+        mutationTypes.replace(MutationType.WeightMutation, weightMutation);
 
         normalizeThresholds();
     }
@@ -59,12 +61,12 @@ public class MutationFactory {
             case AddNode:
                 mutated = addNode(net);
                 break;
-//            case DeleteConnection:
-//                mutated = disableConnection(network);
-//                break;
-//            case WeightMutation:
-//                mutated = weightMutation(network);
-//                break;
+            case DeleteConnection:
+                mutated = disableConnection(net);
+                break;
+            case WeightMutation:
+                mutated = weightMutation(net);
+                break;
         }
         return mutated;
     }

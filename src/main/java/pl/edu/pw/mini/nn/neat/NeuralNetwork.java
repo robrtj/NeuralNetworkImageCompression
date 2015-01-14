@@ -173,8 +173,8 @@ public class NeuralNetwork implements Cloneable {
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
             error += Math.pow(inValue - outValue, 2);
         }
-        double e = error /inputLayerSize;
-        return error / inputLayerSize;
+        double e = error / inputLayerSize;
+        return e;
     }
 
     //assume input is in activation function domain

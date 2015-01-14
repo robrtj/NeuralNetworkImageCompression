@@ -2,8 +2,11 @@ package pl.edu.pw.mini.nn;
 
 import pl.edu.pw.mini.nn.image.GrayImageParser;
 import pl.edu.pw.mini.nn.neat.NeatPopulation;
+import pl.edu.pw.mini.nn.neat.Watcher;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationBiPolar;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
+
+import java.util.Scanner;
 
 /**
  * Created by Robert on 2015-01-02.
@@ -34,6 +37,9 @@ public class MainClass {
 
         NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
                 crossoverRatio, function);
+        Runnable runner = new Watcher(population);
+        Thread watcher = new Thread(runner);
+        watcher.start();
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
         imageParser.saveNetworkOutputAsImage(output, "out.png");

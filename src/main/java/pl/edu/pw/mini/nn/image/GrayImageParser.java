@@ -72,7 +72,6 @@ public class GrayImageParser {
     }
 
     private void parseImageToNetworkImage() throws Exception {
-
         for (int i = 0; i < _width; ++i) {
             for (int j = 0; j < _height; ++j) {
                 //+1 because don't want to have 0
