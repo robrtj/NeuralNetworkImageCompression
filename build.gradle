@@ -34,7 +34,7 @@ task(runMainForGray2, group: 'NN',
     int inputLayerSize = 64
     int middleLayerSize = 32
     int numberOfSpecies = 100
-    int maxIteration = 100
+    int maxIteration = 1000
     double maxError = 1
     double mutationRatio = 0.6
     double crossoverRatio = 0.3
@@ -42,11 +42,11 @@ task(runMainForGray2, group: 'NN',
     classpath = sourceSets.main.runtimeClasspath
 }
 
-task(runMainForGray2, group: 'NN',
+task(runMainBlack8x8, group: 'NN',
         description: 'Run main black 8x8',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
-    String imagePath = "gray2.png"
+    String imagePath = "black8x8.png"
     int inputLayerSize = 8
     int middleLayerSize = 4
     int numberOfSpecies = 100
