@@ -39,6 +39,7 @@ public class NeatPopulation {
 
     private FitnessNetworkWrapper bestNet;
     private double[] errorData;
+    private boolean saveToFile;
 
     NeatPopulation() {
         Species = new LinkedList<>();
@@ -92,8 +93,8 @@ public class NeatPopulation {
             int elapsedSeconds = (int) (tDelta / 1000);
             time += tDelta;
             long timeInSeconds = time / 1000;
-            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + elapsedSeconds / 60 + ":" + elapsedSeconds % 60);
-            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + timeInSeconds / 60 + ":" + timeInSeconds % 60);
+            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
+            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
 
             bestNet = getBestFitness();
             errorData[i] = bestNet.fitness;
@@ -101,13 +102,14 @@ public class NeatPopulation {
             if (Math.abs(bestNet.fitness) < maxError) {
                 break;
             }
-            if(i % 50 == 0){
-                saveErrorToFile();
-                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "out" + i + ".png");
-            }
+//            if (saveToFile == true && i % 50 == 0) {
+//                saveErrorToFile();
+//                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "out" + i + ".png");
+//            }
 
         }
         System.out.print("Ended...");
+        saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
 
@@ -266,6 +268,15 @@ public class NeatPopulation {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setImageParser(GrayImageParser imageParser) {
+        this.imageParser = imageParser;
+        saveToFile = true;
+    }
+
+    public GrayImageParser getImageParser() {
+        return imageParser;
     }
 
 
