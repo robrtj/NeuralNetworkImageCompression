@@ -171,10 +171,9 @@ public class NeuralNetwork {
         for (int i = 0; i < inputLayerSize; i++) {
             double inValue = _nodes.get(i).getWeight();
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
-            error += Math.pow(inValue - outValue, 2);
+            error += Math.abs(inValue - outValue);
         }
-        double e = error /inputLayerSize;
-        return error / inputLayerSize;
+        return error;
     }
 
     //assume input is in activation function domain
