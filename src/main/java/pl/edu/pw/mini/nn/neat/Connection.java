@@ -72,6 +72,7 @@ public class Connection implements  Cloneable {
                 "Ordinal number " + innovationNumber;
     }
 
+    @Override
     public Connection clone() {
         return new Connection(from, to, weight, enabled, innovationNumber);
     }
