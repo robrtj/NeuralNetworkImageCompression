@@ -17,11 +17,11 @@ task(runMainForLenaDefault, group: 'NN',
     String imagePath = "lena_1.png"
     int inputLayerSize = 64
     int middleLayerSize = 32
-    int numberOfSpecies = 25
+    int numberOfSpecies = 100
     int maxIteration = 100
     double maxError = 0.1
-    double mutationRatio = 0.9
-    double crossoverRatio = 0.6
+    double mutationRatio = 0.8
+    double crossoverRatio = 0.5
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
 }
@@ -52,6 +52,22 @@ task(runMainBlack8x8, group: 'NN',
     int numberOfSpecies = 100
     int maxIteration = 100
     double maxError = 1
+    double mutationRatio = 0.15
+    double crossoverRatio = 0.1
+    args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(runMainForGraySmall, group: 'NN',
+        description: 'Run main Gray 2 colors 16x16',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'pl.edu.pw.mini.nn.MainClass'
+    String imagePath = "gray2s.png"
+    int inputLayerSize = 16
+    int middleLayerSize = 16
+    int numberOfSpecies = 100
+    int maxIteration = 500
+    double maxError = 0.1
     double mutationRatio = 0.6
     double crossoverRatio = 0.3
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
@@ -79,7 +95,6 @@ task(runExample, group: 'examples',
 }
 
 dependencies {
-//    compile files('JavaPlot.jar')
     compile 'org.encog:encog-core:3.3.0'
     compile "joda-time:joda-time:2.2"
     testCompile group: 'junit', name: 'junit', version: '4.11'

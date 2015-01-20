@@ -34,6 +34,10 @@ public class MainClass {
 
         NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
                 crossoverRatio, function);
+        Runnable runner = new Watcher(population);
+        Thread watcher = new Thread(runner);
+        watcher.start();
+
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
         population.imageParser = imageParser;
         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);

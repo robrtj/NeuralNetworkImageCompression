@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Node {
+public class Node implements Cloneable {
     private double id;
     private LayerType layerType;
     private List<Connection> inputConnections;
@@ -132,6 +132,12 @@ public class Node {
 
     private double getSum() {
         return activationFunction.getSum();
+    }
+
+    @Override
+    public Node clone(){
+        Node node = new Node(id, layerType, inputConnections, activationFunction);
+        return node;
     }
 }
 

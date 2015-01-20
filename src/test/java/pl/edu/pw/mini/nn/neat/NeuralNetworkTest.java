@@ -123,17 +123,17 @@ public class NeuralNetworkTest {
         }
         double[][] in = {{0.5, 0.9}};
         double fitness = net.fitnessFunction(in);
-        double expected = 0.145;
+        double expected = -0.145;
         assertEquals(expected, fitness, 0.00001d);
 
         in = new double[][]{{0.1, 0.3}};
         fitness = net.fitnessFunction(in);
-        expected = 0.025;
+        expected = -0.025;
         assertEquals(expected, fitness, 0.00001d);
 
         in = new double[][]{{0.5, 0.9}, {0.1, 0.3}};
         fitness = net.fitnessFunction(in);
-        expected = 0.17;
+        expected = -0.17;
         assertEquals(expected, fitness, 0.00001d);
 
     }
