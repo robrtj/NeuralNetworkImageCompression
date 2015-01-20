@@ -34,7 +34,7 @@ task(runMainForGray2, group: 'NN',
     int inputLayerSize = 64
     int middleLayerSize = 32
     int numberOfSpecies = 100
-    int maxIteration = 1000
+    int maxIteration = 400
     double maxError = 1
     double mutationRatio = 0.6
     double crossoverRatio = 0.3

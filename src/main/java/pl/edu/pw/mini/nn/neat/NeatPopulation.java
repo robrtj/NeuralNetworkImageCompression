@@ -1,6 +1,7 @@
 package pl.edu.pw.mini.nn.neat;
 
 import org.encog.util.Stopwatch;
+import pl.edu.pw.mini.nn.image.GrayImageParser;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
@@ -19,6 +20,8 @@ public class NeatPopulation {
     private MutationFactory mutationFactory;
     private CrossoverFactory crossoverFactory;
     private Random randomGenerator = new Random();
+
+    public GrayImageParser imageParser;
 
     //neat params
     private int numberOfSpecies;
@@ -84,8 +87,8 @@ public class NeatPopulation {
             int elapsedSeconds = (int) (tDelta / 1000);
             time += tDelta;
             long timeInSeconds = time / 1000;
-            System.out.println("Elapsed time: " + elapsedSeconds / 1440 + ":" + elapsedSeconds / 60 + ":" + elapsedSeconds % 60);
-            System.out.println("All elapsed time: " + timeInSeconds / 1440 + ":" + timeInSeconds / 60 + ":" + timeInSeconds % 60);
+            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + elapsedSeconds / 60 + ":" + elapsedSeconds % 60);
+            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + timeInSeconds / 60 + ":" + timeInSeconds % 60);
 
             bestNet = getBestFitness();
             errorData[i] = bestNet.fitness;
@@ -93,6 +96,12 @@ public class NeatPopulation {
             if (bestNet.fitness < maxError) {
                 break;
             }
+
+            if(i % 50 == 0){
+                saveErrorToFile();
+                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "out" + i + ".png");
+            }
+
         }
         return getOutputImage(image, bestNet.network);
     }
