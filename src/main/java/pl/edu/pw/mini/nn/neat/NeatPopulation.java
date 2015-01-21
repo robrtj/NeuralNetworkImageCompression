@@ -1,11 +1,11 @@
 package pl.edu.pw.mini.nn.neat;
 
+import pl.edu.pw.mini.nn.image.GrayImageParser;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
 import java.io.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,6 +30,8 @@ public class NeatPopulation {
 
     private FitnessNetworkWrapper bestNet;
     private double[] errorData;
+    private GrayImageParser imageParser;
+    private boolean saveToSeparateFile;
 
     NeatPopulation() {
         Species = new LinkedList<>();
@@ -71,16 +73,35 @@ public class NeatPopulation {
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
+        long time = 0;
         for (int i = 0; i < maxIteration; i++) {
-            System.out.println("iteration " + (i + 1));
+            System.out.println("Counting iteration " + (i + 1));
+            long tStart = System.currentTimeMillis();
+
             iteration();
+
+            long tEnd = System.currentTimeMillis();
+            long tDelta = tEnd - tStart;
+            int elapsedSeconds = (int) (tDelta / 1000);
+            time += tDelta;
+            long timeInSeconds = time / 1000;
+            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
+            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
+
             bestNet = getBestFitness();
             errorData[i] = bestNet.fitness;
-            System.out.println("Error: " + bestNet.fitness);
-            if (bestNet.fitness < maxError) {
+            System.out.println("Error: " + bestNet.fitness + "\n");
+            if (Math.abs(bestNet.fitness) < maxError) {
                 break;
             }
+//            if (saveToSeparateFile == true && i % 50 == 0) {
+//                saveErrorToFile();
+//                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "out" + i + ".png");
+//            }
+
         }
+        System.out.print("Ended...");
+        saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
 
@@ -206,12 +227,19 @@ public class NeatPopulation {
     }
 
     public void saveErrorToFile(){
-        DateFormat dateFormat = new SimpleDateFormat("HH_mm_ss");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_dd_HH_mm_ss");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
         String time = dateFormat.format(date);
-        String dataFile = "errors\\errorData_" + time + ".csv";
-        String errorPlot = "errors\\errorPlot_" + time + ".png";
+
+        String dataFile = "errors\\errorData_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + "_T_" + time + ".csv";
+        String errorPlot = "errors\\errorPlot_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + "_T_" + time + ".png";
+        if(!saveToSeparateFile) {
+            dataFile += "_T_" + time;
+            errorPlot += "_T_" + time;
+        }
+        dataFile += ".csv";
+        errorPlot += ".png";
         saveErrorToFile(dataFile);
         try {
             Process p = Runtime.getRuntime().exec("gnuplot\\gnuplot -e \"dataFile='" + dataFile+ "'; errorPlotFile='" + errorPlot + "'\" skrypt_err.plt");
@@ -240,6 +268,12 @@ public class NeatPopulation {
             }
         }
     }
+
+    public void setImageParser(GrayImageParser imageParser) {
+        saveToSeparateFile = true;
+        this.imageParser = imageParser;
+    }
+
 
     class FitnessNetworkWrapper implements Comparable<FitnessNetworkWrapper> {
         double fitness;
