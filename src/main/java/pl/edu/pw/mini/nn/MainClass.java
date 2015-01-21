@@ -32,45 +32,12 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        boolean tests = true;
-        if (tests) {
-            runParamTests();
-        } else {
-            NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
-                    crossoverRatio, function);
-
-            GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
-            population.setImageParser(imageParser);
-            double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-
-            population.saveErrorToFile();
-            imageParser.saveNetworkOutputAsImage(output, "out.png");
-        }
-    }
-
-    private static void runParamTests() {
-        String imagePath = "lena_1.png";
-        int inputLayerSize = 64;
-        int middleLayerSize = 32;
-        double maxError = 0.01;
-        ActivationFunction function = new ActivationBiPolar();
-
+        NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
+                crossoverRatio, function);
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
+        double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
 
-        int counter = 25;
-        for (int numberOfSpecies = 25; numberOfSpecies <= 100; numberOfSpecies += counter) {
-            for (int maxIteration = 25; maxIteration <= 100; maxIteration += counter) {
-                for (double mutationRatio = 0.1; mutationRatio <= 1; mutationRatio += 0.25) {
-                    for (double crossoverRatio = 0.1; crossoverRatio <= 1; crossoverRatio += 0.25) {
-
-                        NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
-                                crossoverRatio, function);
-                        population.setImageParser(imageParser);
-                        double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-                        imageParser.saveNetworkOutputAsImage(output, "images\\out" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + "_.png");
-                    }
-                }
-            }
-        }
+        population.saveErrorToFile();
+        imageParser.saveNetworkOutputAsImage(output, "out.png");
     }
 }

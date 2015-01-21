@@ -1,7 +1,5 @@
 package pl.edu.pw.mini.nn.neat;
 
-import org.encog.util.Stopwatch;
-import pl.edu.pw.mini.nn.image.GrayImageParser;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
@@ -10,11 +8,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 /**
  * Created by Pawel on 2015-01-03.
@@ -25,8 +18,6 @@ public class NeatPopulation {
     private MutationFactory mutationFactory;
     private CrossoverFactory crossoverFactory;
     private Random randomGenerator = new Random();
-
-    public GrayImageParser imageParser;
 
     //neat params
     private int numberOfSpecies;
@@ -39,14 +30,13 @@ public class NeatPopulation {
 
     private FitnessNetworkWrapper bestNet;
     private double[] errorData;
-    private boolean saveToFile;
 
     NeatPopulation() {
         Species = new LinkedList<>();
         mutationFactory = new MutationFactory();
         crossoverFactory = new CrossoverFactory();
         activationFunction = new ActivationUniPolar();
-        bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
+        bestNet = null;
     }
 
     public NeatPopulation(int numberOfSpecies, int maxIteration,
@@ -72,7 +62,7 @@ public class NeatPopulation {
         Species = new LinkedList<>();
         for (int i = 0; i < numberOfSpecies; i++) {
             NeuralNetwork network = new NeuralNetwork(inputLayerSize, middleLayerSize, activationFunction);
-            Species.add(new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, network));
+            Species.add(new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, network));
         }
     }
 
@@ -81,35 +71,16 @@ public class NeatPopulation {
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
-        long time = 0;
         for (int i = 0; i < maxIteration; i++) {
-            System.out.println("Counting iteration " + (i + 1));
-            long tStart = System.currentTimeMillis();
-
+            System.out.println("iteration " + (i + 1));
             iteration();
-
-            long tEnd = System.currentTimeMillis();
-            long tDelta = tEnd - tStart;
-            int elapsedSeconds = (int) (tDelta / 1000);
-            time += tDelta;
-            long timeInSeconds = time / 1000;
-            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
-            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
-
             bestNet = getBestFitness();
             errorData[i] = bestNet.fitness;
-            System.out.println("Error: " + bestNet.fitness + "\n");
-            if (Math.abs(bestNet.fitness) < maxError) {
+            System.out.println("Error: " + bestNet.fitness);
+            if (bestNet.fitness < maxError) {
                 break;
             }
-//            if (saveToFile == true && i % 50 == 0) {
-//                saveErrorToFile();
-//                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "out" + i + ".png");
-//            }
-
         }
-        System.out.print("Ended...");
-        saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
 
@@ -138,7 +109,7 @@ public class NeatPopulation {
         generateNextPopulation();
     }
 
-    private void takeNBestSpecies(){
+    private void takeNBestSpecies() {
         Collections.sort(Species);
 
         List<FitnessNetworkWrapper> generation = new LinkedList<>();
@@ -183,10 +154,10 @@ public class NeatPopulation {
     }
 
     private FitnessNetworkWrapper getBestFitness() {
-        FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, null);
+        FitnessNetworkWrapper bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         for (FitnessNetworkWrapper individual : Species) {
             double fitness = individual.fitness;
-            if (bestNet.fitness < fitness) {
+            if (bestNet.fitness > fitness) {
                 bestNet = individual;
             }
         }
@@ -206,7 +177,7 @@ public class NeatPopulation {
             if (randomGenerator.nextDouble() < crossoverRatio) {
                 NeuralNetwork secondParent = Species.get(randomGenerator.nextInt(Species.size())).network;
                 NeuralNetwork child = crossoverFactory.cross(firstParent, secondParent);
-                FitnessNetworkWrapper wrapper = new FitnessNetworkWrapper(Double.NEGATIVE_INFINITY, child);
+                FitnessNetworkWrapper wrapper = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, child);
                 children.add(wrapper);
             }
         }
@@ -249,19 +220,19 @@ public class NeatPopulation {
         }
     }
 
-    public void saveErrorToFile(String path) {
+    public void saveErrorToFile(String path){
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(path));
             for (int i = 0; i < errorData.length; i++) {
-                writer.write(String.valueOf(i + 1));
+                writer.write(String.valueOf(i+1));
                 writer.write(",");
                 writer.write(String.valueOf(errorData[i]));
                 writer.write("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }finally {
             try {
                 writer.close();
             } catch (IOException e) {
@@ -270,41 +241,19 @@ public class NeatPopulation {
         }
     }
 
-    public void setImageParser(GrayImageParser imageParser) {
-        this.imageParser = imageParser;
-        saveToFile = true;
-    }
-
-    public GrayImageParser getImageParser() {
-        return imageParser;
-    }
-
-
-    class FitnessNetworkWrapper implements Cloneable, Comparable<FitnessNetworkWrapper> {
+    class FitnessNetworkWrapper implements Comparable<FitnessNetworkWrapper> {
         double fitness;
         NeuralNetwork network;
 
-        public FitnessNetworkWrapper(double fitness, NeuralNetwork network) {
+        FitnessNetworkWrapper(double fitness, NeuralNetwork network) {
             this.fitness = fitness;
             this.network = network;
         }
 
-        //Descending order
         @Override
         public int compareTo(FitnessNetworkWrapper o) {
-            double a = fitness - o.fitness;
-            return a < 0 ? 1 : a == 0 ? 0 : -1;
-        }
-
-        //Ascending order
-        public int compareToAscOrder(FitnessNetworkWrapper o) {
-            double a = fitness - o.fitness;
-            return a > 0 ? 1 : a == 0 ? 0 : -1;
-        }
-
-        @Override
-        public FitnessNetworkWrapper clone(){
-            return new FitnessNetworkWrapper(fitness, network.clone());
+            double diff = fitness - o.fitness;
+            return diff < 0? -1 : diff==0 ? 0 : 1;
         }
     }
 }

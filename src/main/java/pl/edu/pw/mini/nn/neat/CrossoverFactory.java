@@ -8,7 +8,7 @@ import java.util.*;
 public class CrossoverFactory {
     Random randomGenerator = new Random();
 
-    public NeuralNetwork  cross(NeuralNetwork firstParent, NeuralNetwork secondParent) {
+    public NeuralNetwork cross(NeuralNetwork firstParent, NeuralNetwork secondParent) {
         List<Connection> f_parent = firstParent.getConnections();
         List<Connection> s_parent = secondParent.getConnections();
         f_parent.sort(new ConnectionByIdComparator());
@@ -29,14 +29,15 @@ public class CrossoverFactory {
                 child.add(s_conn);
                 s_iterator++;
             } else {
+                Connection newConn = f_conn.clone();
                 if (randomGenerator.nextDouble() < 0.5) {
-                    child.add(f_conn);
+                    newConn.setWeight(f_conn.getWeight());
+                    newConn.setEnabled(f_conn.isEnabled());
                 } else {
-                    child.add(s_conn);
+                    newConn.setWeight(s_conn.getWeight());
+                    newConn.setEnabled(s_conn.isEnabled());
                 }
-                if (randomGenerator.nextDouble() < 0.5) {
-                    child.get(child.size() - 1).setEnabled(true);
-                }
+                child.add(newConn);
                 f_iterator++;
                 s_iterator++;
             }
@@ -54,36 +55,29 @@ public class CrossoverFactory {
     }
 
     private NeuralNetwork createNeuralNetworkBasedOnConnections(List<Connection> connections) {
-        if( connections.size() == 0)
-            return new NeuralNetwork();
-
         int inputLayerSize = 0;
         int intermediateLayerSize = 0;
         NeuralNetwork net = new NeuralNetwork();
-        net.setActivationFunction(connections.get(0).getFrom().getActivationFunction());
 
         for (Connection conn : connections) {
             Node from = conn.getFrom();
             if (net.getNodeById(from.getId()) == null) {
                 net.addNode(from);
+                if (LayerType.Input == from.getLayerType()
+                        && inputLayerSize < from.getId()) {
+                    inputLayerSize = (int) from.getId();
+                }
             }
             Node to = conn.getTo();
             if (net.getNodeById(to.getId()) == null) {
                 net.addNode(to);
+                if (LayerType.Intermediate == to.getLayerType()
+                        && intermediateLayerSize < to.getId()) {
+                    intermediateLayerSize = (int) to.getId();
+                }
             }
         }
-
-        for (Node node : net.get_nodes()) {
-            if (LayerType.Input == node.getLayerType()
-                    && inputLayerSize < node.getId()) {
-                inputLayerSize = (int) node.getId();
-            }
-            if (LayerType.Intermediate == node.getLayerType()
-                    && intermediateLayerSize < node.getId()) {
-                intermediateLayerSize = (int) node.getId();
-            }
-        }
-        net.setLayerSizes(inputLayerSize + 1, intermediateLayerSize + 1 - inputLayerSize);
+        net.setLayerSizes(inputLayerSize+1, intermediateLayerSize - inputLayerSize + 1);
         return net;
     }
 

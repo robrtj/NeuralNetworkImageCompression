@@ -3,7 +3,7 @@ package pl.edu.pw.mini.nn.neat;
 /**
  * Created by Pawel on 2014-12-04.
  */
-public class Connection implements Cloneable {
+public class Connection implements  Cloneable {
     private Node from;
     private Node to;
     private double weight;
@@ -72,7 +72,6 @@ public class Connection implements Cloneable {
                 "Ordinal number " + innovationNumber;
     }
 
-    @Override
     public Connection clone() {
         return new Connection(from, to, weight, enabled, innovationNumber);
     }

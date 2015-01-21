@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by Robert on 2015-01-03.
  */
-public class NeuralNetwork implements Cloneable {
+public class NeuralNetwork {
     private List<Node> _nodes;
     private InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
     private int inputLayerSize;
@@ -159,7 +159,7 @@ public class NeuralNetwork implements Cloneable {
             compute(anInput);
             fitness += computeError();
         }
-        return -fitness;
+        return fitness;
     }
 
     //assume input nodes are at the start of _nodes
@@ -171,9 +171,10 @@ public class NeuralNetwork implements Cloneable {
         for (int i = 0; i < inputLayerSize; i++) {
             double inValue = _nodes.get(i).getWeight();
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
-            error += Math.abs(inValue - outValue);
+            error += Math.pow(inValue - outValue, 2);
         }
-        return error;
+        double e = error /inputLayerSize;
+        return error / inputLayerSize;
     }
 
     //assume input is in activation function domain
@@ -285,16 +286,6 @@ public class NeuralNetwork implements Cloneable {
         }
     }
 
-    @Override
-    public NeuralNetwork clone(){
-        NeuralNetwork net = new NeuralNetwork();
-        net.setLayerSizes(inputLayerSize, intermediateLayerSize);
-        for (Node node : _nodes){
-            net.addNode(node.clone());
-        }
-        net.setActivationFunction(activationFunction);
-        return net;
-    }
 
     class NodeByIdComparator implements Comparator<Node> {
         @Override
