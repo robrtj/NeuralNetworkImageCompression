@@ -72,7 +72,7 @@ public class MutationFactory {
     private boolean weightMutation(NeuralNetwork net) {
         int nodeCounter = net.getNumberOfNodes();
         int sample = randGenerator.nextInt(nodeCounter);
-        double weight = randGenerator.nextDouble();
+        double weight = randGenerator.nextDouble()-0.5;
 
         Node node = net.getNode(sample);
         node.updateRandomConnection(weight);
@@ -151,7 +151,7 @@ public class MutationFactory {
         Node outNodeId = net.get_nodes().get(out);
 
         Connection connection = new Connection(inNodeId, outNodeId,
-                randGenerator.nextDouble(), true);
+                randGenerator.nextDouble()-0.5, true);
 
         if (checkCorrectnessOfConnection(net, connection)) {
             net.addConnection(connection);

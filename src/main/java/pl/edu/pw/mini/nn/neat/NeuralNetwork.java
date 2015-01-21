@@ -251,6 +251,7 @@ public class NeuralNetwork {
     }
 
     public double[][] getNetworkOutput(double[][] input) {
+        sortNodeById();
         double[][] output = new double[input.length][inputLayerSize];
 
         for (int i = 0; i < input.length; i++) {

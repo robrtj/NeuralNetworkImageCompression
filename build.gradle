@@ -32,12 +32,29 @@ task(runMainForGray2, group: 'NN',
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "gray2.png"
     int inputLayerSize = 64
-    int middleLayerSize = 5
+    int middleLayerSize = 16
     int numberOfSpecies = 100
-    int maxIteration = 100
-    double maxError = 0.00001
+    int maxIteration = 300
+    double maxError = 1
     double mutationRatio = 0.6
-    double crossoverRatio = 0.6
+    double crossoverRatio = 0.3
+    args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+task(runMainForCog, group: 'NN',
+        description: 'Run main Gray 2 colors',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'pl.edu.pw.mini.nn.MainClass'
+    String imagePath = "cog.png"
+    int inputLayerSize = 64
+    int middleLayerSize = 16
+    int numberOfSpecies = 100
+    int maxIteration = 300
+    double maxError = 1
+    double mutationRatio = 0.5
+    double crossoverRatio = 0.1
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
 }

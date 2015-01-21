@@ -94,10 +94,10 @@ public class NeatPopulation {
             if (Math.abs(bestNet.fitness) < maxError) {
                 break;
             }
-//            if (saveToSeparateFile == true && i % 50 == 0) {
-//                saveErrorToFile();
-//                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "out" + i + ".png");
-//            }
+            if (saveToSeparateFile == true && i % 50 == 0) {
+                saveErrorToFile();
+                imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "images\\out_" + i + ".png");
+            }
 
         }
         System.out.print("Ended...");
