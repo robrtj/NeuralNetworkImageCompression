@@ -123,17 +123,17 @@ public class NeuralNetworkTest {
         }
         double[][] in = {{0.5, 0.9}};
         double fitness = net.fitnessFunction(in);
-        double expected = 0.145;
+        double expected = 0.7;
         assertEquals(expected, fitness, 0.00001d);
 
         in = new double[][]{{0.1, 0.3}};
         fitness = net.fitnessFunction(in);
-        expected = 0.025;
+        expected = 0.4;
         assertEquals(expected, fitness, 0.00001d);
 
         in = new double[][]{{0.5, 0.9}, {0.1, 0.3}};
         fitness = net.fitnessFunction(in);
-        expected = 0.17;
+        expected = 1.1;
         assertEquals(expected, fitness, 0.00001d);
 
     }
@@ -147,12 +147,12 @@ public class NeuralNetworkTest {
                 node.addWeight(1);
             }
             if(node.getLayerType() == LayerType.Output){
-                node.addWeight(4);
+                node.addWeight(1);
             }
         }
         net.sortNodeById();
         double error = net.computeError();
-        assertEquals(1, error, 0.0d);
+        assertEquals(1.5d, error, 0.001d);
 
         net = new NeuralNetwork(3, 2);
         for (Node node : net.get_nodes()){
@@ -160,11 +160,11 @@ public class NeuralNetworkTest {
                 node.addWeight(-1);
             }
             if(node.getLayerType() == LayerType.Output){
-                node.addWeight(4);
+                node.addWeight(2);
             }
         }
         error = net.computeError();
-        assertEquals(9, error, 0.0d);
+        assertEquals(6, error, 0.0d);
     }
 
     @Test
