@@ -20,7 +20,7 @@ public class MainClass {
         double maxError = 0.01;
         double mutationRatio = 0.9;
         double crossoverRatio = 0.9;
-        ActivationFunction function = new ActivationSigmoidUniPolar();
+        ActivationFunction function = new ActivationSigmoidBiPolar();
 
         try {
             imagePath = args[0];
@@ -83,20 +83,20 @@ public class MainClass {
                         time += tDelta;
                         long timeInSeconds = time / 1000;
                         System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
-                        System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
+                        System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60 + "\n");
                     }
                 }
             }
         }
 
-        NeatPopulation population = new NeatPopulation(50, 300, maxError, 0.9, 0.1, function);
-        population.setImageParser(imageParser);
-        double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-        imageParser.saveNetworkOutputAsImage(output, "images\\out_BIG1" + 50 + "_" + 1000 + "_" + 0.8 + "_" + 0.2 + ".png");
-
-        population = new NeatPopulation(50, 1000, maxError, 0.8, 0.2, function);
-        population.setImageParser(imageParser);
-        output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-        imageParser.saveNetworkOutputAsImage(output, "images\\out_BIG2" + 50 + "_" + 1000 + "_" + 0.8 + "_" + 0.2 + ".png");
+//        NeatPopulation population = new NeatPopulation(50, 300, maxError, 0.9, 0.1, function);
+//        population.setImageParser(imageParser);
+//        double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
+//        imageParser.saveNetworkOutputAsImage(output, "images\\out_BIG1" + 50 + "_" + 1000 + "_" + 0.8 + "_" + 0.2 + ".png");
+//
+//        population = new NeatPopulation(50, 1000, maxError, 0.8, 0.2, function);
+//        population.setImageParser(imageParser);
+//        output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
+//        imageParser.saveNetworkOutputAsImage(output, "images\\out_BIG2" + 50 + "_" + 1000 + "_" + 0.8 + "_" + 0.2 + ".png");
     }
 }

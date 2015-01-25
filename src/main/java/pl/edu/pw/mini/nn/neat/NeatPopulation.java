@@ -100,7 +100,7 @@ public class NeatPopulation {
             }
 
         }
-        System.out.print("Ended...");
+        System.out.println("Ended...");
         saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
@@ -229,7 +229,7 @@ public class NeatPopulation {
     public void saveErrorToFile(){
         DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_dd_HH_mm_ss");
         Date date = new Date();
-        System.out.println(dateFormat.format(date));
+        System.out.println(dateFormat.format(date)+ "\n");
         String time = dateFormat.format(date);
 
         String dataFile = "errors\\errorData_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + "_T_" + time + ".csv";

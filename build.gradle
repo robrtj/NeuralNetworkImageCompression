@@ -16,12 +16,12 @@ task(runMainForLenaDefault, group: 'NN',
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "lena_1.png"
     int inputLayerSize = 64
-    int middleLayerSize = 32
-    int numberOfSpecies = 25
-    int maxIteration = 100
-    double maxError = 0.1
-    double mutationRatio = 0.9
-    double crossoverRatio = 0.6
+    int middleLayerSize = 16
+    int numberOfSpecies = 20
+    int maxIteration = 1000
+    double maxError = 1
+    double mutationRatio = 0.5
+    double crossoverRatio = 0.1
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
 }
@@ -33,11 +33,11 @@ task(runMainForGray2, group: 'NN',
     String imagePath = "gray2.png"
     int inputLayerSize = 64
     int middleLayerSize = 16
-    int numberOfSpecies = 100
-    int maxIteration = 300
+    int numberOfSpecies = 50
+    int maxIteration = 1000
     double maxError = 1
     double mutationRatio = 0.6
-    double crossoverRatio = 0.3
+    double crossoverRatio = 0.6
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
 }

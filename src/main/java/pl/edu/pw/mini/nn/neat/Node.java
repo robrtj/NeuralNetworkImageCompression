@@ -87,11 +87,16 @@ public class Node {
         inputConnections.add(newConnection);
     }
 
-    public void updateRandomConnection(double weight) {
+    public void updateRandomConnection() {
         int size = inputConnections.size();
         if (size > 0) {
             Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
-            conn.setWeight(weight);
+            double weight = conn.getWeight();
+            float eps = 0.1f;
+            if (randomGenerator.nextBoolean()) {
+                eps *= -1;
+            }
+            conn.setWeight(weight + eps);
         }
     }
 

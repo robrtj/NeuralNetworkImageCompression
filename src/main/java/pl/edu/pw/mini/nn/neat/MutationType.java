@@ -6,6 +6,6 @@ package pl.edu.pw.mini.nn.neat;
 public enum MutationType {
     AddConnection,
     AddNode,
-//    DeleteConnection,
-//    WeightMutation;
+    DeleteConnection,
+    WeightMutation;
 }
