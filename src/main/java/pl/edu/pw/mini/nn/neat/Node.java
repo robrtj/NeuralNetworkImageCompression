@@ -25,6 +25,11 @@ public class Node {
         activationFunction = new ActivationUniPolar();
     }
 
+    public Node(double id, LayerType layerType, ActivationFunction activationFunction) {
+        this(id, layerType);
+        setActivationFunction(activationFunction);
+    }
+
     public Node(double id, LayerType layerType, List<Connection> inputConnections, ActivationFunction activationFunction) {
         this(id, layerType);
         this.inputConnections.addAll(inputConnections);
@@ -137,6 +142,11 @@ public class Node {
 
     private double getSum() {
         return activationFunction.getSum();
+    }
+
+    public Node cloneWithoutConn(){
+        Node node = new Node(id, layerType, activationFunction);
+        return node;
     }
 }
 

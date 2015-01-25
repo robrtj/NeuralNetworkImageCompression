@@ -287,7 +287,16 @@ public class NeuralNetwork {
     }
 
     public NeuralNetwork clone(){
-        return this;
+        NeuralNetwork net = new NeuralNetwork();
+        for(Node node : get_nodes()) {
+            net.addNode(node.cloneWithoutConn());
+        }
+
+        //add connections
+
+        net.setLayerSizes(inputLayerSize, intermediateLayerSize);
+        net.setActivationFunction(activationFunction);
+        return net;
     }
 
 
