@@ -142,36 +142,32 @@ public class NeatPopulation {
 
     private void generateNextPopulation() {
         computeFitness();
-        takeNBestSpecies();
+        //takeNBestSpecies();
+        rouletteSpecies();
+    }
 
-//        double fitnessSum = 0;
-//        for (FitnessNetworkWrapper individual : Species) {
-//            fitnessSum += individual.fitness;
-//        }
-//        for (FitnessNetworkWrapper individual : Species) {
-//            individual.fitness /= fitnessSum;
-//        }
-//        Collections.sort(Species);
-//
-//        List<FitnessNetworkWrapper> generation = new LinkedList<>();
-//        for (int i = 0; i < numberOfSpecies; i++) {
-//            double threshold = randomGenerator.nextDouble();
-//            double sum = 0;
-//            for (FitnessNetworkWrapper individual : Species) {
-//                sum += individual.fitness;
-//                if (sum < threshold) {
-//                    generation.add(individual);
-//                    break;
-//                }
-//            }
-//        }
-//        Species = new ArrayList<>();
-//        Species.addAll(generation);
-//
-//        //return true fitness
-//        for (FitnessNetworkWrapper individual : Species) {
-//            individual.fitness *= fitnessSum;
-//        }
+    private void rouletteSpecies() {
+        Collections.sort(Species);
+        int n = (size()+1)*size()/2;
+        for (int i = 0; i < Species.size(); i++) {
+            FitnessNetworkWrapper individual = Species.get(i);
+            individual.probability = i / n;
+        }
+
+        List<FitnessNetworkWrapper> generation = new LinkedList<>();
+        for (int i = 0; i < numberOfSpecies; i++) {
+            double threshold = randomGenerator.nextDouble();
+            double sum = 0;
+            for (FitnessNetworkWrapper individual : Species) {
+                sum += individual.probability;
+                if (sum > threshold) {
+                    generation.add(individual.clone());
+                    break;
+                }
+            }
+        }
+        Species = new ArrayList<>();
+        Species.addAll(generation);
     }
 
     private FitnessNetworkWrapper getBestFitness() {
@@ -218,23 +214,23 @@ public class NeatPopulation {
         return Species.size();
     }
 
-    public double[] getErrorData(){
+    public double[] getErrorData() {
         return errorData;
     }
 
-    public void setErrorData(double[] data){
+    public void setErrorData(double[] data) {
         errorData = data;
     }
 
-    public void saveErrorToFile(){
+    public void saveErrorToFile() {
         DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_dd_HH_mm_ss");
         Date date = new Date();
-        System.out.println(dateFormat.format(date)+ "\n");
+        System.out.println(dateFormat.format(date) + "\n");
         String time = dateFormat.format(date);
 
         String dataFile = "errors\\errorData_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + "_T_" + time + ".csv";
         String errorPlot = "errors\\errorPlot_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + "_T_" + time + ".png";
-        if(!saveToSeparateFile) {
+        if (!saveToSeparateFile) {
             dataFile += "_T_" + time;
             errorPlot += "_T_" + time;
         }
@@ -242,25 +238,25 @@ public class NeatPopulation {
         errorPlot += ".png";
         saveErrorToFile(dataFile);
         try {
-            Process p = Runtime.getRuntime().exec("gnuplot\\gnuplot -e \"dataFile='" + dataFile+ "'; errorPlotFile='" + errorPlot + "'\" skrypt_err.plt");
+            Process p = Runtime.getRuntime().exec("gnuplot\\gnuplot -e \"dataFile='" + dataFile + "'; errorPlotFile='" + errorPlot + "'\" skrypt_err.plt");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveErrorToFile(String path){
+    public void saveErrorToFile(String path) {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(path));
             for (int i = 0; i < errorData.length; i++) {
-                writer.write(String.valueOf(i+1));
+                writer.write(String.valueOf(i + 1));
                 writer.write(",");
                 writer.write(String.valueOf(errorData[i]));
                 writer.write("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 writer.close();
             } catch (IOException e) {
@@ -278,6 +274,7 @@ public class NeatPopulation {
     class FitnessNetworkWrapper implements Comparable<FitnessNetworkWrapper> {
         double fitness;
         NeuralNetwork network;
+        int probability = -1;
 
         FitnessNetworkWrapper(double fitness, NeuralNetwork network) {
             this.fitness = fitness;
@@ -287,7 +284,11 @@ public class NeatPopulation {
         @Override
         public int compareTo(FitnessNetworkWrapper o) {
             double diff = fitness - o.fitness;
-            return diff < 0? -1 : diff==0 ? 0 : 1;
+            return diff < 0 ? -1 : diff == 0 ? 0 : 1;
+        }
+
+        public FitnessNetworkWrapper clone(){
+            return new FitnessNetworkWrapper(fitness, network.clone());
         }
     }
 }

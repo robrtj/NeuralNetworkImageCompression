@@ -286,6 +286,10 @@ public class NeuralNetwork {
         }
     }
 
+    public NeuralNetwork clone(){
+        return this;
+    }
+
 
     class NodeByIdComparator implements Comparator<Node> {
         @Override

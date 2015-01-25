@@ -88,15 +88,5 @@ public class MainClass {
                 }
             }
         }
-
-//        NeatPopulation population = new NeatPopulation(50, 300, maxError, 0.9, 0.1, function);
-//        population.setImageParser(imageParser);
-//        double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-//        imageParser.saveNetworkOutputAsImage(output, "images\\out_BIG1" + 50 + "_" + 1000 + "_" + 0.8 + "_" + 0.2 + ".png");
-//
-//        population = new NeatPopulation(50, 1000, maxError, 0.8, 0.2, function);
-//        population.setImageParser(imageParser);
-//        output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-//        imageParser.saveNetworkOutputAsImage(output, "images\\out_BIG2" + 50 + "_" + 1000 + "_" + 0.8 + "_" + 0.2 + ".png");
     }
 }
