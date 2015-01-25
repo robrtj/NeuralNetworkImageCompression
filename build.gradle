@@ -26,6 +26,22 @@ task(runMainForLenaDefault, group: 'NN',
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task(runMainForGraySmall, group: 'NN',
+        description: 'Run main Gray 2 colors 16x16',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'pl.edu.pw.mini.nn.MainClass'
+    String imagePath = "gray2s.png"
+    int inputLayerSize = 16
+    int middleLayerSize = 8
+    int numberOfSpecies = 20
+    int maxIteration = 50
+    double maxError = 0.1
+    double mutationRatio = 0.6
+    double crossoverRatio = 0.3
+    args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task(runMainForGray2, group: 'NN',
         description: 'Run main Gray 2 colors',
         dependsOn: 'classes', type: JavaExec) {

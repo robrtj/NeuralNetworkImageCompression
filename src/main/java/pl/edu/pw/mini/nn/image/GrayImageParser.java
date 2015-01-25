@@ -23,7 +23,7 @@ public class GrayImageParser {
     private double _networkInput[][];
     private int _width;
     private int _height;
-    private boolean _isBipolar = true;
+    private boolean _isBipolar = false;
     private int _pixelsCount;
     private int _inputLength;
     private int _blocksCount;
