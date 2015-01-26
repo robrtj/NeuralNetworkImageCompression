@@ -24,6 +24,8 @@ hs_err_pid*
 *.iml
 *.iws
 
-errors/
+out.png
+
+errors/*
 gnuplot/
-images/
+images/*
