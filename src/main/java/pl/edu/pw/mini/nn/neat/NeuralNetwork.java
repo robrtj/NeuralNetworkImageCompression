@@ -197,7 +197,7 @@ public class NeuralNetwork {
     }
 
     private void resetNetwork() {
-        for (Node node : _nodes){
+        for (Node node : _nodes) {
             node.resetWeight();
         }
     }
@@ -243,7 +243,7 @@ public class NeuralNetwork {
             double[] anInput = image[i];
             compute(anInput);
             //get middle vector
-            for (int j = inputLayerSize+1; j < intermediateLayerSize; j++) {
+            for (int j = inputLayerSize + 1; j < intermediateLayerSize; j++) {
                 compressed[i][j] = getNodeById(j).getCompressedOutput();
             }
         }
@@ -268,7 +268,7 @@ public class NeuralNetwork {
 
     public List<Connection> getConnections() {
         List<Connection> conns = new ArrayList<>();
-        for(Node node : _nodes){
+        for (Node node : _nodes) {
             conns.addAll(node.getInputConnections());
         }
         return conns;
@@ -281,25 +281,25 @@ public class NeuralNetwork {
 
     public void setActivationFunction(ActivationFunction activationFunction) {
         this.activationFunction = activationFunction;
-        for(Node node : _nodes){
+        for (Node node : _nodes) {
             node.setActivationFunction(activationFunction);
         }
     }
 
-    public NeuralNetwork clone(){
+    public NeuralNetwork clone() {
         NeuralNetwork net = new NeuralNetwork();
-        for(Node node : get_nodes()) {
+        for (Node node : get_nodes()) {
             net.addNode(node.cloneWithoutConn());
         }
 
         //add connections
-        for(Node to : get_nodes()){
+        for (Node to : get_nodes()) {
             double toId = to.getId();
             Node newTo = net.getNodeById(toId);
-            for(Connection conn : to.getInputConnections()){
+            for (Connection conn : to.getInputConnections()) {
                 double fromId = conn.getFromId();
                 Node newFrom = net.getNodeById(fromId);
-                Connection newConn = new Connection(newFrom, newTo, conn.getWeight(), conn.isEnabled() ,conn.getInnovationNumber());
+                Connection newConn = new Connection(newFrom, newTo, conn.getWeight(), conn.isEnabled(), conn.getInnovationNumber());
                 newTo.addConnection(newConn);
             }
         }

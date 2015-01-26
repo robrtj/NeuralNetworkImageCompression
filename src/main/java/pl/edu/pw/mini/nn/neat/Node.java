@@ -66,12 +66,12 @@ public class Node {
 
     public double getWeight() {
         double weight = 0;
-        switch (layerType){
+        switch (layerType) {
             case Input:
                 weight = activationFunction.getSum();
                 break;
             case Output:
-                weight = activationFunction.getSum()/getInputConnections().size();
+                weight = activationFunction.getSum() / getInputConnections().size();
                 break;
             default:
                 weight = activationFunction.getValue();
@@ -134,7 +134,7 @@ public class Node {
     }
 
     public double getCompressedOutput() {
-        if(LayerType.Intermediate != layerType){
+        if (LayerType.Intermediate != layerType) {
             return 0;
         }
         return getSum();
@@ -144,7 +144,7 @@ public class Node {
         return activationFunction.getSum();
     }
 
-    public Node cloneWithoutConn(){
+    public Node cloneWithoutConn() {
         Node node = new Node(id, layerType, activationFunction);
         return node;
     }
