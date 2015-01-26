@@ -271,6 +271,10 @@ public class NeatPopulation {
         this.imageParser = imageParser;
     }
 
+    public void setToSepareteFile(boolean toSepareteFile) {
+        this.saveToSeparateFile = toSepareteFile;
+    }
+
 
     class FitnessNetworkWrapper implements Comparable<FitnessNetworkWrapper> {
         double fitness;

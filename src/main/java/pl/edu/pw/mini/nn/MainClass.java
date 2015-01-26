@@ -34,7 +34,7 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        boolean tests = false;
+        boolean tests = true;
         if (tests) {
             runParamTests();
         } else {
@@ -73,6 +73,7 @@ public class MainClass {
                         NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
                                 crossoverRatio, function);
                         population.setImageParser(imageParser);
+                        population.setToSepareteFile(false);
                         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
                         imageParser.saveNetworkOutputAsImage(output, "images\\out_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + ".png");
 
