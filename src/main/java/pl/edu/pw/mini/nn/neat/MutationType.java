@@ -7,5 +7,6 @@ public enum MutationType {
     AddConnection,
     AddNode,
     DeleteConnection,
-    WeightMutation;
+    WeightMutation,
+    DeleteNode;
 }

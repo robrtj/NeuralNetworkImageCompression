@@ -22,7 +22,7 @@ public class NeatPopulationTest {
 
     @Test
     public void errorDataLength(){
-        int iterations = 5;
+        int iterations = 2;
         NeatPopulation neat = new NeatPopulation(100, iterations, 0.001d, 0.5d, 0.5d, new ActivationUniPolar());
         GrayImageParser imageParser = new GrayImageParser("gray2.png", 64, false, false);
         double[][] output = neat.computeImage(imageParser.getNetworkInput(), 64, 32);
@@ -33,7 +33,7 @@ public class NeatPopulationTest {
 
     @Test
     public void errorDataTest(){
-        int iterations = 5;
+        int iterations = 2;
         NeatPopulation neat = new NeatPopulation(100, iterations, 0.001d, 0.5d, 0.5d, new ActivationUniPolar());
         GrayImageParser imageParser = new GrayImageParser("gray2.png", 64, false, false);
         double[][] output = neat.computeImage(imageParser.getNetworkInput(), 64, 32);

@@ -309,6 +309,22 @@ public class NeuralNetwork {
         return net;
     }
 
+    public void deleteNode(int id) {
+        Node delNode = getNode(id);
+        _nodes.remove(delNode);
+
+        //delete connections
+        for(Node node : get_nodes()){
+            List<Connection> connToDel = new LinkedList<>();
+            for(Connection conn : node.getInputConnections()){
+                if(conn.getFromId() == delNode.getId()){
+                    connToDel.add(conn);
+                }
+            }
+            node.deleteConnections(connToDel);
+        }
+    }
+
 
     class NodeByIdComparator implements Comparator<Node> {
         @Override

@@ -18,7 +18,7 @@ task(runMainForLenaDefault, group: 'NN',
     int inputLayerSize = 64
     int middleLayerSize = 16
     int numberOfSpecies = 20
-    int maxIteration = 1000
+    int maxIteration = 100
     double maxError = 1
     double mutationRatio = 0.5
     double crossoverRatio = 0.1

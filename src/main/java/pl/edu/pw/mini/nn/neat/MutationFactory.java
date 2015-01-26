@@ -17,7 +17,7 @@ public class MutationFactory {
         mutationTypes = new HashMap<>();
         mutationTypesInitialization();
 
-        setThresholds(0.4, 0.4, 0.1, 0.1);
+        setThresholds(0.4, 0.3, 0.1, 0.1, 0.1);
     }
 
     private void mutationTypesInitialization() {
@@ -40,11 +40,14 @@ public class MutationFactory {
     }
 
     //should be generic somehow
-    public void setThresholds(double addConnection, double addNode, double deleteConnection, double weightMutation) {
+    public void setThresholds(double addConnection, double addNode,
+                              double deleteConnection, double weightMutation,
+                              double deleteNode) {
         mutationTypes.replace(MutationType.AddConnection, addConnection);
         mutationTypes.replace(MutationType.AddNode, addNode);
         mutationTypes.replace(MutationType.DeleteConnection, deleteConnection);
         mutationTypes.replace(MutationType.WeightMutation, weightMutation);
+        mutationTypes.replace(MutationType.DeleteNode, deleteNode);
 
         normalizeThresholds();
     }
@@ -67,8 +70,35 @@ public class MutationFactory {
             case WeightMutation:
                 mutated = weightMutation(net);
                 break;
+            case DeleteNode:
+                mutated = deleteNode(net);
+                break;
         }
         return mutated;
+    }
+
+    private boolean deleteNode(NeuralNetwork net) {
+        int nodeCounter = net.getNumberOfNodes();
+        int sample = -1;
+        boolean isMiddle = false;
+        for (int i = 0; i < 10; i++) {
+            sample = randGenerator.nextInt(nodeCounter);
+            if( checkIfMiddleNode(net, sample)){
+                isMiddle = true;
+                break;
+            }
+        }
+
+        if(isMiddle ) {
+            net.deleteNode(sample);
+        }
+        return isMiddle;
+    }
+
+    private boolean checkIfMiddleNode(NeuralNetwork net, int id) {
+        Node node = net.getNode(id);
+        return node.getLayerType() == LayerType.Compression
+                || node.getLayerType() == LayerType.Decompression;
     }
 
     private boolean weightMutation(NeuralNetwork net) {

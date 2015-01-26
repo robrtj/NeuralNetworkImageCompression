@@ -148,10 +148,11 @@ public class NeatPopulation {
 
     private void rouletteSpecies() {
         Collections.sort(Species);
-        int n = (size() + 1) * size() / 2;
+        double n = (size() + 1) * size() / 2;
         for (int i = 0; i < Species.size(); i++) {
             FitnessNetworkWrapper individual = Species.get(i);
-            individual.probability = i / n;
+            double probability = (i+1) / n;
+            individual.probability = probability;
         }
 
         List<FitnessNetworkWrapper> generation = new LinkedList<>();
@@ -274,7 +275,7 @@ public class NeatPopulation {
     class FitnessNetworkWrapper implements Comparable<FitnessNetworkWrapper> {
         double fitness;
         NeuralNetwork network;
-        int probability;
+        double probability;
 
         FitnessNetworkWrapper(double fitness, NeuralNetwork network) {
             this.fitness = fitness;

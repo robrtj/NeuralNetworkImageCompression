@@ -100,13 +100,13 @@ public class NeuralNetworkTest {
     public void testFitnessFunction() throws Exception {
         NeuralNetwork net = new NeuralNetwork(2, 1);
         double tmp = 0.1;
-        for (Node node : net.get_nodes()){
-            for (Connection conn : node.getInputConnections()){
+        for (Node node : net.get_nodes()) {
+            for (Connection conn : node.getInputConnections()) {
                 conn.setWeight(tmp);
                 tmp += 0.1;
             }
-            if(LayerType.Input == node.getLayerType()){
-                node.addWeight(0.5 + node.getId() *0.4);
+            if (LayerType.Input == node.getLayerType()) {
+                node.addWeight(0.5 + node.getId() * 0.4);
             }
         }
         double[][] in = {{0.5, 0.9}};
@@ -130,11 +130,11 @@ public class NeuralNetworkTest {
     public void testComputeError() throws Exception {
         NeuralNetwork net = new NeuralNetwork(3, 2, new ActivationUniPolar());
 
-        for (Node node : net.get_nodes()){
-            if(node.getLayerType() == LayerType.Input){
+        for (Node node : net.get_nodes()) {
+            if (node.getLayerType() == LayerType.Input) {
                 node.addWeight(1);
             }
-            if(node.getLayerType() == LayerType.Output){
+            if (node.getLayerType() == LayerType.Output) {
                 node.addWeight(1);
             }
         }
@@ -143,11 +143,11 @@ public class NeuralNetworkTest {
         assertEquals(1.5d, error, 0.001d);
 
         net = new NeuralNetwork(3, 2);
-        for (Node node : net.get_nodes()){
-            if(node.getLayerType() == LayerType.Input){
+        for (Node node : net.get_nodes()) {
+            if (node.getLayerType() == LayerType.Input) {
                 node.addWeight(-1);
             }
-            if(node.getLayerType() == LayerType.Output){
+            if (node.getLayerType() == LayerType.Output) {
                 node.addWeight(2);
             }
         }
@@ -182,16 +182,16 @@ public class NeuralNetworkTest {
         NeuralNetwork net = new NeuralNetwork(new LinkedList<Node>(), new LinkedList<Connection>());
         for (int i = 0; i < 10; i++) {
             Node node;
-            if(i % 2 == 0) {
+            if (i % 2 == 0) {
                 node = new Node(10 - i, LayerType.Input);
-            }else{
+            } else {
                 node = new Node(i, LayerType.Input);
             }
             net.addNode(node);
         }
         net.sortNodeById();
         for (int i = 0; i < 10; i++) {
-            assertEquals(i +1, net.getNode(i).getId(), 0.0d);
+            assertEquals(i + 1, net.getNode(i).getId(), 0.0d);
         }
     }
 
@@ -200,9 +200,29 @@ public class NeuralNetworkTest {
         NeuralNetwork net = new NeuralNetwork(3, 2);
         NeuralNetwork clone = net.clone();
 
-        for (Node node : clone.get_nodes()){
+        for (Node node : clone.get_nodes()) {
             Node old = net.getNodeById(node.getId());
             assertNotEquals(node, old);
         }
+    }
+
+    @Test
+    public void testDeleteNodeById() throws Exception {
+        NeuralNetwork net = new NeuralNetwork(3, 2);
+        int size = net.getNumberOfNodes();
+        int id = 2;
+        int connections = 0;
+        for(Node node : net.get_nodes()){
+            connections += node.getNumberOfConnections();
+        }
+
+        net.deleteNode(id);
+        assertEquals(size - 1, net.getNumberOfNodes());
+
+        int notDeletedConnections = 0;
+        for(Node node : net.get_nodes()){
+            notDeletedConnections += node.getNumberOfConnections();
+        }
+        assertEquals(connections-2, notDeletedConnections);
     }
 }

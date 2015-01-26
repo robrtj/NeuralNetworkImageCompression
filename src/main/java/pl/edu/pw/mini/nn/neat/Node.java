@@ -148,5 +148,11 @@ public class Node {
         Node node = new Node(id, layerType, activationFunction);
         return node;
     }
+
+    public void deleteConnections(List<Connection> connections) {
+        for (Connection connection : connections){
+            inputConnections.remove(connection);
+        }
+    }
 }
 
