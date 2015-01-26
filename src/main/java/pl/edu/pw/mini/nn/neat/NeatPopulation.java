@@ -151,7 +151,7 @@ public class NeatPopulation {
         double n = (size() + 1) * size() / 2;
         for (int i = 0; i < Species.size(); i++) {
             FitnessNetworkWrapper individual = Species.get(i);
-            double probability = (i+1) / n;
+            double probability = (size() - i) / n;
             individual.probability = probability;
         }
 
@@ -161,7 +161,7 @@ public class NeatPopulation {
             double sum = 0;
             for (FitnessNetworkWrapper individual : Species) {
                 sum += individual.probability;
-                if (sum > threshold) {
+                if (sum >= threshold) {
                     generation.add(individual.clone());
                     break;
                 }

@@ -53,7 +53,7 @@ public class MainClass {
     private static void runParamTests() {
         String imagePath = "gray2.png";
         int inputLayerSize = 64;
-        int middleLayerSize = 16;
+        int middleLayerSize = 32;
         double maxError = 1;
         ActivationFunction function = new ActivationSigmoidBiPolar();
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
