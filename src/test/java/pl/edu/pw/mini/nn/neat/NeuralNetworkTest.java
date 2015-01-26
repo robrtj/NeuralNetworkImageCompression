@@ -47,18 +47,6 @@ public class NeuralNetworkTest {
         }
     }
 
-/*    @Test
-    public void testCreateLayer() throws Exception {
-        int size = 5;
-        LayerType type = LayerType.Input;
-        int start = 2;
-        List<Node> nodes = NeuralNetwork.createLayer(size, type, start);
-
-        assertEquals(size, nodes.size());
-        assertEquals(type, nodes.get(1).getLayerType());
-        assertEquals(start + 2, nodes.get(2).getId(), 0.0d);
-    }*/
-
     @Test
     public void testAddNewConnection() throws Exception {
         NeuralNetwork net = new NeuralNetwork(3, 2);
@@ -204,6 +192,17 @@ public class NeuralNetworkTest {
         net.sortNodeById();
         for (int i = 0; i < 10; i++) {
             assertEquals(i +1, net.getNode(i).getId(), 0.0d);
+        }
+    }
+
+    @Test
+    public void testCloneNet() throws Exception {
+        NeuralNetwork net = new NeuralNetwork(3, 2);
+        NeuralNetwork clone = net.clone();
+
+        for (Node node : clone.get_nodes()){
+            Node old = net.getNodeById(node.getId());
+            assertNotEquals(node, old);
         }
     }
 }

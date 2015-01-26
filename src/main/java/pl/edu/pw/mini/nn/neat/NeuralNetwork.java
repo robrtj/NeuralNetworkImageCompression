@@ -293,6 +293,16 @@ public class NeuralNetwork {
         }
 
         //add connections
+        for(Node to : get_nodes()){
+            double toId = to.getId();
+            Node newTo = net.getNodeById(toId);
+            for(Connection conn : to.getInputConnections()){
+                double fromId = conn.getFromId();
+                Node newFrom = net.getNodeById(fromId);
+                Connection newConn = new Connection(newFrom, newTo, conn.getWeight(), conn.isEnabled() ,conn.getInnovationNumber());
+                newTo.addConnection(newConn);
+            }
+        }
 
         net.setLayerSizes(inputLayerSize, intermediateLayerSize);
         net.setActivationFunction(activationFunction);
