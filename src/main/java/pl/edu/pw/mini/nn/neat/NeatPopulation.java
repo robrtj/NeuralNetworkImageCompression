@@ -95,6 +95,7 @@ public class NeatPopulation {
                 break;
             }
             if (saveToSeparateFile == true && i % 50 == 0) {
+                System.out.println("Network size:" + bestNet.network.get_nodes().size());
                 saveErrorToFile();
                 imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "images\\out_" + i + ".png");
             }
@@ -142,8 +143,8 @@ public class NeatPopulation {
 
     private void generateNextPopulation() {
         computeFitness();
-        //takeNBestSpecies();
-        rouletteSpecies();
+        takeNBestSpecies();
+        //rouletteSpecies();
     }
 
     private void rouletteSpecies() {

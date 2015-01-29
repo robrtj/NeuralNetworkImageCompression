@@ -34,7 +34,7 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        boolean tests = true;
+        boolean tests = false;
         if (tests) {
             runParamTests();
         } else {
