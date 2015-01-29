@@ -15,8 +15,8 @@ task(runMainForLenaDefault, group: 'NN',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "lena_1.png"
-    int inputLayerSize = 64
-    int middleLayerSize = 16
+    int inputLayerSize = 16
+    int middleLayerSize = 8
     int numberOfSpecies = 50
     int maxIteration = 1000
     double maxError = 1

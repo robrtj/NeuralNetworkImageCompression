@@ -42,7 +42,7 @@ public class MainClass {
                     crossoverRatio, function);
 
             GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
-            population.setImageParser(imageParser);
+//            population.setImageParser(imageParser);
             double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
 
             population.saveErrorToFile();
