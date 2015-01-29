@@ -88,6 +88,22 @@ task(runMainNotEveryArguments, group: 'NN',
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task(runMain4x4, group: 'NN',
+        description: 'Run main Gray 4x4',
+        dependsOn: 'classes', type: JavaExec) {
+    main = 'pl.edu.pw.mini.nn.MainClass'
+    String imagePath = "4x4.png"
+    int inputLayerSize = 1
+    int middleLayerSize = 1
+    int numberOfSpecies = 50
+    int maxIteration = 100
+    double maxError = 0.1
+    double mutationRatio = 0.6
+    double crossoverRatio = 0.1
+    args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task(runExample, group: 'examples',
         description: 'Run the sample stand-alone project.',
         dependsOn: 'classes', type: JavaExec) {
