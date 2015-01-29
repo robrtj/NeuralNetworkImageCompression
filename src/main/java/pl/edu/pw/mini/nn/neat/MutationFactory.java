@@ -197,16 +197,19 @@ public class MutationFactory {
             return false;
         }
 
-        Node in = connection.getFrom();
-        Node out = connection.getTo();
-        if (in.getLayerType() == LayerType.Output) {
+        LayerType inLayerType = connection.getFrom().getLayerType();
+        LayerType outLayerType = connection.getTo().getLayerType();
+        if (inLayerType == LayerType.Output) {
             return false;
         }
-        if (out.getLayerType() == LayerType.Input) {
+        if (outLayerType == LayerType.Input) {
             return false;
         }
-        if (in.getLayerType() == LayerType.Intermediate
-                && out.getLayerType() == LayerType.Intermediate) {
+        if (inLayerType == LayerType.Intermediate && outLayerType == LayerType.Intermediate) {
+            return false;
+        }
+        if ((inLayerType == LayerType.Input || inLayerType == LayerType.Compression)
+                && (outLayerType == LayerType.Decompression || outLayerType == LayerType.Output)) {
             return false;
         }
         return true;
