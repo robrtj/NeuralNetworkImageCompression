@@ -107,7 +107,7 @@ public class Node {
 
     public void disableRandomConnection(int sample) {
         int size = inputConnections.size();
-        if (size > 0) {
+        if (size > 1) {
             Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
             conn.disable();
         }
