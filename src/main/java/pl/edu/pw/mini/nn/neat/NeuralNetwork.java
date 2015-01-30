@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class NeuralNetwork {
     private List<Node> _nodes;
-    private InnovationIdGenerator innovationNumberGenerator = new InnovationIdGenerator();
+    private InnovationIdGenerator innovationNumberGenerator;
     private int inputLayerSize;
     private int intermediateLayerSize;
     private ActivationFunction activationFunction;
@@ -75,7 +75,7 @@ public class NeuralNetwork {
             for (int j = 0; j < intermediateLayerSize; j++) {
                 Node middleNode = _nodes.get(firstMiddleNodeId + j);
                 Connection conn = new Connection(middleNode, outNode,
-                        rand.nextDouble() - 0.5d, true,
+                        rand.nextDouble(), true,
                         innovationNumberGenerator.generate());
                 outNode.addConnection(conn);
             }
@@ -92,7 +92,7 @@ public class NeuralNetwork {
             for (int j = 0; j < inputLayerSize; j++) {
                 Node inNode = _nodes.get(firstInputNodeId + j);
                 Connection conn = new Connection(inNode, middleNode,
-                        rand.nextDouble() - 0.5d, true,
+                        rand.nextDouble(), true,
                         innovationNumberGenerator.generate());
                 middleNode.addConnection(conn);
             }

@@ -182,7 +182,7 @@ public class MutationFactory {
         Node outNodeId = net.get_nodes().get(out);
 
         Connection connection = new Connection(inNodeId, outNodeId,
-                randGenerator.nextDouble()-0.5, true);
+                randGenerator.nextDouble(), true);
 
         if (checkCorrectnessOfConnection(net, connection)) {
             net.addConnection(connection);

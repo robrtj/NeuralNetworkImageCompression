@@ -107,7 +107,11 @@ public class GrayImageParser {
             for (int j = 0; j < _height; j++) {
                 int pixelBlockNumber = (i / _pixelsBlockWidth) * _widthDivBlockWidth + j / _pixelsBlockWidth;
                 int numberOfPixelInBlock = (i % _pixelsBlockWidth) * _pixelsBlockWidth + j % _pixelsBlockWidth;
-                color = (int) (output[pixelBlockNumber][numberOfPixelInBlock] * 256 - 1);
+                if (Math.abs(output[pixelBlockNumber][numberOfPixelInBlock]) < 0.001 ) {
+                    color = 0;
+                } else {
+                    color = (int) (output[pixelBlockNumber][numberOfPixelInBlock] * 256 - 1);
+                }
                 if (color < 0) {
                     color = 0;
                     System.out.println("Color was < 0!");

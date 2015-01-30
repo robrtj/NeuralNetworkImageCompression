@@ -2,10 +2,9 @@ package pl.edu.pw.mini.nn;
 
 import pl.edu.pw.mini.nn.image.GrayImageParser;
 import pl.edu.pw.mini.nn.neat.NeatPopulation;
-import pl.edu.pw.mini.nn.neat.activationFunction.ActivationBiPolar;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationFunction;
 import pl.edu.pw.mini.nn.neat.activationFunction.ActivationSigmoidBiPolar;
-import pl.edu.pw.mini.nn.neat.activationFunction.ActivationSigmoidUniPolar;
+import pl.edu.pw.mini.nn.neat.activationFunction.ActivationUniPolar;
 
 /**
  * Created by Robert on 2015-01-02.
@@ -20,7 +19,7 @@ public class MainClass {
         double maxError = 0.01;
         double mutationRatio = 0.9;
         double crossoverRatio = 0.9;
-        ActivationFunction function = new ActivationSigmoidBiPolar();
+        ActivationFunction function = new ActivationUniPolar();
 
         try {
             imagePath = args[0];
