@@ -74,7 +74,8 @@ public class NeatPopulation {
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
         long time = 0;
-        for (int i = 0; i < maxIteration; i++) {
+        int i;
+        for (i = 0; i < maxIteration; i++) {
             System.out.println("Counting iteration " + (i + 1));
             long tStart = System.currentTimeMillis();
 
@@ -101,7 +102,7 @@ public class NeatPopulation {
             }
 
         }
-        System.out.println("Ended...");
+        System.out.println("Ended after + " + (i+1) + "iterations.");
         saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
