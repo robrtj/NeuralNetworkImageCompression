@@ -73,30 +73,45 @@ public class NeatPopulation {
         generateFirstPopulation(inputLayerSize, middleLayerSize);
 
         bestNet = new FitnessNetworkWrapper(Double.POSITIVE_INFINITY, null);
-        long time = 0;
+
+        long tStart, tEnd, tDelta, elapsedSeconds, time, timeInSeconds;
+        time = 0;
+        tStart = System.currentTimeMillis();
         int i;
         for (i = 0; i < maxIteration; i++) {
-            System.out.println("Counting iteration " + (i + 1));
-            long tStart = System.currentTimeMillis();
-
+//            tStart = System.currentTimeMillis();
             iteration();
 
-            long tEnd = System.currentTimeMillis();
-            long tDelta = tEnd - tStart;
-            int elapsedSeconds = (int) (tDelta / 1000);
-            time += tDelta;
-            long timeInSeconds = time / 1000;
-            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
-            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
+//            tEnd = System.currentTimeMillis();
+//            tDelta = tEnd - tStart;
+//          elapsedSeconds = (int) (tDelta / 1000);
+//            timeInSeconds = time / 1000;
+
+//            System.out.println("Counting iteration " + (i + 1));
+//            System.out.println("Error: " + bestNet.fitness + "\n");
+//            System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
+//            System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
 
             bestNet = getBestFitness();
             errorData[i] = bestNet.fitness;
-            System.out.println("Error: " + bestNet.fitness + "\n");
+
             if (Math.abs(bestNet.fitness) < maxError) {
                 break;
             }
             if (saveToSeparateFile == true && i % 50 == 0) {
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                time += tDelta;
+                timeInSeconds = time / 1000;
+                elapsedSeconds = (int) (tDelta / 1000);
+                tStart = System.currentTimeMillis();
+
+                System.out.println("Counting iteration " + (i + 1));
+                System.out.println("Error: " + bestNet.fitness);
+                System.out.println("Elapsed time: " + elapsedSeconds / 3600 + ":" + (elapsedSeconds / 60) % 60 + ":" + elapsedSeconds % 60);
+                System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60);
                 System.out.println("Network size:" + bestNet.network.get_nodes().size());
+
                 saveErrorToFile();
                 imageParser.saveNetworkOutputAsImage(getOutputImage(image, bestNet.network), "images\\out_" + i + ".png");
             }
@@ -144,8 +159,8 @@ public class NeatPopulation {
 
     private void generateNextPopulation() {
         computeFitness();
-        takeNBestSpecies();
-        //rouletteSpecies();
+        //takeNBestSpecies();
+        rouletteSpecies();
     }
 
     private void rouletteSpecies() {
