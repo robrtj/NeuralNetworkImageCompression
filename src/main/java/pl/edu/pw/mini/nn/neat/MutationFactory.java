@@ -197,22 +197,35 @@ public class MutationFactory {
             return false;
         }
 
-        LayerType inLayerType = connection.getFrom().getLayerType();
-        LayerType outLayerType = connection.getTo().getLayerType();
-        if (inLayerType == LayerType.Output) {
-            return false;
+        LayerType fromLayerType = connection.getFrom().getLayerType();
+        LayerType toLayerType = connection.getTo().getLayerType();
+
+        switch (fromLayerType){
+            case Input:
+                if(toLayerType == LayerType.Compression || toLayerType == LayerType.Intermediate) {
+                    return true;
+                }
+                return false;
+            case Compression:
+                if(toLayerType == LayerType.Compression || toLayerType == LayerType.Intermediate) {
+                    return true;
+                }
+                return false;
+            case Intermediate:
+                if(toLayerType == LayerType.Decompression || toLayerType == LayerType.Output) {
+                    return true;
+                }
+                return false;
+            case Decompression:
+                if(toLayerType == LayerType.Decompression || toLayerType == LayerType.Output) {
+                    return true;
+                }
+                return false;
+            case Output:
+                return false;
+            default:
+                return false;
         }
-        if (outLayerType == LayerType.Input) {
-            return false;
-        }
-        if (inLayerType == LayerType.Intermediate && outLayerType == LayerType.Intermediate) {
-            return false;
-        }
-        if ((inLayerType == LayerType.Input || inLayerType == LayerType.Compression)
-                && (outLayerType == LayerType.Decompression || outLayerType == LayerType.Output)) {
-            return false;
-        }
-        return true;
     }
 
     private MutationType getMutationType(double sample) {
