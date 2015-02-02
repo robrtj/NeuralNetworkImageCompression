@@ -102,7 +102,7 @@ public class NeatPopulation {
             }
 
         }
-        System.out.println("Ended after + " + (i+1) + "iterations.");
+        System.out.println("Ended after " + (i+1) + " iterations.");
         saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
