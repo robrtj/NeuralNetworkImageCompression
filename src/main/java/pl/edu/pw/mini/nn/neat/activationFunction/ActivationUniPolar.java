@@ -4,7 +4,7 @@ public class ActivationUniPolar extends ActivationFunction {
     private double threshold;
 
     public ActivationUniPolar() {
-        this(0.21d);
+        this(0.5d);
     }
 
     @Override
