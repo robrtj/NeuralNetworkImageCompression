@@ -31,11 +31,11 @@ task(runMainForGraySmall, group: 'NN',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "gray2s.png"
-    int inputLayerSize = 16
-    int middleLayerSize = 8
-    int numberOfSpecies = 50
-    int maxIteration = 100
-    double maxError = 0.1
+    int inputLayerSize = 64
+    int middleLayerSize = 1
+    int numberOfSpecies = 100
+    int maxIteration = 2000
+    double maxError = 0.01
     double mutationRatio = 0.6
     double crossoverRatio = 0.1
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
@@ -46,14 +46,14 @@ task(runMainForGray2, group: 'NN',
         description: 'Run main Gray 2 colors',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
-    String imagePath = "gray2.png"
-    int inputLayerSize = 64
-    int middleLayerSize = 16
-    int numberOfSpecies = 50
-    int maxIteration = 100
+    String imagePath = "yin-yang.png"
+    int inputLayerSize = 16
+    int middleLayerSize = 4
+    int numberOfSpecies = 200
+    int maxIteration = 1000
     double maxError = 1
     double mutationRatio = 0.6
-    double crossoverRatio = 0.6
+    double crossoverRatio = 0.1
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
 }
@@ -64,10 +64,10 @@ task(runMainForCog, group: 'NN',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "cog.png"
-    int inputLayerSize = 64
-    int middleLayerSize = 16
+    int inputLayerSize = 4
+    int middleLayerSize = 2
     int numberOfSpecies = 100
-    int maxIteration = 300
+    int maxIteration = 500
     double maxError = 1
     double mutationRatio = 0.5
     double crossoverRatio = 0.1
@@ -109,10 +109,10 @@ task(run_bw1, group: 'NN',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "examples\\bw1.png"
-    int inputLayerSize = 4
-    int middleLayerSize = 4
+    int inputLayerSize = 16
+    int middleLayerSize = 8
     int numberOfSpecies = 100
-    int maxIteration = 110
+    int maxIteration = 1010
     double maxError = 0.1
     double mutationRatio = 0.6
     double crossoverRatio = 0.1
@@ -128,7 +128,6 @@ task(runExample, group: 'examples',
 }
 
 dependencies {
-//    compile files('JavaPlot.jar')
     compile 'org.encog:encog-core:3.3.0'
     compile "joda-time:joda-time:2.2"
     testCompile group: 'junit', name: 'junit', version: '4.11'
