@@ -111,7 +111,7 @@ public class NeuralNetworkTest {
         }
         double[][] in = {{0.5, 0.9}};
         double fitness = net.fitnessFunction(in);
-        double expected = 0.145;
+        double expected = 0.53;
         assertEquals(expected, fitness, 0.00001d);
 
         in = new double[][]{{0.1, 0.3}};
@@ -121,7 +121,7 @@ public class NeuralNetworkTest {
 
         in = new double[][]{{0.5, 0.9}, {0.1, 0.3}};
         fitness = net.fitnessFunction(in);
-        expected = 0.195;
+        expected = 0.58;
         assertEquals(expected, fitness, 0.00001d);
 
     }
@@ -172,9 +172,9 @@ public class NeuralNetworkTest {
         double[] in = {0.5, 0.9};
         net.compute(in);
 
-        assertEquals(1, net.getNodeById(2).getWeight(), 0.0d);
-        assertEquals(0.3, net.getNodeById(3).getWeight(), 0.000001d);
-        assertEquals(0.4, net.getNodeById(4).getWeight(), 0.000001d);
+        assertEquals(0.0, net.getNodeById(2).getWeight(), 0.0d);
+        assertEquals(0.0, net.getNodeById(3).getWeight(), 0.000001d);
+        assertEquals(0.0, net.getNodeById(4).getWeight(), 0.000001d);
     }
 
     @Test
