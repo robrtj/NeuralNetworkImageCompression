@@ -98,7 +98,7 @@ public class NeatPopulation {
             if (Math.abs(bestNet.fitness) < maxError) {
                 break;
             }
-            if (saveToSeparateFile == true && i % 50 == 0) {
+            if (saveToSeparateFile == true && (i == 0 || (i+1) % 20 == 0)) {
                 tEnd = System.currentTimeMillis();
                 tDelta = tEnd - tStart;
                 time += tDelta;
@@ -117,7 +117,7 @@ public class NeatPopulation {
             }
 
         }
-        System.out.println("Ended after " + (i+1) + " iterations.");
+        System.out.println("Ended after " + i + " iterations.");
         saveErrorToFile();
         return getOutputImage(image, bestNet.network);
     }
