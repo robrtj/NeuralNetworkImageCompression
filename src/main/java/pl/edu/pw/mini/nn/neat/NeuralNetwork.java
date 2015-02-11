@@ -172,9 +172,10 @@ public class NeuralNetwork {
             double inValue = _nodes.get(i).getWeight();
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
             double difference = inValue - outValue;
-            error += difference * difference;
+            double diff_sqr = difference * difference;
+            error += diff_sqr * diff_sqr;
         }
-        return error/2;
+        return error;
     }
 
     //assume input is in activation function domain
