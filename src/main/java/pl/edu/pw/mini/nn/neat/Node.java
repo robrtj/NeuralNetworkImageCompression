@@ -71,7 +71,7 @@ public class Node {
                 weight = activationFunction.getSum();
                 break;
             case Output:
-                weight = activationFunction.getSum() / getInputConnections().size();
+                weight = activationFunction.getValue();
                 break;
             default:
                 weight = activationFunction.getValue();
@@ -97,7 +97,7 @@ public class Node {
         if (size > 0) {
             Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
             double weight = conn.getWeight();
-            weight += randomGenerator.nextDouble()*0.4 - 0.2;
+            weight += randomGenerator.nextDouble() - 0.5;
             conn.setWeight(weight);
         }
     }
