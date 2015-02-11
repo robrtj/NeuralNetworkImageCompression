@@ -17,7 +17,7 @@ public class MutationFactory {
         mutationTypes = new HashMap<>();
         mutationTypesInitialization();
 
-        setThresholds(0.3, 0.18, 0.04, 0.4, 0.08);
+        setThresholds(0.25, 0.03, 0.02, 0.67, 0.03);
     }
 
     private void mutationTypesInitialization() {
