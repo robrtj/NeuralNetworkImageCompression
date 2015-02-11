@@ -114,10 +114,8 @@ public class GrayImageParser {
                 }
                 if (color < 0) {
                     color = 0;
-                    System.out.println("Color was < 0!");
                 } else if (color > 255) {
                     color = 255;
-                    System.out.println("Color was > 255!");
                 }
                 image.setRGB(i, j, new Color(color, color, color).getRGB());
             }
