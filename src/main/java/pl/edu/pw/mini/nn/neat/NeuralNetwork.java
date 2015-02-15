@@ -75,7 +75,7 @@ public class NeuralNetwork {
             for (int j = 0; j < intermediateLayerSize; j++) {
                 Node middleNode = _nodes.get(firstMiddleNodeId + j);
                 Connection conn = new Connection(middleNode, outNode,
-                        2*rand.nextDouble()/inputLayerSize, true,
+                        rand.nextGaussian(), true,
                         innovationNumberGenerator.generate());
                 outNode.addConnection(conn);
             }
@@ -92,7 +92,7 @@ public class NeuralNetwork {
             for (int j = 0; j < inputLayerSize; j++) {
                 Node inNode = _nodes.get(firstInputNodeId + j);
                 Connection conn = new Connection(inNode, middleNode,
-                        2*rand.nextDouble()/intermediateLayerSize, true,
+                        rand.nextGaussian(), true,
                         innovationNumberGenerator.generate());
                 middleNode.addConnection(conn);
             }
@@ -173,7 +173,7 @@ public class NeuralNetwork {
             double outValue = _nodes.get(size - inputLayerSize + i).getWeight();
             double difference = inValue - outValue;
             double diff_sqr = difference * difference;
-            error += diff_sqr * diff_sqr;
+            error += diff_sqr;
         }
         return error;
     }

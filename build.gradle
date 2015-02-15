@@ -15,10 +15,10 @@ task(runMainForLenaDefault, group: 'NN',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "lena_1.png"
-    int inputLayerSize = 16
+    int inputLayerSize = 4
     int middleLayerSize = 1
-    int numberOfSpecies = 50
-    int maxIteration = 500
+    int numberOfSpecies = 200
+    int maxIteration = 2000
     double maxError = 1
     double mutationRatio = 0.6
     double crossoverRatio = 0.1
@@ -33,10 +33,10 @@ task(runMainForGraySmall, group: 'NN',
     String imagePath = "gray2s.png"
     int inputLayerSize = 64
     int middleLayerSize = 1
-    int numberOfSpecies = 100
+    int numberOfSpecies = 500
     int maxIteration = 2000
     double maxError = 0.001
-    double mutationRatio = 0.9
+    double mutationRatio = 0.6
     double crossoverRatio = 0.1
     args imagePath, inputLayerSize, middleLayerSize, numberOfSpecies, maxIteration, maxError, mutationRatio, crossoverRatio
     classpath = sourceSets.main.runtimeClasspath
@@ -50,7 +50,7 @@ task(runMainForGraySmallFast, group: 'NN',
     int inputLayerSize = 64
     int middleLayerSize = 1
     int numberOfSpecies = 100
-    int maxIteration = 1000
+    int maxIteration = 5000
     double maxError = 0.001
     double mutationRatio = 0.9
     double crossoverRatio = 0.1
@@ -97,9 +97,9 @@ task(runMainForCog, group: 'NN',
     main = 'pl.edu.pw.mini.nn.MainClass'
     String imagePath = "cog.png"
     int inputLayerSize = 4
-    int middleLayerSize = 2
-    int numberOfSpecies = 100
-    int maxIteration = 500
+    int middleLayerSize = 1
+    int numberOfSpecies = 200
+    int maxIteration = 1000
     double maxError = 1
     double mutationRatio = 0.5
     double crossoverRatio = 0.1
@@ -157,11 +157,11 @@ task(run_bw1, group: 'NN',
         description: 'Run main Gray 4x4',
         dependsOn: 'classes', type: JavaExec) {
     main = 'pl.edu.pw.mini.nn.MainClass'
-    String imagePath = "examples\\bw1.png"
+    String imagePath = "examples\\pepper.png"
     int inputLayerSize = 4
     int middleLayerSize = 1
-    int numberOfSpecies = 100
-    int maxIteration = 1010
+    int numberOfSpecies = 200
+    int maxIteration = 2000
     double maxError = 0.1
     double mutationRatio = 0.6
     double crossoverRatio = 0.1

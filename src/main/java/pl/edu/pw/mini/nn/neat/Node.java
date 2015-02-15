@@ -97,7 +97,8 @@ public class Node {
         if (size > 0) {
             Connection conn = inputConnections.get(randomGenerator.nextInt(inputConnections.size()));
             double weight = conn.getWeight();
-            weight += randomGenerator.nextDouble() - 0.5;
+//            weight += randomGenerator.nextDouble() - 0.5;
+            weight += randomGenerator.nextGaussian();
             conn.setWeight(weight);
         }
     }
