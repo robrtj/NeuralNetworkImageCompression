@@ -33,7 +33,7 @@ public class MainClass {
         } catch (IndexOutOfBoundsException ex) {
         }
 
-        boolean tests = false;
+        boolean tests = true;
         if (tests) {
             runParamTests();
         } else {
@@ -50,21 +50,20 @@ public class MainClass {
     }
 
     private static void runParamTests() {
-        String imagePath = "gray2.png";
-        int inputLayerSize = 64;
-        int middleLayerSize = 32;
-        double maxError = 1;
-        ActivationFunction function = new ActivationSigmoidBiPolar();
+        String imagePath = "lena_1.png";
+        int inputLayerSize = 4;
+        int middleLayerSize = 1;
+        double maxError = 0.01;
+        ActivationFunction function = new ActivationUniPolar();
         GrayImageParser imageParser = new GrayImageParser(imagePath, inputLayerSize, false, function.getType());
-        int counter = 25;
-        int max = 100;
-
+        int counter = 100;
+        int max = 5000;
+        int maxIteration = max;
         long time = 0;
         long tStart = System.currentTimeMillis();
-        for (int numberOfSpecies = 2 * counter; numberOfSpecies <= 2 * max; numberOfSpecies += counter) {
-            for (int maxIteration = 4 * counter; maxIteration <= 10 * max; maxIteration += 2 * counter) {
-                for (double mutationRatio = 0.1; mutationRatio <= 1; mutationRatio += 0.25) {
-                    for (double crossoverRatio = 0.1; crossoverRatio <= 1; crossoverRatio += 0.25) {
+        for (int numberOfSpecies = counter; numberOfSpecies <= 3 * counter; numberOfSpecies += counter) {
+            for (double crossoverRatio = 0.1; crossoverRatio <= 1; crossoverRatio += 0.3) {
+                for (double mutationRatio = 0.1; mutationRatio <= 1; mutationRatio += 0.3) {
                         System.out.println("species:" + numberOfSpecies);
                         System.out.println("iterations:" + maxIteration);
                         System.out.println("mutationRatio:" + mutationRatio);
@@ -72,9 +71,10 @@ public class MainClass {
                         NeatPopulation population = new NeatPopulation(numberOfSpecies, maxIteration, maxError, mutationRatio,
                                 crossoverRatio, function);
                         population.setImageParser(imageParser);
-                        population.setToSepareteFile(false);
+                        population.setToSepareteFile(true);
+                        population.imageName = numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio;
                         double[][] output = population.computeImage(imageParser.getNetworkInput(), inputLayerSize, middleLayerSize);
-                        imageParser.saveNetworkOutputAsImage(output, "images\\out_" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + ".png");
+                        imageParser.saveNetworkOutputAsImage(output, "images\\out_end" + numberOfSpecies + "_" + maxIteration + "_" + mutationRatio + "_" + crossoverRatio + ".png");
 
                         //elapsed time for one test
                         long tEnd = System.currentTimeMillis();
@@ -86,7 +86,6 @@ public class MainClass {
                         System.out.println("All elapsed time: " + timeInSeconds / 3600 + ":" + (timeInSeconds / 60) % 60 + ":" + timeInSeconds % 60 + "\n");
                     }
                 }
-            }
         }
     }
 }
