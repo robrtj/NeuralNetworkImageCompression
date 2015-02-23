@@ -5,8 +5,10 @@
 \usepackage{amscd,amsfonts}
 \usepackage[OT4]{polski}
 \usepackage[utf8]{inputenc}
-
 \usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {images/} }
 
 \begin{document}
 
@@ -70,7 +72,52 @@ Zmiany 1-4 spowodowały, że sieć zaczęła wyraźnie zbiegać do oczekiwanych 
 \end{enumerate}
 
 \section{Testy}
-Poniżej znajdują się wyniki testów
+W tym rozdziale opisane są testy. W podpisie każdego z obrazów są umieszczony parametry uruchomienia - zgodne opisem z rozdziału Parametry.
+
+W pierwszych testach sprawdziliśmy trywialny przypadek z 4 pikselami:
+\begin{figure}[h]
+\centering
+\includegraphics[width=.3\textwidth]{4x4}
+\caption{inputLayerSize = 4; middleLayerSize = 1; numberOfSpecies = 50; maxIteration = 1000; maxError = 0.000017; mutationRatio = 0.6; crossoverRatio = 0.1}
+\end{figure}
+Wynik okazał się identycznyz obrazem wejściowym. Program zakończył swoje dzialania po kilkunastu iteracjach, gdy błąd przekroczył granicę maxError.
+
+Następnie przetestowaliśmy poniższy obraz:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.3\textwidth]{gray2s}
+\caption{Obraz wejściowy złożony z dwóch pasków: czarnego i białego o rozmiarze 8x8}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.3\textwidth]{gray2s-o}
+\caption{Obraz wyjściowy. Parametry: inputLayerSize = 64; middleLayerSize = 4; numberOfSpecies = 100; maxIteration = 5000; maxError = 0.00001; mutationRatio = 0.9; crossoverRatio = 0.1}
+\end{figure}
+
+Program zakończył się po kilku tysiącach iteracji przekraczając błąd. Mimo małego maxError widać delikatne artefakty. Następne testy przeprowadziliśmy z krótszymi wektorami wejściowymi. Jako obraz testowy wzięliśmy zębatkę:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.4\textwidth]{cog}
+\caption{Obraz wejściowy}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.4\textwidth]{cog4}
+\caption{Obraz wyjściowy. Parametry: inputLayerSize = 4; middleLayerSize = 2; numberOfSpecies = 100; maxIteration = 500; maxError = 1; mutationRatio = 0.5; crossoverRatio = 0.1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.4\textwidth]{cog16}
+\caption{Obraz wyjściowy. Parametry: inputLayerSize = 16; middleLayerSize = 2; numberOfSpecies = 100; maxIteration = 800; maxError = 1; mutationRatio = 0.9; crossoverRatio = 0.1}
+\end{figure}
+
+Dla obrazu z inputLayerSize=4 program się skończył, ponieważ błąd został przekroczony, natomiast dla drugiego przypadku (z 16 neuronami wejściowymi) po 800 iteracjach błąd wynosił 13.
+
 
 \section{Podsumowanie}
 Wyniki testów pokazują, że założony w dokumentacji wstępnej rozmiar wektora wejściowego (64) jest użyteczny tylko dlla prostych obrazków. Nawet testy z użyciem wektora o długości 16 dały umiarkowane wyniki. Widać z kolei, że testy, w których długość wektora wejściowego jest równa 4 dają dobre rezultaty - nawet dla skomplikowanych obrazów. Warto też zauważyć, że dla tych obrazow w warstwie pośredniej był tylko 1 neuron. Według naszych przewidywań sieć byłaby w stanie się nauczyć trudnych obrazów również dla sieci o większych rozmiarach, ale wymagałoby to dużego czasu uczenia.
