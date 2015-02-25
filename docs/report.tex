@@ -30,7 +30,7 @@ Paweł Bielicki
 Dokument przedstawia opis testów przeprowadzonych na programie stworzonym na podstawie dokumentacji wstępnej. W trakcie testów dokonano modyfikacji programu w celu przetestowania możliwości sieci oraz potencjalnemu polepszeniu wyników.
 
 \section{Parametry}
-Sieci neuronowe charakteryzują się dużą ilością parametrów. Charakterystyka topologii typu NEAT oraz specyfika problemu kompresji obrazów dodatkowo zwiększają tą ilość. Mnogość parametrów postanowiliśmy ograniczyć do tych, które będą według nas istotne:
+Sieci neuronowe charakteryzują się dużą ilością parametrów. Charakterystyka topologii typu NEAT oraz specyfika problemu kompresji obrazów dodatkowo zwiększają tę ilość. Mnogość parametrów postanowiliśmy ograniczyć do tych, które będą według nas istotne:
 \begin{itemize}
 	\item inputLayerSize - długość wektora wejściowego,
 	\item middleLayerSize - długość wekktora skompresowanego,
@@ -41,7 +41,7 @@ Sieci neuronowe charakteryzują się dużą ilością parametrów. Charakterysty
 	\item crossoverRatio - współczynnik krzyżowania.
 \end{itemize}
 
-W powyższym zestawieniu istnieje tylko jeden współczynnik do mutacji, który określa z jakim prawdopodobieństwiem mutowany będzie osobnik. Zgodnie z specyfikacją sieć mogła się mutować na kilka sposobów (usuwanie wierzchołka, dodawanie wierzchołka, dodanie połączenia, usunięcie połączenia, zmiana wagi połączenia). Każdy ze sposobów mutacji miał określone własne prawdopodobieństwo ustawione w wyniku przetestowania różnych wariantów, ostatecznie przyjeliśmy następujące wartości:
+W powyższym zestawieniu istnieje tylko jeden współczynnik do mutacji, który określa z jakim prawdopodobieństwiem mutowany będzie osobnik. Zgodnie z specyfikacją sieć mogła się mutować na kilka sposobów (usuwanie wierzchołka, dodawanie wierzchołka, dodanie połączenia, usunięcie połączenia, zmiana wagi połączenia). Każdy ze sposobów mutacji miał określone własne prawdopodobieństwo ustawione w wyniku przetestowania różnych wariantów. Ostatecznie przyjeliśmy następujące wartości:
 \begin{itemize}
 \item dodanie połączenia - 0.25,
 \item dodanie neuronu - 0.03,
@@ -71,7 +71,7 @@ Zmiany 1-4 spowodowały, że sieć zaczęła wyraźnie zbiegać do oczekiwanych 
 \end{enumerate}
 
 \section{Testy}
-W tym rozdziale opisane są wykonane testy. W podpisie każdego z obrazów są umieszczony parametry uruchomienia.
+W tym rozdziale opisane są wykonane testy. W podpisie każdego z obrazów są umieszczone parametry uruchomienia.
 
 W pierwszych testach sprawdziliśmy trywialny przypadek z 4 pikselami:
 \begin{figure}[h]
